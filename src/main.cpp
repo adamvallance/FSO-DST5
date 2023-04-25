@@ -13,11 +13,4 @@
 int main()
 {
     FSOcontroller();
-//    // Initialise the digital pin LED1 as an output
-//    DigitalOut led(PIN_FRDM_LED_GREEN);
-//
-//     while (true) {
-//         led = !led;
-//         ThisThread::sleep_for(BLINKING_RATE);
-//     }
 }
