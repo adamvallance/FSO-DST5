@@ -31,24 +31,25 @@ InterruptIn GPIO_3_INT_N(PTA12);
 InterruptIn GPIO_4_INT_N(PTA2);
 //---MOTORS----
 //motor control digital outs
-DigitalOut MOTOR_1_STEP(PTB2);
-DigitalOut MOTOR_1_DIR(PTB3);
-DigitalOut MOTOR_2_STEP(PTC2);
-DigitalOut MOTOR_2_DIR(PTC1);
-DigitalOut MOTOR_CONTROLS_OUT[] = {LED1, MOTOR_1_STEP, MOTOR_1_DIR, MOTOR_2_STEP, MOTOR_2_DIR};
+// DigitalOut MOTOR_1_STEP(PTB2);
+// DigitalOut MOTOR_1_DIR(PTB3);
+// DigitalOut MOTOR_2_STEP(PTC2);
+// DigitalOut MOTOR_2_DIR(PTC1);
+//DigitalOut MOTOR_CONTROLS_OUT[] = {LED1, MOTOR_1_STEP, MOTOR_1_DIR, MOTOR_2_STEP, MOTOR_2_DIR};
+PinName motor_controls_out[5]={LED1, PTB2, PTB3, PTC2, PTC1};
 
 // //motor inputs from buttons. //Non copyable so assigned directly to motor controller
 InterruptIn MOTOR_DIR_CTRL_UP(PTD1); //connected internally to FRDM_LED_BLUE
 InterruptIn MOTOR_DIR_CTRL_DOWN(PTD3);
 InterruptIn MOTOR_DIR_CTRL_RIGHT(PTD2);
 InterruptIn MOTOR_DIR_CTRL_LEFT(PTD0);
-//PinName[] = {PTD1, PTD3, PTD2, PTD0};
+PinName motor_controls_in[] = {PTD1, PTD3, PTD2, PTD0};
 
 class FSOcontroller{
     public:
         FSOcontroller(){
             initGPIOs();
-            MotorDriver motorDriver(&MOTOR_CONTROLS_OUT[0]);
+            MotorDriver motorDriver(&motor_controls_out[0]);
         }
     private:
 
