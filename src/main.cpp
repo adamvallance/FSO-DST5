@@ -6,8 +6,6 @@
 #include "mbed.h"
 #include "FSOcontroller.h"
 
-// // Blinking rate in milliseconds
-// #define BLINKING_RATE     100ms
 
 
 int main()
