@@ -17,6 +17,7 @@ DigitalOut GPIO_1_RESET_N(PTC8);
 DigitalOut GPIO_2_RESET_N(PTA4);
 DigitalOut GPIO_3_RESET_N(PTD4);
 DigitalOut GPIO_4_RESET_N(PTA1);
+
 //gpio expander interrupt
 //InterruptIn GPIO_1_INT_N(PTC9); //PROBLEM SETTING THIS TO BE AN INTERRUPT. Tried excluding I2C. This needed for fault detection on motor 1.
 InterruptIn GPIO_2_INT_N(PTA5);
@@ -28,21 +29,19 @@ DigitalOut MOTOR_1_STEP(PTB2);
 DigitalOut MOTOR_1_DIR(PTB3);
 DigitalOut MOTOR_2_STEP(PTC2);
 DigitalOut MOTOR_2_DIR(PTC1);
-// //motor inputs from buttons
+DigitalOut MOTOR_CONTROLS_OUT[] = {LED1, MOTOR_1_STEP, MOTOR_1_DIR, MOTOR_2_STEP, MOTOR_2_DIR};
+
+// //motor inputs from buttons. //Non copyable so assigned directly to motor controller
 InterruptIn MOTOR_DIR_CTRL_UP(PTD1); //connected internally to FRDM_LED_BLUE
 InterruptIn MOTOR_DIR_CTRL_DOWN(PTD3);
 InterruptIn MOTOR_DIR_CTRL_RIGHT(PTD2);
 InterruptIn MOTOR_DIR_CTRL_LEFT(PTD0);
 
-DigitalOut MOTOR_CONTROLS[] = {LED1, MOTOR_1_STEP, MOTOR_1_DIR, MOTOR_2_STEP, MOTOR_2_DIR};
 
 FSOcontroller::FSOcontroller(){
     initGPIOs();
-    MotorDriver motorDriver(&MOTOR_CONTROLS[0]);
-    // while (true) {
-    //     FRDM_LED_RED = !FRDM_LED_RED;
-    //     ThisThread::sleep_for(BLINKING_RATE);
-    // }
+    MotorDriver motorDriver(&MOTOR_CONTROLS_OUT[0]);
+
 }
 
 void FSOcontroller::initGPIOs(){
@@ -52,12 +51,12 @@ void FSOcontroller::initGPIOs(){
     //FRDM_LED_BLUE = 1;
 }
 
-// void FSOcontroller::setInterrupts(){
-//     // MOTOR_DIR_CTRL_UP.fall();
-//     // MOTOR_DIR_CTRL_DOWN.fall();
-//     // MOTOR_DIR_CTRL_LEFT.fall();
-//     // MOTOR_DIR_CTRL_RIGHT.fall();
-// }
+void FSOcontroller::registerInterruptCallbacks(){
+    MOTOR_DIR_CTRL_UP.fall(callback(&motorDriver));
+    MOTOR_DIR_CTRL_DOWN.fall();
+    MOTOR_DIR_CTRL_LEFT.fall();
+    MOTOR_DIR_CTRL_RIGHT.fall();
+}
 // void FSOcontroller::test(){
 //     ;//frdm_led_red = 1;
 // }

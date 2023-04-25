@@ -11,9 +11,10 @@ class FSOcontroller{
         FSOcontroller();
         //void test();
 
+
     private: //to change pins, change variables inside src/config.h
         void initGPIOs();
-
+        void registerInterruptCallbacks();
 
 
 
