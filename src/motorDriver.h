@@ -17,8 +17,16 @@ class MotorDriver{
     public:
         MotorDriver(PinName*, PinName*); //add in gpios for other setup?
         void stepMotor(int);
+        void debug(int);
 
     private: 
+    //callback stubs
+        void stepUp(){stepMotor(0);};
+        void stepDown(){stepMotor(1);};
+        void stepLeft(){stepMotor(2);};
+        void stepRight(){stepMotor(3);};
+
+
 
 
 

@@ -32,13 +32,6 @@
 // //---MOTORS----
 
 
-// // //motor inputs from buttons. //Non copyable so assigned directly to motor controller
-// InterruptIn MOTOR_DIR_CTRL_UP(PTD1); //connected internally to FRDM_LED_BLUE
-// InterruptIn MOTOR_DIR_CTRL_DOWN(PTD3);
-// InterruptIn MOTOR_DIR_CTRL_RIGHT(PTD2);
-// InterruptIn MOTOR_DIR_CTRL_LEFT(PTD0);
-// PinName motor_controls_in[] = {PTD1, PTD3, PTD2, PTD0};
-
 class FSOcontroller{
 
     public:

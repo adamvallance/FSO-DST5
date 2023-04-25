@@ -13,14 +13,21 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs):
     motorDirCtrlLeft(motorButtonInputs[2]),
     motorDirCtrlRight(motorButtonInputs[3])
 
-    {
-        stepMotor(0);
+    {   
+        //register interrupt callbacks
+        motorDirCtrlUp.fall(callback(this, &MotorDriver::stepUp));
+        motorDirCtrlDown.fall(callback(this, &MotorDriver::stepDown));
+        motorDirCtrlLeft.fall(callback(this, &MotorDriver::stepLeft));
+        motorDirCtrlRight.fall(callback(this, &MotorDriver::stepRight));
+        //check it's not an issue with this https://os.mbed.com/cookbook/FPointer
+
+        //debug(0);
 
     
     ;//do other setup
 }
 
-void MotorDriver::stepMotor(int direction){
+void MotorDriver::debug(int direction){
     while (true) {
         //motorControls[0] = ! motorControls[0];
         motor1Step = !motor1Step;
@@ -29,3 +36,23 @@ void MotorDriver::stepMotor(int direction){
     //step in direction as indicated by input int
     ;
 }
+
+void MotorDriver::stepMotor(int direction){
+    switch (direction) {
+        case 0: 
+            debug(0);
+            //motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
+            //step up;
+            break;
+        case 1:
+            //step down;
+            break;
+        case 2:
+            //step left;
+            break;
+        case 3:
+            //step right;
+            break;
+    }
+
+};
