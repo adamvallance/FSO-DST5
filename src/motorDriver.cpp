@@ -1,12 +1,12 @@
 #include "motorDriver.h"
 
 
-MotorDriver::MotorDriver(PinName* motorControlsIn): 
+MotorDriver::MotorDriver(PinName* motorControlsOut): 
     //initialise member digital outputs which are static based on the input list of pin names
-    stepUp(motorControlsIn[0]),
-    stepDown(motorControlsIn[1]),
-    stepLeft(motorControlsIn[2]),
-    stepRight(motorControlsIn[3])
+    stepUp(motorControlsOut[0], 1),
+    stepDown(motorControlsOut[1], 1),
+    stepLeft(motorControlsOut[2], 1),
+    stepRight(motorControlsOut[3], 1)
     {
         stepMotor(0);
 
