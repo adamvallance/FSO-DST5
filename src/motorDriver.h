@@ -4,17 +4,21 @@
 #include "mbed.h"
 
 class MotorDriver{
-    DigitalOut stepUp;
-    DigitalOut stepDown;
-    DigitalOut stepLeft;
-    DigitalOut stepRight;
+    DigitalOut motor1Step;
+    DigitalOut motor1Dir;
+    DigitalOut motor2Step;
+    DigitalOut motor2Dir;
     
+    InterruptIn motorDirCtrlUp;
+    InterruptIn motorDirCtrlDown;
+    InterruptIn motorDirCtrlLeft;
+    InterruptIn motorDirCtrlRight;
+
     public:
-        MotorDriver(PinName*); //add in gpios for other setup?
+        MotorDriver(PinName*, PinName*); //add in gpios for other setup?
         void stepMotor(int);
 
     private: 
-        DigitalOut *motorControls;
 
 
 
