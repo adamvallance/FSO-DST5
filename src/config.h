@@ -1,0 +1,11 @@
+
+#ifndef FSO_CONFIG_H
+#define FSO_CONFIG_H
+
+#define PIN_FRDM_LED_RED LED1
+#define PIN_FRDM_LED_BLUE LED3
+#define PIN_FRDM_LED_GREEN LED2
+
+
+
+#endif //FSO_CONFIG_H
