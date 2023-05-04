@@ -51,8 +51,8 @@ class FSOcontroller{
         PinName azimuthMotorPins[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
         PinName elevationMotorPins[4] = {PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR, PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN};
 
-        MotorDriver azimuthMotor = {&azimuthMotorPins[0], static_cast<bool>(AZIMUTH_STEP_DIR_LEFT)}; 
-        MotorDriver elevationMotor = {&elevationMotorPins[0], static_cast<bool>(ELEVATION_STEP_DIR_UP)}; 
+        MotorDriver azimuthMotor = {&azimuthMotorPins[0], false}; 
+        MotorDriver elevationMotor = {&elevationMotorPins[0], false}; 
 
         
         //starts member threads and begins main execution loop. 

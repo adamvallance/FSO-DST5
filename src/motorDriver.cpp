@@ -27,7 +27,6 @@ void MotorDriver::start(){
 void MotorDriver::exec(){
     while(true){
         ThisThread::sleep_for(BLOCKING_SLEEP);
-        motorStep = !motorStep; //debug
     }
 }
 
