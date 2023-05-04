@@ -16,6 +16,7 @@ class MotorDriver{
     InterruptIn motorDirCtrlRight;
 
     public:
+        MotorDriver() = default;
         MotorDriver(PinName*, PinName*); //add in gpios for other setup?
         void stepMotor(int);
         void debug(int);

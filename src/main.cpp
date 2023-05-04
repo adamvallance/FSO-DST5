@@ -41,17 +41,20 @@ class FSOcontroller{
     public:
         FSOcontroller() = default;
         
+        //------CREATE MOTOR DRIVER OBJECT------------------
         Thread motorsThread;
-        void start(){
-            //create motor driver class
-            //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
-            PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_FRDM_LED_RED, PIN_MOTOR_2_DIR};
-            PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
-            //make Motors owned by main class somehow??
-            MotorDriver motorDriver(&motor_controls_out[0], &motor_controls_in[0]);
+        //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
+        PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_FRDM_LED_RED, PIN_MOTOR_2_DIR};
+        PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
+        MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
 
-            //pollThread.start(callback(this, &FSOcontroller::exec));
-            motorsThread.start(callback(&motorDriver, &MotorDriver::start));
+        
+
+        void start(){
+            //start motors thread
+            motorsThread.start(callback(&(this->motorDriver), &MotorDriver::start));
+
+            //start main polling thread
             exec();
         }
 
@@ -90,5 +93,4 @@ int main()
 {   
     FSOcontroller controller;
     controller.start();
-
 }
