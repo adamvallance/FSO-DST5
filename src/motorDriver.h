@@ -2,6 +2,7 @@
 #ifndef FSO_MOTOR_DRIVER_H
 #define FSO_MOTOR_DRIVER_H
 #include "mbed.h"
+#include "config.h"
 
 class MotorDriver{
     DigitalOut motor1Step;
@@ -18,13 +19,16 @@ class MotorDriver{
         MotorDriver(PinName*, PinName*); //add in gpios for other setup?
         void stepMotor(int);
         void debug(int);
+        void start();
 
     private: 
     //callback stubs
-        void stepUp(){stepMotor(0);};
-        void stepDown(){stepMotor(1);};
-        void stepLeft(){stepMotor(2);};
-        void stepRight(){stepMotor(3);};
+        void stepUp(){stepMotor(0);}; //replace to 0,1,2,3
+        void stepDown(){stepMotor(0);};
+        void stepLeft(){stepMotor(0);};
+        void stepRight(){stepMotor(0);};
+
+        void exec();
         // void stepUp(){debug(0);};
         // void stepDown(){debug(0);};
         // void stepLeft(){debug(0);};

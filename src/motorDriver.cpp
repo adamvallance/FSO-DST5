@@ -13,30 +13,26 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs):
     motorDirCtrlLeft(motorButtonInputs[2]),
     motorDirCtrlRight(motorButtonInputs[3])
 
-    {   
-        //register interrupt callbacks
-        motorDirCtrlUp.fall(callback(this, &MotorDriver::stepUp));
-        motorDirCtrlDown.fall(callback(this, &MotorDriver::stepDown));
-        motorDirCtrlLeft.fall(callback(this, &MotorDriver::stepLeft));
-        motorDirCtrlRight.fall(callback(this, &MotorDriver::stepRight));
-        //check it's not an issue with this https://os.mbed.com/cookbook/FPointer
-
-        //debug(0);
-
+{   
     
-    ;//do other setup
+    ;
 }
 
-// void MotorDriver::debug(int direction){
-//     while (true) {
-//         //motorControls[0] = ! motorControls[0];
-//         motor1Step = !motor1Step;
-//         ThisThread::sleep_for(100ms);
-//     }
-//     //step in direction as indicated by input int
-//     ;
-// }
+void MotorDriver::start(){
+    //register interrupt callbacks
+    motorDirCtrlUp.fall(callback(this, &MotorDriver::stepUp));
+    motorDirCtrlDown.fall(callback(this, &MotorDriver::stepDown));
+    motorDirCtrlLeft.fall(callback(this, &MotorDriver::stepLeft));
+    motorDirCtrlRight.fall(callback(this, &MotorDriver::stepRight));
 
+    exec();
+}
+
+void MotorDriver::exec(){
+    while(true){
+        ThisThread::sleep_for(BLOCKING_SLEEP);
+    }
+}
 //test version which simply toggles a gpio. 
 void MotorDriver::stepMotor(int direction){
     switch (direction) {

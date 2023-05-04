@@ -8,7 +8,8 @@
 
 
 //#define STEP_SLEEP_TIME 10 
-#define POWER_POLL_SLEEP 1000
+#define POWER_POLL_SLEEP 100ms
+#define BLOCKING_SLEEP 1000ms
 
 //---FRDM LEDs----
 #define PIN_FRDM_LED_RED LED1
