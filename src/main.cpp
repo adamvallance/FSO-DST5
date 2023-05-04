@@ -7,10 +7,7 @@
 #include <vector>
 #include "motorDriver.h"
 // //------Pin definitions-------
-// //unfortunately these could not be declared as members of the class rather as globals within this file.
-// //I2C interfaces
-// I2C I2CA(PTB1, PTB0);
-// I2C I2CB(PTE0, PTE1);
+
 // //Fan control pwm
 // PwmOut FANS(PTA13);
 // //---FRDM LEDs----
@@ -34,8 +31,9 @@
 
 //make motors thread
 //make main thread
-DigitalOut greenLED(PIN_FRDM_LED_GREEN);
-DigitalOut tempRunning(PIN_MOTOR_2_STEP);
+//DigitalOut greenLED(PIN_FRDM_LED_GREEN);
+DigitalOut tempRunning(PIN_FRDM_LED_GREEN);
+//DigitalOut errorLED(PIN_FRDM_LED_RED);
 class FSOcontroller{
 
     public:
@@ -45,21 +43,26 @@ class FSOcontroller{
         I2C I2C_A ={PIN_I2CA_SDA, PIN_I2CA_SCL};
         I2C I2C_B = {PIN_I2CB_SDA, PIN_I2CB_SCL};
 
+        //Thread mainThread;
+        //------CREATE MOTOR DRIVERS OBJECTS------------------
+        Thread azimuthMotorsThread;
+        Thread elevationMotorsThread;
 
-        //------CREATE MOTOR DRIVER OBJECT------------------
-        Thread motorsThread;
-        //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
-        PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_FRDM_LED_RED, PIN_MOTOR_2_DIR};
-        PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
-        MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
+        PinName azimuthMotorPins[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
+        PinName elevationMotorPins[4] = {PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR, PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN};
+
+        MotorDriver azimuthMotor = {&azimuthMotorPins[0], static_cast<bool>(AZIMUTH_STEP_DIR_LEFT)}; 
+        MotorDriver elevationMotor = {&elevationMotorPins[0], static_cast<bool>(ELEVATION_STEP_DIR_UP)}; 
 
         
-
+        //starts member threads and begins main execution loop. 
         void start(){
-            //start motors thread
-            motorsThread.start(callback(&(this->motorDriver), &MotorDriver::start));
+            //start motors threads
+            azimuthMotorsThread.start(callback(&(this->azimuthMotor), &MotorDriver::start));
+            //elevationMotorsThread.start(callback(&(this->elevationMotor), &MotorDriver::start));
 
             //start main polling thread
+            //mainThread.start(callback(this, &FSOcontroller::exec));
             exec();
         }
 

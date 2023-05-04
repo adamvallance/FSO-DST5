@@ -1,17 +1,15 @@
 #include "motorDriver.h"
 
-
-MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs): 
+//constructor, initialises pins as required
+MotorDriver::MotorDriver(PinName* pins, bool clockwiseSymbol): 
     //initialise member digital outputs which are static based on the input list of pin names
-    motor1Step(motorControlsOut[0], 1),
-    motor1Dir(motorControlsOut[1], 1),
-    motor2Step(motorControlsOut[2], 1),
-    motor2Dir(motorControlsOut[3], 1), 
+    motorStep(pins[0], 1),
+    motorDir(pins[1], 1),
+
     //initialise member interrupt inputs 
-    motorDirCtrlUp(motorButtonInputs[0]),
-    motorDirCtrlDown(motorButtonInputs[1]),
-    motorDirCtrlLeft(motorButtonInputs[2]),
-    motorDirCtrlRight(motorButtonInputs[3])
+    motorDirCtrlClockwise(pins[2]),
+    motorDirCtrlAnticlockwise(pins[3]),
+    clockwiseSymbol(clockwiseSymbol)
 
 {   
     
@@ -20,10 +18,8 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs):
 
 void MotorDriver::start(){
     //register interrupt callbacks
-    motorDirCtrlUp.fall(callback(this, &MotorDriver::stepUp));
-    motorDirCtrlDown.fall(callback(this, &MotorDriver::stepDown));
-    motorDirCtrlLeft.fall(callback(this, &MotorDriver::stepLeft));
-    motorDirCtrlRight.fall(callback(this, &MotorDriver::stepRight));
+    motorDirCtrlClockwise.fall(callback(this, &MotorDriver::stepCW));
+    motorDirCtrlAnticlockwise.fall(callback(this, &MotorDriver::stepACW));
 
     exec();
 }
@@ -31,29 +27,28 @@ void MotorDriver::start(){
 void MotorDriver::exec(){
     while(true){
         ThisThread::sleep_for(BLOCKING_SLEEP);
+        motorStep = !motorStep; //debug
     }
 }
 
 //test version which simply toggles a gpio. 
+
 void MotorDriver::stepMotor(int direction){
     switch (direction) {
-        case 0: 
-            motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
-            //step up;
+        //step clockwise
+        case 0:
+            motorDir = clockwiseSymbol;
             break;
+
+        //step anticlockwise
         case 1:
-            motor1Dir = !motor1Dir;
+            motorDir = !clockwiseSymbol;
             //step down;
             break;
-        case 2:
-            motor2Step = !motor2Step;
-            //step left;
-            break;
-        case 3:
-            motor2Dir = !motor2Dir;
-            //step right;
-            break;
+        
+        //do steps
     }
+    motorStep = !motorStep; //DEBUG ADD PROPER LOGIC HERE LATER
 
 };
 

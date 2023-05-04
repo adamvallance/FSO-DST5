@@ -2,15 +2,22 @@
 #ifndef FSO_CONFIG_H
 #define FSO_CONFIG_H
 //Author Adam Vallance
-//This file defines all pin connections as seen on page 7 of the Rev B schematic.
-//note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased
+//This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
 
+//-----------Operational configuration-------------------------
 
-//#define STEP_SLEEP_TIME 10 
 #define POWER_POLL_SLEEP 100ms
 #define BLOCKING_SLEEP 1000ms
 
+#define AZIMUTH_STEP_DIR_LEFT 0 //swap these around to invert motor direction
+#define AZIMUTH_STEP_DIR_RIGHT 1
+#define ELEVATION_STEP_DIR_UP 0
+#define ELEVATION_STEP_DIR_DOWN 1
+#define STEP_SLEEP_TIME 10ms 
+
+//-------------------------------------PINOUT-------------------
+//note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased
 //---FRDM LEDs----
 #define PIN_FRDM_LED_RED LED1
 #define PIN_FRDM_LED_GREEN LED2
