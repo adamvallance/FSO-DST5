@@ -40,7 +40,12 @@ class FSOcontroller{
 
     public:
         FSOcontroller() = default;
-        
+
+        //---------CREATE I2C Interfaces-------
+        I2C I2C_A ={PIN_I2CA_SDA, PIN_I2CA_SCL};
+        I2C I2C_B = {PIN_I2CB_SDA, PIN_I2CB_SCL};
+
+
         //------CREATE MOTOR DRIVER OBJECT------------------
         Thread motorsThread;
         //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
