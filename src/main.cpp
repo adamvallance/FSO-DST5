@@ -4,7 +4,7 @@
  */
 #include "mbed.h"
 #include "config.h"
-
+#include <vector>
 #include "motorDriver.h"
 // //------Pin definitions-------
 // //unfortunately these could not be declared as members of the class rather as globals within this file.
@@ -32,31 +32,44 @@
 // //---MOTORS----
 
 
+//make motors thread
+//make main thread
+DigitalOut greenLED(PIN_FRDM_LED_GREEN);
 class FSOcontroller{
 
     public:
-
-        FSOcontroller(){
-            initGPIOs();
+        FSOcontroller() = default;
+        void start(){
             PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
             PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
             MotorDriver motorDriver(&motor_controls_out[0], &motor_controls_in[0]);
+
+            pollThread.start(callback(this, &FSOcontroller::exec));
+
         }
+
+        std::vector<int> SFPpower;
+
+        Thread pollThread;
+        std::vector<int> pollForPower(){
+            for (int sfp = 1; sfp<8; sfp++){
+                //poll for power
+                //SFPpower[sfp-1] = power;
+            }
+            //debug print sfp powers                
+            return SFPpower;
+        }
+
+        void exec(){
+            while(true){
+                pollForPower();
+                ThisThread::sleep_for(POWER_POLL_SLEEP);
+            }
+        }
+
     private:
 
-        void initGPIOs(){
-            //turn board LEDs off, weirdly they are active low.
-            // FRDM_LED_RED = 1;
-            // FRDM_LED_GREEN = 1;
-            // FRDM_LED_BLUE = 1;
-        }
 
-        void registerInterruptCallbacks(){
-            // MOTOR_DIR_CTRL_UP.fall(callback(&motorDriver));
-            // MOTOR_DIR_CTRL_DOWN.fall();
-            // MOTOR_DIR_CTRL_LEFT.fall();
-            // MOTOR_DIR_CTRL_RIGHT.fall();
-        }
 
 };
 
@@ -64,5 +77,6 @@ class FSOcontroller{
 
 int main()
 {   
-    FSOcontroller();
+    FSOcontroller controller;
+    controller.start();
 }

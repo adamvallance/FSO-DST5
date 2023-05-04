@@ -27,32 +27,59 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs):
     ;//do other setup
 }
 
-void MotorDriver::debug(int direction){
-    while (true) {
-        //motorControls[0] = ! motorControls[0];
-        motor1Step = !motor1Step;
-        ThisThread::sleep_for(200ms);
-    }
-    //step in direction as indicated by input int
-    ;
-}
+// void MotorDriver::debug(int direction){
+//     while (true) {
+//         //motorControls[0] = ! motorControls[0];
+//         motor1Step = !motor1Step;
+//         ThisThread::sleep_for(100ms);
+//     }
+//     //step in direction as indicated by input int
+//     ;
+// }
 
+//test version which simply toggles a gpio. 
 void MotorDriver::stepMotor(int direction){
     switch (direction) {
         case 0: 
-            debug(0);
-            //motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
+            motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
             //step up;
             break;
         case 1:
+            motor1Dir = !motor1Dir;
             //step down;
             break;
         case 2:
+            motor2Step = !motor2Step;
             //step left;
             break;
         case 3:
+            motor2Dir = !motor2Dir;
             //step right;
             break;
     }
 
 };
+
+// void MotorDriver::stepMotor(int direction){
+//     finished == false;
+//     while(finished == false){
+//         switch (direction) {
+//             case 0: 
+//                 motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
+//                 //step up;
+//                 break;
+//             case 1:
+//                 motor1Dir(motorControlsOut[1], 1),
+
+//                 //step down;
+//                 break;
+//             case 2:
+//                 //step left;
+//                 break;
+//             case 3:
+//                 //step right;
+//                 break;
+//         }
+//         ThisThread::sleep_until(Kernel::get_ms_count() + STEP_SLEEP_TIME);
+//     }
+// };

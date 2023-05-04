@@ -25,13 +25,10 @@ class MotorDriver{
         void stepDown(){stepMotor(1);};
         void stepLeft(){stepMotor(2);};
         void stepRight(){stepMotor(3);};
-
-
-
-
-
-
-
+        // void stepUp(){debug(0);};
+        // void stepDown(){debug(0);};
+        // void stepLeft(){debug(0);};
+        // void stepRight(){debug(0);};
 
     ;
 };

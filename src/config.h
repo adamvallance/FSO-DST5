@@ -5,6 +5,11 @@
 //This file defines all pin connections as seen on page 7 of the Rev B schematic.
 //note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased
 
+
+
+//#define STEP_SLEEP_TIME 10 
+#define POWER_POLL_SLEEP 1000
+
 //---FRDM LEDs----
 #define PIN_FRDM_LED_RED LED1
 #define PIN_FRDM_LED_GREEN LED2
@@ -41,6 +46,5 @@
 #define PIN_MOTOR_DIR_CTRL_DOWN PTD3
 #define PIN_MOTOR_DIR_CTRL_LEFT PTD0
 #define PIN_MOTOR_DIR_CTRL_RIGHT PTD2
-
 
 #endif //FSO_CONFIG_H
