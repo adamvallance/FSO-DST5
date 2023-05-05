@@ -34,8 +34,8 @@
 
 //make motors thread
 //make main thread
-DigitalOut greenLED(PIN_FRDM_LED_GREEN);
-DigitalOut tempRunning(PIN_MOTOR_2_STEP);
+//DigitalOut greenLED(PIN_FRDM_LED_GREEN);
+DigitalOut tempRunning(PIN_FRDM_LED_GREEN);
 class FSOcontroller{
 
     public:
@@ -49,7 +49,7 @@ class FSOcontroller{
         //------CREATE MOTOR DRIVER OBJECT------------------
         Thread motorsThread;
         //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
-        PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_FRDM_LED_RED, PIN_MOTOR_2_DIR};
+        PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
         PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
         MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
 

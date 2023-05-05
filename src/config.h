@@ -14,7 +14,7 @@
 #define AZIMUTH_STEP_DIR_RIGHT 1
 #define ELEVATION_STEP_DIR_UP 0
 #define ELEVATION_STEP_DIR_DOWN 1
-#define HALF_STEP_TIME 0.1 //debug change this 
+#define HALF_STEP_TIME 0.2 //debug change this 
 #define TIME_MOTOR_STEPPING 5.0 //use this and above to set number of steps for default. 
 
 //-------------------------------------PINOUT-------------------

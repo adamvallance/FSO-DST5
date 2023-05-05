@@ -86,6 +86,7 @@ void MotorDriver::stopStepAz(){
     stepTickerAz.detach();
     azStepTriggered = false;
     currentlyStepping = false;
+    motor1Step=false;
 }
 
 
@@ -96,4 +97,5 @@ void MotorDriver::stopStepEl(){
     stepTickerEl.detach();
     elStepTriggered = false;
     currentlyStepping = false;
+    motor2Step = false;
 }
