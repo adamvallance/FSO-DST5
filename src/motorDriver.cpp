@@ -28,55 +28,72 @@ void MotorDriver::start(){
     exec();
 }
 
+//periodically wakes up sleeping thread. An interrupt will alternatively wake up thread.
 void MotorDriver::exec(){
     while(true){
+        if (azStepTriggered){
+            stepTickerAz.attach(callback(this, &MotorDriver::doHalfStepAz), HALF_STEP_TIME);
+            stopAzStepping.attach(callback(this, &MotorDriver::stopStepAz), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
+            azStepTriggered= false;
+            currentlyStepping = true;
+        }
+        if (elStepTriggered){
+            stepTickerEl.attach(callback(this, &MotorDriver::doHalfStepEl), HALF_STEP_TIME);
+            stopElStepping.attach(callback(this, &MotorDriver::stopStepEl), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
+            elStepTriggered = false;
+            currentlyStepping = true;
+        }
         ThisThread::sleep_for(BLOCKING_SLEEP);
     }
 }
 
 //test version which simply toggles a gpio. 
 void MotorDriver::stepMotor(int direction){
+    if (currentlyStepping){
+        return;//skip if one already in progress
+    }
     switch (direction) {
         case 0: 
-            motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
+            motor1Dir = ELEVATION_STEP_DIR_UP;
+            azStepTriggered = true;
             //step up;
             break;
         case 1:
-            motor1Dir = !motor1Dir;
+            motor1Dir = ELEVATION_STEP_DIR_DOWN;
+            azStepTriggered = true;
+
             //step down;
             break;
         case 2:
-            motor2Step = !motor2Step;
+            motor2Dir = AZIMUTH_STEP_DIR_LEFT;
+            elStepTriggered = true;
             //step left;
             break;
         case 3:
-            motor2Dir = !motor2Dir;
+            motor2Dir = AZIMUTH_STEP_DIR_RIGHT;
+            elStepTriggered = true;
             //step right;
             break;
-    }
+    };
+
 
 };
 
-// void MotorDriver::stepMotor(int direction){
-//     finished == false;
-//     while(finished == false){
-//         switch (direction) {
-//             case 0: 
-//                 motor1Step = !motor1Step; //DEBUG ADD PROPER LOGIC HERE LATER
-//                 //step up;
-//                 break;
-//             case 1:
-//                 motor1Dir(motorControlsOut[1], 1),
+void MotorDriver::doHalfStepAz(){
+    motor1Step = !motor1Step;
+}
+void MotorDriver::stopStepAz(){
+    stepTickerAz.detach();
+    azStepTriggered = false;
+    currentlyStepping = false;
+}
 
-//                 //step down;
-//                 break;
-//             case 2:
-//                 //step left;
-//                 break;
-//             case 3:
-//                 //step right;
-//                 break;
-//         }
-//         ThisThread::sleep_until(Kernel::get_ms_count() + STEP_SLEEP_TIME);
-//     }
-// };
+
+void MotorDriver::doHalfStepEl(){
+    motor2Step = !motor2Step;
+}
+void MotorDriver::stopStepEl(){
+    stepTickerEl.detach();
+    elStepTriggered = false;
+    currentlyStepping = false;
+}

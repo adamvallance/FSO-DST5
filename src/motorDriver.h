@@ -28,11 +28,23 @@ class MotorDriver{
         void stepLeft(){stepMotor(2);};
         void stepRight(){stepMotor(3);};
 
+        void doHalfStepAz();
+        void doHalfStepEl();
+        void stopStepAz();
+        void stopStepEl();
         void exec();
-        // void stepUp(){debug(0);};
-        // void stepDown(){debug(0);};
-        // void stepLeft(){debug(0);};
-        // void stepRight(){debug(0);};
+
+        bool azStepTriggered = false;
+        bool elStepTriggered = false;
+
+        bool currentlyStepping = false;
+
+        Ticker stepTickerAz;
+        Ticker stepTickerEl;
+
+        Timeout stopAzStepping;
+        Timeout stopElStepping;
+
 
     ;
 };
