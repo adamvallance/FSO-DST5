@@ -3,10 +3,10 @@
 
 MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs): 
     //initialise member digital outputs which are static based on the input list of pin names
-    motor1Step(motorControlsOut[0], 1),
-    motor1Dir(motorControlsOut[1], 1),
-    motor2Step(motorControlsOut[2], 1),
-    motor2Dir(motorControlsOut[3], 1), 
+    motor1Step(motorControlsOut[0], 0),
+    motor1Dir(motorControlsOut[1], 0),
+    motor2Step(motorControlsOut[2], 0),
+    motor2Dir(motorControlsOut[3], 0), 
     //initialise member interrupt inputs 
     motorDirCtrlUp(motorButtonInputs[0]),
     motorDirCtrlDown(motorButtonInputs[1]),
@@ -84,9 +84,10 @@ void MotorDriver::doHalfStepAz(){
 }
 void MotorDriver::stopStepAz(){
     stepTickerAz.detach();
+    stopAzStepping.detach();
     azStepTriggered = false;
     currentlyStepping = false;
-    motor1Step=false;
+    motor1Step=0;
 }
 
 
@@ -95,7 +96,8 @@ void MotorDriver::doHalfStepEl(){
 }
 void MotorDriver::stopStepEl(){
     stepTickerEl.detach();
+    stopElStepping.detach();
     elStepTriggered = false;
     currentlyStepping = false;
-    motor2Step = false;
+    motor2Step = 0;
 }
