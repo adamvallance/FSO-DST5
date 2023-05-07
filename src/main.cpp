@@ -69,22 +69,37 @@ class FSOcontroller{
         //endless execution loop
         void exec(){
             while(true){
+                printf("running");
                 //pollForPower();
                 tempRunning = !tempRunning;
                 ThisThread::sleep_for(POWER_POLL_SLEEP);
             }
         }
 
-        //Thread pollThread;
-        std::vector<int> pollForPower(){
-            for (int sfp = 1; sfp<8; sfp++){
-                //poll for power
-                //SFPpower[sfp-1] = power;
-                ;
-            }
-            //debug print sfp powers                
-            return SFPpower;
-        }
+        //// Thread pollThread;
+        //// maybe parallelise this more.
+        //// maybe add in checking for RX_LOS. If RX_LOS interrupt triggered then switch and poll..
+        // char power[];
+        // std::vector<int> pollForPower(){
+        //     for (int sfp = 1; sfp<8; sfp++){
+        //         if (sfp<5){
+        //             I2CbufferA.setOn(sfp);
+        //             I2CA.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN); //power is two bytes
+        //         }else{
+        //             I2CbufferB.setOn(sfp);
+        //             I2CB.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN);
+        //         }
+                
+        //         //poll for power
+        //         SFPpower[sfp-1] = power;
+        //         ;
+        //     }
+        //     #ifdef DEBUG_OUTPUT_POWERS
+        //     //printf(powers)...
+        //     #endif
+        //     //debug print sfp powers                
+        //     return SFPpower;
+        // }
 
     private:
 
