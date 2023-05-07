@@ -18,7 +18,10 @@
 #define HALF_STEP_TIME 0.2 //debug change this 
 #define TIME_MOTOR_STEPPING 5.0 //use this and above to set number of steps for default. 
 
+
+//I2C Addresses of devices and selected registers.
 #define I2C_SFP_ADDRESS 0xA2
+#define SFP_RX_POWER_ADDRESS 104 
 #define SFP_POWER_BYTE_LEN 2
 //-------------------------------------PINOUT-------------------
 //note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased
