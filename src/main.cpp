@@ -36,6 +36,7 @@
 //make main thread
 //DigitalOut greenLED(PIN_FRDM_LED_GREEN);
 DigitalOut tempRunning(PIN_FRDM_LED_GREEN);
+PwmOut fanPWM(PIN_FAN_PWM);
 class FSOcontroller{
 
     public:
@@ -53,9 +54,12 @@ class FSOcontroller{
         PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
         MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
 
-        
 
         void start(){
+
+            fanPWM.period(FAN_PWM_PERIOD);
+            fanPWM.write(FAN_PWM_DUTY);
+
             //start motors thread
             motorsThread.start(callback(&(this->motorDriver), &MotorDriver::start));
 
@@ -71,6 +75,7 @@ class FSOcontroller{
             while(true){
                 //pollForPower();
                 tempRunning = !tempRunning;
+                printf("running");
                 ThisThread::sleep_for(POWER_POLL_SLEEP);
             }
         }
