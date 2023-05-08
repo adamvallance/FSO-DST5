@@ -37,6 +37,7 @@
 //make main thread
 //DigitalOut greenLED(PIN_FRDM_LED_GREEN);
 DigitalOut tempRunning(PIN_FRDM_LED_GREEN);
+PwmOut fanPWM(PIN_FAN_PWM);
 class FSOcontroller{
 	public:
     FSOcontroller() = default;
@@ -46,7 +47,6 @@ class FSOcontroller{
     I2C I2C_A ={PIN_I2CA_SDA, PIN_I2CA_SCL};
     I2C I2C_B = {PIN_I2CB_SDA, PIN_I2CB_SCL};
 
-
     //------CREATE MOTOR DRIVER OBJECT------------------
     Thread motorsThread;
     //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
@@ -54,13 +54,15 @@ class FSOcontroller{
     PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
     MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
 
-    
+        void start(){
 
-    void start(){
-        //start motors thread
-        motorsThread.start(callback(&(this->motorDriver), &MotorDriver::start));
+            fanPWM.period(FAN_PWM_PERIOD);
+            fanPWM.write(FAN_PWM_DUTY);
 
-        //start main polling thread
+            //start motors thread
+            motorsThread.start(callback(&(this->motorDriver), &MotorDriver::start));
+
+            //start main polling thread
         exec();
     }
 
@@ -86,7 +88,6 @@ class FSOcontroller{
     void pollForPower(){
 //        char power[2];
 //        unsigned short int powerInt; //16 bit unsigned
-
 //        for (int sfp = 1; sfp<8; sfp++){
 //            if (sfp<5){
 //                I2CbufferA.setOn(sfp);
@@ -113,6 +114,10 @@ class FSOcontroller{
 //        indexHighestPower = std::distance(SFPpowers.begin(), std::max_element(SFPpowers.begin(), SFPpowers.end())); 
 //        RX_CROSSPOINT.route(indexHighestPower+1); //for highest power at sfp 2 (position 1) route to position 1 + 1 = 2                            
     }
+
+
+
+    private:
 
 
 
