@@ -3,7 +3,7 @@
 #define FSO_CONFIG_H
 #include "stdint.h"
 #include "mbed.h"
-#include "GPIOexpander.h"
+#include "GPIOexpanderConfig.h"
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
