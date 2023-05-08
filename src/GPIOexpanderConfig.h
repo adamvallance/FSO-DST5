@@ -1,6 +1,6 @@
 //derived from https://github.com/jrj12591/PCAL6524
 #ifndef FSO_GPIO_EXPANDER_CONFIG_H
-#define FSO_GPIO_EXPANDER_H
+#define FSO_GPIO_EXPANDER_CONFIG_H
 #include <cstdint>
 
 /*=========================================================================

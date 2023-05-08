@@ -3,6 +3,7 @@
 #define FSO_GPIO_EXPANDER_H
 #include "mbed.h"
 #include "config.h"
+#include "GPIOexpanderConfig.h"
 #include <cstdint>
 
 
