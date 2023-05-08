@@ -21,8 +21,8 @@ class FSOcontroller{
 
 
     //---------CREATE I2C Interfaces-------
-    I2C I2C_A ={PIN_I2CA_SDA, PIN_I2CA_SCL};
-    I2C I2C_B = {PIN_I2CB_SDA, PIN_I2CB_SCL};
+    I2C I2CA ={PIN_I2CA_SDA, PIN_I2CA_SCL};
+    I2C I2CB = {PIN_I2CB_SDA, PIN_I2CB_SCL};
 
 
     //--------CREATE GPIO EXPANDERS-------------

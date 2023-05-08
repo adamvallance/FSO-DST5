@@ -3,6 +3,7 @@
 #define FSO_CONFIG_H
 #include "stdint.h"
 #include "mbed.h"
+#include "GPIOexpander.h"
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
@@ -117,6 +118,98 @@ static PinName GPIO_EXPANDER_PINS[4][2] = {
 };
 //maybe add interrupt on sfp_out_los (PCAL6524_Interupt_mask[4][3]=FE)
 //Should be default configured as push-pull with logic 0s in 0x5C, see table 40
+
+//GPIO Accessible Pins. Defigned as GPIO expander index, gpio expander pin
+//GPIO EXPANDER 0 (U2)
+static const uint16_t GPIO_MOTOR_1_ADEC[2] = {0, P0_0};
+static const uint16_t GPIO_MOTOR_1_ENBL_N[2] = {0, P0_1};
+static const uint16_t GPIO_MOTOR_1_SLEEP_N[2] = {0, P0_2};
+static const uint16_t GPIO_MOTOR_1_DEC0_OE_N[2] = {0, P0_4};
+static const uint16_t GPIO_MOTOR_1_DEC0[2] = {0, P0_5};
+static const uint16_t GPIO_MOTOR_1_DEC1_OE_N[2] = {0, P0_6};
+static const uint16_t GPIO_MOTOR_1_DEC1[2] = {0, P0_7};
+static const uint16_t GPIO_MOTOR_1_I0_OE_N[2] = {0, P1_0};
+static const uint16_t GPIO_MOTOR_1_I0[2] = {0, P1_1};
+static const uint16_t GPIO_MOTOR_1_I1_OE_N[2] = {0, P1_2};
+static const uint16_t GPIO_MOTOR_1_I1[2] = {0, P1_3};
+static const uint16_t GPIO_MOTOR_1_M0_OE_N[2] = {0, P1_4};
+static const uint16_t GPIO_MOTOR_1_M0[2] = {0, P1_5};
+static const uint16_t GPIO_MOTOR_1_M1_OE_N[2] = {0, P1_6};
+static const uint16_t GPIO_MOTOR_1_M1[2] = {0, P1_7};
+static const uint16_t GPIO_MOTOR_1_TOFF_OE_N[2] = {0, P2_0};
+static const uint16_t GPIO_MOTOR_1_TOFF[2] = {0, P2_1};
+static const uint16_t GPIO_MOTOR_1_FAULT_N[2] = {0, P2_3};
+
+//GPIO EXPANDER 1 (U3)
+static const uint16_t GPIO_MOTOR_2_ADEC[2] = {1, P0_0};
+static const uint16_t GPIO_MOTOR_2_ENBL_N[2] = {1, P0_1};
+static const uint16_t GPIO_MOTOR_2_SLEEP_N[2] = {1, P0_2};
+static const uint16_t GPIO_MOTOR_2_DEC0_OE_N[2] = {1, P0_4};
+static const uint16_t GPIO_MOTOR_2_DEC0[2] = {1, P0_5};
+static const uint16_t GPIO_MOTOR_2_DEC1_OE_N[2] = {1, P0_6};
+static const uint16_t GPIO_MOTOR_2_DEC1[2] = {1, P0_7};
+static const uint16_t GPIO_MOTOR_2_I0_OE_N[2] = {1, P1_0};
+static const uint16_t GPIO_MOTOR_2_I0[2] = {1, P1_1};
+static const uint16_t GPIO_MOTOR_2_I1_OE_N[2] = {1, P1_2};
+static const uint16_t GPIO_MOTOR_2_I1[2] = {1, P1_3};
+static const uint16_t GPIO_MOTOR_2_M0_OE_N[2] = {1, P1_4};
+static const uint16_t GPIO_MOTOR_2_M0[2] = {1, P1_5};
+static const uint16_t GPIO_MOTOR_2_M1_OE_N[2] = {1, P1_6};
+static const uint16_t GPIO_MOTOR_2_M1[2] = {1, P1_7};
+static const uint16_t GPIO_MOTOR_2_TOFF_OE_N[2] = {1, P2_0};
+static const uint16_t GPIO_MOTOR_2_TOFF[2] = {1, P2_1};
+static const uint16_t GPIO_MOTOR_2_FAULT_N[2] = {1, P2_3};
+
+//GPIO EXPANDER 2 (U4)
+static const uint16_t GPIO_XPOINT_RX_EQ[2] = {2, P0_0};
+static const uint16_t GPIO_XPOINT_RX_PRE[2] = {2, P0_1};
+static const uint16_t GPIO_XPOINT_RX_SWT[2] = {2, P0_2};
+static const uint16_t GPIO_XPOINT_TX_EQ[2] = {2, P0_3};
+static const uint16_t GPIO_XPOINT_TX_PRE[2] = {2, P0_4};
+static const uint16_t GPIO_XPOINT_TX_SWT[2] = {2, P0_5};
+static const uint16_t GPIO_XPOINT_RX_RES_N[2] = {2, P0_6};
+static const uint16_t GPIO_XPOINT_TX_RES_N[2] = {2, P0_7};
+static const uint16_t GPIO_SFP_1_TX_FAULT[2] = {2, P1_0};
+static const uint16_t GPIO_SFP_1_TX_DISABLE[2] = {2, P1_1};
+static const uint16_t GPIO_SFP_2_TX_FAULT[2] = {2, P1_2};
+static const uint16_t GPIO_SFP_2_TX_DISABLE[2] = {2, P1_3};
+static const uint16_t GPIO_SFP_3_TX_FAULT[2] = {2, P1_4};
+static const uint16_t GPIO_SFP_3_TX_DISABLE[2] = {2, P1_5};
+static const uint16_t GPIO_SFP_4_TX_FAULT[2] = {2, P1_6};
+static const uint16_t GPIO_SFP_4_TX_DISABLE[2] = {2, P1_7};
+static const uint16_t GPIO_SFP_5_TX_FAULT[2] = {2, P2_0};
+static const uint16_t GPIO_SFP_5_TX_DISABLE[2] = {2, P2_1};
+static const uint16_t GPIO_SFP_6_TX_FAULT[2] = {2, P2_2};
+static const uint16_t GPIO_SFP_6_TX_DISABLE[2] = {2, P2_3};
+static const uint16_t GPIO_SFP_7_TX_FAULT[2] = {2, P2_4};
+static const uint16_t GPIO_SFP_7_TX_DISABLE[2] = {2, P2_5};
+static const uint16_t GPIO_SFP_OUT_TX_FAULT[2] = {2, P2_6};
+static const uint16_t GPIO_SFP_OUT_TX_DISABLE[2] = {2, P2_7};
+
+//GPIO EXPANDER 3 (U5)
+static const uint16_t GPIO_SFP_OUT_PRESENT[2] = {3, P0_0};
+static const uint16_t GPIO_SFP_7_PRESENT[2] = {3, P0_1};
+static const uint16_t GPIO_SFP_6_PRESENT[2] = {3, P0_2};
+static const uint16_t GPIO_SFP_5_PRESENT[2] = {3, P0_3};
+static const uint16_t GPIO_SFP_4_PRESENT[2] = {3, P0_4};
+static const uint16_t GPIO_SFP_3_PRESENT[2] = {3, P0_5};
+static const uint16_t GPIO_SFP_2_PRESENT[2] = {3, P0_6};
+static const uint16_t GPIO_SFP_1_PRESENT[2] = {3, P0_7};
+static const uint16_t GPIO_SFP_1_LOS[2] = {3, P1_1};
+static const uint16_t GPIO_SFP_2_LOS[2] = {3, P1_2};
+static const uint16_t GPIO_SFP_3_LOS[2] = {3, P1_3};
+static const uint16_t GPIO_SFP_4_LOS[2] = {3, P1_4};
+static const uint16_t GPIO_SFP_5_LOS[2] = {3, P1_5};
+static const uint16_t GPIO_SFP_6_LOS[2] = {3, P1_6};
+static const uint16_t GPIO_SFP_7_LOS[2] = {3, P1_7};
+static const uint16_t GPIO_SFP_OUT_LOS[2] = {3, P2_0};
+static const uint16_t GPIO_I2CB_SFP_RESET_N[2] = {3, P2_2};
+static const uint16_t GPIO_I2CA_SFP_RESET_N[2] = {3, P2_3};
+static const uint16_t GPIO_DEBUG_LOOP_A[2] = {3, P2_5};
+static const uint16_t GPIO_DEBUG_LOOP_B[2] = {3, P2_6};
+static const uint16_t GPIO_DEBUG_LED[2] = {3, P2_7};
+
+
 
 //Motors Pin list
 static PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
