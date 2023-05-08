@@ -6,6 +6,7 @@
 #include "config.h"
 #include <vector>
 #include "motorDriver.h"
+ 
 // //------Pin definitions-------
 // //unfortunately these could not be declared as members of the class rather as globals within this file.
 // //I2C interfaces
@@ -37,7 +38,7 @@
 //DigitalOut greenLED(PIN_FRDM_LED_GREEN);
 DigitalOut tempRunning(PIN_FRDM_LED_GREEN);
 class FSOcontroller{
-
+	public:
     FSOcontroller() = default;
 
 
@@ -66,9 +67,11 @@ class FSOcontroller{
 
 
     //endless execution loop
+    int testInt = 0;
     void exec(){
         while(true){
             printf("running");
+            testInt = (testInt + 1) % 3;
             //pollForPower();
             tempRunning = !tempRunning;
             ThisThread::sleep_for(POWER_POLL_SLEEP);
@@ -79,36 +82,36 @@ class FSOcontroller{
     //// maybe parallelise this more.
     //// maybe add in checking for RX_LOS. If RX_LOS interrupt triggered then switch and poll..
     std::vector<float> SFPpowers;
-    int indexHighestPower;
+    int indexHighestPower =0;
     void pollForPower(){
-        char power[2];
-        unsigned short int powerInt; //16 bit unsigned
+//        char power[2];
+//        unsigned short int powerInt; //16 bit unsigned
 
-        for (int sfp = 1; sfp<8; sfp++){
-            if (sfp<5){
-                I2CbufferA.setOn(sfp);
-                I2CA.write(I2C_SFP_ADDRESS, SFP_RX_POWER_ADDRESS);
-                I2CA.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN); //power is two bytes
-            }else{
-                I2CbufferB.setOn(sfp);
-                I2CB.write(I2C_SFP_ADDRESS, SFP_RX_POWER_ADDRESS);
-                I2CB.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN);
-            }         
-            //poll for power
-            powerInt = (power[0] << 8) + power[1]; //unsigned int
-            SFPpowers[sfp-1] = power*RX_POWER_WEIGHT_4 + power*RX_POWER_WEIGHT_3 + power*RX_POWER_WEIGHT_2 + power*RX_POWER_WEIGHT1 + RX_POWER_WEIGHT_0;
-            //check if this is needed or is internally calibrated. If internally calibrated simply use power*rx_power_weight1.
-            //poll and check these first then decide whether to read these every time on init or use hard coded.
-        }
-        #ifdef DEBUG_OUTPUT_POWERS
-        printf("POWERS ");
-        for (auto pwr: SFPpowers){
-            printf("%.2f", pwr);
-        }
-        printf("\n");
-        #endif
-        indexHighestPower = std::distance(SFPpowers.begin(), std::max_element(SFPpowers.begin(), SFPpowers.end())); 
-        RX_CROSSPOINT.route(indexHighestPower+1); //for highest power at sfp 2 (position 1) route to position 1 + 1 = 2                            
+//        for (int sfp = 1; sfp<8; sfp++){
+//            if (sfp<5){
+//                I2CbufferA.setOn(sfp);
+//                I2CA.write(I2C_SFP_ADDRESS, SFP_RX_POWER_ADDRESS);
+//                I2CA.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN); //power is two bytes
+//            }else{
+//                I2CbufferB.setOn(sfp);
+//                I2CB.write(I2C_SFP_ADDRESS, SFP_RX_POWER_ADDRESS);
+//                I2CB.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN);
+//            }         
+//            //poll for power
+//            powerInt = (power[0] << 8) + power[1]; //unsigned int
+//            SFPpowers[sfp-1] = power*RX_POWER_WEIGHT_4 + power*RX_POWER_WEIGHT_3 + power*RX_POWER_WEIGHT_2 + power*RX_POWER_WEIGHT1 + RX_POWER_WEIGHT_0;
+//            //check if this is needed or is internally calibrated. If internally calibrated simply use power*rx_power_weight1.
+//            //poll and check these first then decide whether to read these every time on init or use hard coded.
+//        }
+//        #ifdef DEBUG_OUTPUT_POWERS
+//        printf("POWERS ");
+//        for (auto pwr: SFPpowers){
+//            printf("%.2f", pwr);
+//        }
+//        printf("\n");
+//        #endif
+//        indexHighestPower = std::distance(SFPpowers.begin(), std::max_element(SFPpowers.begin(), SFPpowers.end())); 
+//        RX_CROSSPOINT.route(indexHighestPower+1); //for highest power at sfp 2 (position 1) route to position 1 + 1 = 2                            
     }
 
 

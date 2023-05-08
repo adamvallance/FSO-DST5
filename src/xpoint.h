@@ -1,18 +1,18 @@
-#ifndef FSO_XPOINT_H
-#define FSO_XPOINT_H
-#include "mbed.h"
-#include "config.h"
-#include "GPIOExpander.h"
+//#ifndef FSO_XPOINT_H
+//#define FSO_XPOINT_H
+//#include "mbed.h"
+//#include "config.h"
+//#include "GPIOExpander.h"
 
-class XPoint{
+//class XPoint{
 
-    I2C i2c;
-    GPIOExpander gpioEx;
+//    I2C i2c;
+//    GPIOExpander gpioEx;
 
-    public:
-        XPoint(I2C*, GPIOexpander*); //add in gpios for other setup?
-        void route(int);
+//    public:
+//        XPoint(I2C*, GPIOexpander*); //add in gpios for other setup?
+//        void route(int);
 
-};
+//};
 
-#endif //FSO_XPOINT_H
+//#endif //FSO_XPOINT_H
