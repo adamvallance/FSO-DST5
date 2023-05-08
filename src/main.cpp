@@ -26,12 +26,12 @@ class FSOcontroller{
 
 
     //--------CREATE GPIO EXPANDERS-------------
-    GPIOexpander motorEl_GPIOexpander = {GPIO_EXPANDER_ADDRESSES[0], GPIO_EXPANDER_PINS[0], &I2C_B, 0};
-    GPIOexpander motorAz_GPIOexpander = {GPIO_EXPANDER_ADDRESSES[1], GPIO_EXPANDER_PINS[1], &I2C_B, 1};
-    GPIOexpander GPIOexpander3= {GPIO_EXPANDER_ADDRESSES[2], GPIO_EXPANDER_PINS[2], &I2C_B, 2};
-    GPIOexpander GPIOexpander4= {GPIO_EXPANDER_ADDRESSES[3], GPIO_EXPANDER_PINS[3], &I2C_B, 3};
-    //save gpio expander objects in a list of pointers to be passed to classes to access.
-    GPIOexpander* expandedGPIO[4] = {&motorEl_GPIOexpander, &motorAz_GPIOexpander, &GPIOexpander3, &GPIOexpander4};
+    // GPIOexpander motorEl_GPIOexpander = {GPIO_EXPANDER_ADDRESSES[0], GPIO_EXPANDER_PINS[0], &I2C_B, 0};
+    // GPIOexpander motorAz_GPIOexpander = {GPIO_EXPANDER_ADDRESSES[1], GPIO_EXPANDER_PINS[1], &I2C_B, 1};
+    // GPIOexpander GPIOexpander3= {GPIO_EXPANDER_ADDRESSES[2], GPIO_EXPANDER_PINS[2], &I2C_B, 2};
+    // GPIOexpander GPIOexpander4= {GPIO_EXPANDER_ADDRESSES[3], GPIO_EXPANDER_PINS[3], &I2C_B, 3};
+    // //save gpio expander objects in a list of pointers to be passed to classes to access.
+    // GPIOexpander* expandedGPIO[4] = {&motorEl_GPIOexpander, &motorAz_GPIOexpander, &GPIOexpander3, &GPIOexpander4};
 
     //--------CREATE I2C Buffers -------------
     // I2CBuffer I2CbufferA = {PIN_};
