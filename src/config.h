@@ -1,6 +1,7 @@
 
 #ifndef FSO_CONFIG_H
 #define FSO_CONFIG_H
+#include "stdint.h"
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
@@ -17,8 +18,8 @@
 #define AZIMUTH_STEP_DIR_RIGHT 1
 #define ELEVATION_STEP_DIR_UP 0
 #define ELEVATION_STEP_DIR_DOWN 1
-#define HALF_STEP_TIME 0.2 //debug change this 
-#define TIME_MOTOR_STEPPING 5.0 //use this and above to set number of steps for default. 
+#define HALF_STEP_TIME 200ms //debug change this 
+#define TIME_MOTOR_STEPPING 5s //use this and above to set number of steps for default. 
 
 
 
@@ -30,6 +31,39 @@
 //FAN
 #define FAN_PWM_DUTY 0.5
 #define FAN_PWM_PERIOD 0.00005 //20kHz
+
+//-------------------------------------GPIO Expander Configuration-------------------
+//for each of these the rows are each gpio expander, the items in each row are for each of the three ports P0, P1 and P2
+
+//SETS PINS TO INPUT (1) or OUTPUT (0) as a mask for 8 BITS
+//defaulting to output for NC
+const uint8_t PCAL6524_CONFIGURATION[4][3] = {
+    {0x0, 0x0, 0x8},  //U2 
+    {0x0, 0x0, 0x8}, //U3
+    {0x0, 0x55, 0x55}, //U4 //P1 and P2 01010101
+    {0xFF, 0xFE, 0x4}, //U5
+};
+//SETS PINS TO PullUp or PullDown (1) or No PullUP/PullDown (0)
+const uint8_t PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {
+    {0x0, 0x0, 0x4},  
+    {0x2, 0x3, 0x4},
+    {0x2, 0x3, 0x4},
+    {0x2, 0x3, 0x4},
+};
+//Sets pins to 1 PU, 0 PD if enabled by mask see above
+const uint8_t PCAL6524_RESISTOR_PULL_SELECTION[4][3] = {
+    {0x0, 0x0, 0x4},  
+    {0x2, 0x3, 0x4},
+    {0x2, 0x3, 0x4},
+    {0x2, 0x3, 0x4},
+};
+//Sets pins to 1 No Interrupt, 0 Interrupt if an input
+const uint8_t PCAL6524_INTERRUPT_MASK[4][3] = {
+    {0xFF, 0xFF, 0xFF},  
+    {0xFF, 0xFF, 0xFF},
+    {0xFF, 0xFF, 0xFF},
+    {0xFF, 0xFF, 0xFF},
+};
 
 //-------------------------------------PINOUT-------------------
 //note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased

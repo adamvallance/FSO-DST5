@@ -6,6 +6,7 @@
 #include "config.h"
 #include <vector>
 #include "motorDriver.h"
+#include "I2CBuffer.h"
  
 // //------Pin definitions-------
 // //unfortunately these could not be declared as members of the class rather as globals within this file.
@@ -46,6 +47,8 @@ class FSOcontroller{
     //---------CREATE I2C Interfaces-------
     I2C I2C_A ={PIN_I2CA_SDA, PIN_I2CA_SCL};
     I2C I2C_B = {PIN_I2CB_SDA, PIN_I2CB_SCL};
+    I2CBuffer I2CbufferA = {PIN_};
+    I2CBuffer I2CbufferB = {};
 
     //------CREATE MOTOR DRIVER OBJECT------------------
     Thread motorsThread;
