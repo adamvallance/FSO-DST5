@@ -6,6 +6,9 @@
 
 
 //-----------Operational configuration-------------------------
+#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
+
+
 //general threads
 #define POWER_POLL_SLEEP 100ms
 #define BLOCKING_SLEEP 1000ms
@@ -16,9 +19,18 @@
 #define ELEVATION_STEP_DIR_DOWN 1
 #define HALF_STEP_TIME 0.2 //debug change this 
 #define TIME_MOTOR_STEPPING 5.0 //use this and above to set number of steps for default. 
+
+
+
+//I2C Addresses of devices and selected registers.
+#define I2C_SFP_ADDRESS 0xA2
+#define SFP_RX_POWER_ADDRESS 104 
+#define SFP_POWER_BYTE_LEN 2
+
 //FAN
 #define FAN_PWM_DUTY 0.5
 #define FAN_PWM_PERIOD 0.00005 //20kHz
+
 //-------------------------------------PINOUT-------------------
 //note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased
 //---FRDM LEDs----
