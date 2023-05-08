@@ -37,28 +37,28 @@
 
 //SETS PINS TO INPUT (1) or OUTPUT (0) as a mask for 8 BITS
 //defaulting to output for NC
-const uint8_t PCAL6524_CONFIGURATION[4][3] = {
+const char PCAL6524_CONFIGURATION[4][3] = {
     {0x0, 0x0, 0x8},  //U2 
     {0x0, 0x0, 0x8}, //U3
     {0x0, 0x55, 0x55}, //U4 //P1 and P2 01010101
     {0xFF, 0xFE, 0x40}, //U5 present and los inputs + debug
 };
 //SETS PINS TO PullUp or PullDown (1) or No PullUP/PullDown (0)
-const uint8_t PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {
+const char PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {
     {0x0, 0x0, 0x8},  //pulled up motor_x_fault
     {0x0, 0x0, 0x8},
     {0x0, 0x55, 0x55}, //pull up all sfp_fault
     {0xFF, 0xFE, 0x0}, //pull up all present and los
 };
 //Sets pins to 1 PU, 0 PD if enabled by mask see above
-const uint8_t PCAL6524_RESISTOR_PULL_SELECTION[4][3] = {
+const char PCAL6524_RESISTOR_PULL_SELECTION[4][3] = {
     {0x0, 0x0, 0x8},  
     {0x0, 0x0, 0x8},
     {0x0, 0x55, 0x55},
     {0xFF, 0xFE, 0x0},
 };
 //Sets pins to 1 No Interrupt, 0 Interrupt if an input
-const uint8_t PCAL6524_INTERRUPT_MASK[4][3] = {
+const char PCAL6524_INTERRUPT_MASK[4][3] = {
     {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_1_FAULT_N  
     {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_2_FAULT_N
     {0xFF, 0xAA, 0xAA}, //Interrupt all sfp_fault
