@@ -7,32 +7,8 @@
 #include <vector>
 #include "motorDriver.h"
 #include "I2CBuffer.h"
+#include "GPIOexpander.h"
  
-// //------Pin definitions-------
-// //unfortunately these could not be declared as members of the class rather as globals within this file.
-// //I2C interfaces
-// I2C I2CA(PTB1, PTB0);
-// I2C I2CB(PTE0, PTE1);
-// //Fan control pwm
-// PwmOut FANS(PTA13);
-// //---FRDM LEDs----
-// DigitalOut FRDM_LED_RED(PIN_FRDM_LED_RED);
-// DigitalOut FRDM_LED_GREEN(PIN_FRDM_LED_GREEN);
-// DigitalOut FRDM_LED_BLUE(PIN_FRDM_LED_BLUE); //connected internally to MOTOR_DIR_CTRL_UP
-// //---GPIO EXPANDERS----
-// //gpio expander resets 
-// DigitalOut GPIO_1_RESET_N(PTC8);
-// DigitalOut GPIO_2_RESET_N(PTA4);
-// DigitalOut GPIO_3_RESET_N(PTD4);
-// DigitalOut GPIO_4_RESET_N(PTA1);
-
-// //gpio expander interrupt
-// //InterruptIn GPIO_1_INT_N(PTC9); //PROBLEM SETTING THIS TO BE AN INTERRUPT. Tried excluding I2C. This needed for fault detection on motor 1.
-// InterruptIn GPIO_2_INT_N(PTA5);
-// InterruptIn GPIO_3_INT_N(PTA12);
-// InterruptIn GPIO_4_INT_N(PTA2);
-// //---MOTORS----
-
 
 //make motors thread
 //make main thread
@@ -47,15 +23,28 @@ class FSOcontroller{
     //---------CREATE I2C Interfaces-------
     I2C I2C_A ={PIN_I2CA_SDA, PIN_I2CA_SCL};
     I2C I2C_B = {PIN_I2CB_SDA, PIN_I2CB_SCL};
-    I2CBuffer I2CbufferA = {PIN_};
-    I2CBuffer I2CbufferB = {};
+
+
+    //--------CREATE GPIO EXPANDERS-------------
+    GPIOexpander motorEl_GPIOexpander = {GPIO_EXPANDER_ADDRESSES[0], GPIO_EXPANDER_PINS[0], &I2C_B, 0};
+    GPIOexpander motorAz_GPIOexpander = {GPIO_EXPANDER_ADDRESSES[1], GPIO_EXPANDER_PINS[1], &I2C_B, 1};
+    GPIOexpander GPIOexpander3= {GPIO_EXPANDER_ADDRESSES[2], GPIO_EXPANDER_PINS[2], &I2C_B, 2};
+    GPIOexpander GPIOexpander4= {GPIO_EXPANDER_ADDRESSES[3], GPIO_EXPANDER_PINS[3], &I2C_B, 3};
+    //save gpio expander objects in a list of pointers to be passed to classes to access.
+    GPIOexpander* expandedGPIO[4] = {&motorEl_GPIOexpander, &motorAz_GPIOexpander, &GPIOexpander3, &GPIOexpander4};
+
+    //--------CREATE I2C Buffers -------------
+    // I2CBuffer I2CbufferA = {PIN_};
+    // I2CBuffer I2CbufferB = {};
+
+    //--------CREATE Xpoint switches -------------
+
+    //--------CREATE SFPs -------------
 
     //------CREATE MOTOR DRIVER OBJECT------------------
     Thread motorsThread;
-    //PinName motor_controls_out[5]={PIN_FRDM_LED_RED, PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
-    PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
-    PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
     MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
+
 
         void start(){
 

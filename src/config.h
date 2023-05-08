@@ -2,6 +2,7 @@
 #ifndef FSO_CONFIG_H
 #define FSO_CONFIG_H
 #include "stdint.h"
+#include "mbed.h"
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
@@ -32,41 +33,6 @@
 #define FAN_PWM_DUTY 0.5
 #define FAN_PWM_PERIOD 0.00005 //20kHz
 
-//-------------------------------------GPIO Expander Configuration-------------------
-//for each of these the rows are each gpio expander, the items in each row are for each of the three ports P0, P1 and P2
-
-//SETS PINS TO INPUT (1) or OUTPUT (0) as a mask for 8 BITS
-//defaulting to output for NC
-const char PCAL6524_CONFIGURATION[4][3] = {
-    {0x0, 0x0, 0x8},  //U2 
-    {0x0, 0x0, 0x8}, //U3
-    {0x0, 0x55, 0x55}, //U4 //P1 and P2 01010101
-    {0xFF, 0xFE, 0x40}, //U5 present and los inputs + debug
-};
-//SETS PINS TO PullUp or PullDown (1) or No PullUP/PullDown (0)
-const char PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {
-    {0x0, 0x0, 0x8},  //pulled up motor_x_fault
-    {0x0, 0x0, 0x8},
-    {0x0, 0x55, 0x55}, //pull up all sfp_fault
-    {0xFF, 0xFE, 0x0}, //pull up all present and los
-};
-//Sets pins to 1 PU, 0 PD if enabled by mask see above
-const char PCAL6524_RESISTOR_PULL_SELECTION[4][3] = {
-    {0x0, 0x0, 0x8},  
-    {0x0, 0x0, 0x8},
-    {0x0, 0x55, 0x55},
-    {0xFF, 0xFE, 0x0},
-};
-//Sets pins to 1 No Interrupt, 0 Interrupt if an input
-const char PCAL6524_INTERRUPT_MASK[4][3] = {
-    {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_1_FAULT_N  
-    {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_2_FAULT_N
-    {0xFF, 0xAA, 0xAA}, //Interrupt all sfp_fault
-    {0xFF, 0xFF, 0xFF}, //Interrupt on sfp_out_los but no others
-};
-
-//maybe add interrupt on sfp_out_los (PCAL6524_Interupt_mask[4][3]=FE)
-//Should be default configured as push-pull with logic 0s in 0x5C, see table 40
 
 //-------------------------------------PINOUT-------------------
 //note we are already using half as many pins as we have available due to extra head row not utilised so gpio could be decreased
@@ -106,5 +72,57 @@ const char PCAL6524_INTERRUPT_MASK[4][3] = {
 #define PIN_MOTOR_DIR_CTRL_DOWN PTD3
 #define PIN_MOTOR_DIR_CTRL_LEFT PTD0
 #define PIN_MOTOR_DIR_CTRL_RIGHT PTD2
+
+
+//-------------------------------------GPIO Expander Configuration-------------------
+const int GPIO_EXPANDER_ADDRESSES[4] = {0x20, 0x21, 0x22, 0x23};
+
+//for each of these the rows are each gpio expander, the items in each row are for each of the three ports P0, P1 and P2
+//SETS PINS TO INPUT (1) or OUTPUT (0) as a mask for 8 BITS
+//defaulting to output for NC
+const char PCAL6524_CONFIGURATION[4][3] = {
+    {0x0, 0x0, 0x8},  //U2 
+    {0x0, 0x0, 0x8}, //U3
+    {0x0, 0x55, 0x55}, //U4 //P1 and P2 01010101
+    {0xFF, 0xFE, 0x40}, //U5 present and los inputs + debug
+};
+//SETS PINS TO PullUp or PullDown (1) or No PullUP/PullDown (0)
+const char PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {
+    {0x0, 0x0, 0x8},  //pulled up motor_x_fault
+    {0x0, 0x0, 0x8},
+    {0x0, 0x55, 0x55}, //pull up all sfp_fault
+    {0xFF, 0xFE, 0x0}, //pull up all present and los
+};
+//Sets pins to 1 PU, 0 PD if enabled by mask see above
+const char PCAL6524_RESISTOR_PULL_SELECTION[4][3] = {
+    {0x0, 0x0, 0x8},  
+    {0x0, 0x0, 0x8},
+    {0x0, 0x55, 0x55},
+    {0xFF, 0xFE, 0x0},
+};
+//Sets pins to 1 No Interrupt, 0 Interrupt if an input
+const char PCAL6524_INTERRUPT_MASK[4][3] = {
+    {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_1_FAULT_N  
+    {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_2_FAULT_N
+    {0xFF, 0xAA, 0xAA}, //Interrupt all sfp_fault
+    {0xFF, 0xFF, 0xFF}, //Interrupt on sfp_out_los but no others
+};
+
+PinName GPIO_EXPANDER_PINS[4][2] = {
+    {PIN_GPIO_1_RESET_N, PIN_GPIO_1_INT_N},
+    {PIN_GPIO_2_RESET_N, PIN_GPIO_2_INT_N},
+    {PIN_GPIO_3_RESET_N, PIN_GPIO_3_INT_N},
+    {PIN_GPIO_4_RESET_N, PIN_GPIO_4_INT_N},
+
+};
+//maybe add interrupt on sfp_out_los (PCAL6524_Interupt_mask[4][3]=FE)
+//Should be default configured as push-pull with logic 0s in 0x5C, see table 40
+
+//Motors Pin list
+PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
+PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
+
+
+
 
 #endif //FSO_CONFIG_H
