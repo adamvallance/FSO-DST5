@@ -11,7 +11,7 @@
 class GPIOexpander{
     DigitalOut RESET_N;
     InterruptIn INT_N;
-    //I2C* i2c;
+    I2C* i2c;
     int gpioExIndex;
 
     public:

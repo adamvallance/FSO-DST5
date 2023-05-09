@@ -11,8 +11,8 @@
 class FullExpandedGPIO{
     I2C* i2c;
     //GPIOexpander motorEl_GPIOexpander = {&GPIO_EXPANDER_FRDM_PINS[0][0], GPIO_EXPANDER_ADDRESSES[0],  i2c, 0};
-    // GPIOexpander motorAz_GPIOexpander = {&GPIO_EXPANDER_FRDM_PINS[1][0], GPIO_EXPANDER_ADDRESSES[1], i2c, 1};
-    // GPIOexpander GPIOexpander3= {&GPIO_EXPANDER_FRDM_PINS[2][0], GPIO_EXPANDER_ADDRESSES[2], i2c, 2};
+    //GPIOexpander motorAz_GPIOexpander = {&GPIO_EXPANDER_FRDM_PINS[1][0], GPIO_EXPANDER_ADDRESSES[1], i2c, 1};
+    //GPIOexpander GPIOexpander3= {&GPIO_EXPANDER_FRDM_PINS[2][0], GPIO_EXPANDER_ADDRESSES[2], i2c, 2};
     GPIOexpander GPIOexpander4= {&GPIO_EXPANDER_FRDM_PINS[3][0], GPIO_EXPANDER_ADDRESSES[3], i2c, 3};
      //--------CREATE GPIO EXPANDERS-------------
      public:
@@ -20,6 +20,7 @@ class FullExpandedGPIO{
         void write(GPIOexpanderPin, uint8_t state);
         uint8_t read(GPIOexpanderPin);
         void reset();
+        void registerInterrupt(int gpioExIndex, callbackClass* cb);
 
             // //save gpio expander objects in a list of pointers to be passed to classes to access.
 
@@ -32,10 +33,11 @@ class FullExpandedGPIO{
 
 };
 
+//create instances of this in FSOcontroller.h
 class gpioTestClass: public callbackClass{
     public:
         gpioTestClass(FullExpandedGPIO* gpios){
-            gpios->gpioExpanders[0]->registerInterrupt(this) ;
+            gpios->registerInterrupt(0, this);
         }
         void interrupt(){
             printf("testInterrupt");
