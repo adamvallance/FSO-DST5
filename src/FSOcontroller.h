@@ -33,6 +33,7 @@ class FSOcontroller{
         I2C I2CB = {PIN_I2CB_SDA, PIN_I2CB_SCL};
 
         FullExpandedGPIO expandedGPIO = {&I2CB};
+        //gpioTestClass test = {&expandedGPIO};
         
         //--------CREATE Xpoint switches -------------
 

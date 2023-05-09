@@ -7,6 +7,7 @@ FullExpandedGPIO::FullExpandedGPIO(I2C* i2c):
        
 }
 
+
 // void FullExpandedGPIO::write(GPIOexpanderPin pin, uint8_t state){
 //     gpioExpanders[pin.gpioExIndex]->write(pin.gpioExPinNumber, state);
 // }
