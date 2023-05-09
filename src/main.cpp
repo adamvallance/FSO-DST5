@@ -8,6 +8,7 @@
 #include "motorDriver.h"
 #include "I2CBuffer.h"
 #include "GPIOexpander.h"
+#include "FullExpandedGPIO.h"
  
 
 //make motors thread
@@ -32,7 +33,7 @@ class FSOcontroller{
     // GPIOexpander GPIOexpander4= {GPIO_EXPANDER_ADDRESSES[3], GPIO_EXPANDER_PINS[3], &I2C_B, 3};
     // //save gpio expander objects in a list of pointers to be passed to classes to access.
     // GPIOexpander* expandedGPIO[4] = {&motorEl_GPIOexpander, &motorAz_GPIOexpander, &GPIOexpander3, &GPIOexpander4};
-
+    FullExpandedGPIO expandedGPIO = {&I2CB};
     //--------CREATE I2C Buffers -------------
     // I2CBuffer I2CbufferA = {PIN_};
     // I2CBuffer I2CbufferB = {};
@@ -69,6 +70,7 @@ class FSOcontroller{
             //pollForPower();
             tempRunning = !tempRunning;
             ThisThread::sleep_for(POWER_POLL_SLEEP);
+            expandedGPIO.write(GPIO_DEBUG_LED, tempRunning.read()); //toggle GPIO expander LED
         }
     }
 

@@ -154,8 +154,12 @@ if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || p
 		{
 			return input_reg_data>>7;
 		}
+        default:
+        {
+            return -1;
+        } 
 	}
-}
+};
  
 
  ////commented out for now. Just set as defaults once. 
