@@ -101,3 +101,9 @@ void MotorDriver::stopStepEl(){
     currentlyStepping = false;
     motor2Step = 0;
 }
+
+void MotorDriver::interrupt(){
+    //This means motor1fault or motor2fault
+    printf("Motor fault");
+    ERROR_LED.write(0);
+}

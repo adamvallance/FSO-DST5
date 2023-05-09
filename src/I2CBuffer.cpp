@@ -1,5 +1,5 @@
 // #include "I2CBuffer.h"
-
+//make extension of the callback class
 // // I2CBuffer::I2CBuffer(GPIOexpander* gpioEx, I2C* i2cIn, int gpioExResetPin): 
 // //     //initialise member digital outputs which are static based on the input list of pin names
 // //     gpioEx(gpioEx),

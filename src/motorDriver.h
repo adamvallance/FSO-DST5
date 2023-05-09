@@ -3,8 +3,9 @@
 #define FSO_MOTOR_DRIVER_H
 #include "mbed.h"
 #include "config.h"
+#include "callbackClass.h"
 
-class MotorDriver{
+class MotorDriver: public callbackClass{
     DigitalOut motor1Step;
     DigitalOut motor1Dir;
     DigitalOut motor2Step;
@@ -20,6 +21,7 @@ class MotorDriver{
         void stepMotor(int);
         void debug(int);
         void start();
+        void interrupt();
 
     private: 
     //callback stubs

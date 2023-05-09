@@ -15,6 +15,10 @@ GPIOexpander::GPIOexpander(PinName* pins, int I2CaddressIn, I2C* i2c, int gpioEx
         //setPinDefaults(gpioExIndex); //set registers to configure as described in config.h
     }
 
+void GPIOexpander::registerInterrupt(callbackClass * cb){
+    INT_N.fall(callback(cb, &callbackClass::interrupt)); 
+}
+
 // void GPIOexpander::reset(){
 //     RESET_N = 0; 
 //     ThisThread::sleep_for(POWER_POLL_SLEEP);

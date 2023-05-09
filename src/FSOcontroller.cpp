@@ -1,5 +1,8 @@
 #include "FSOcontroller.h"
 
+//global error led
+DigitalOut ERROR_LED(PIN_FRDM_LED_RED, 1);
+
 FSOcontroller::FSOcontroller(PinName* pins):
     nominalRunningLED(pins[0], 0), //active low 
     errorRunningLED(pins[1], 1), //active low
@@ -23,20 +26,12 @@ void FSOcontroller::exec(){
     printf("Initialisation complete. Begining power tracking.\n");
     while(true){
         //pollForPower();
-        if (errorStatus==0){
-            nominalRunningLED = !nominalRunningLED;
-        }else{
-            errorRunningLED = !errorRunningLED;
-        }
+        nominalRunningLED = !nominalRunningLED;
         ThisThread::sleep_for(POWER_POLL_SLEEP);
         //expandedGPIO.write(GPIO_DEBUG_LED, tempRunning.read()); //toggle GPIO expander LED
     }
 }
 
-void FSOcontroller::setError(){
-    errorStatus = 1;
-    nominalRunningLED.write(1); //active low
-}
 
 void FSOcontroller::pollForPower(){
     //        char power[2];

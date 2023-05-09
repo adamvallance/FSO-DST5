@@ -6,7 +6,6 @@
 #include "FSOcontroller.h"
 
 
-
 int main()
 {   
     printf("Initialising...\n");

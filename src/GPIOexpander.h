@@ -5,6 +5,7 @@
 #include "config.h"
 #include "GPIOexpanderConfig.h"
 #include <cstdint>
+#include "callbackClass.h"
 
 
 class GPIOexpander{
@@ -20,6 +21,7 @@ class GPIOexpander{
         uint8_t read(uint16_t pin);
         void reset();
         void setPinDefaults(int);
+        void registerInterrupt(callbackClass* );
 
         //todo 
         void setInterruptHandlerPtr(); 
