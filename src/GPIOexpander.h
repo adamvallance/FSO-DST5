@@ -10,11 +10,11 @@
 class GPIOexpander{
     DigitalOut RESET_N;
     InterruptIn INT_N;
-    I2C* i2c;
+    //I2C* i2c;
     int gpioExIndex;
 
     public:
-        GPIOexpander(int I2CaddressIn, PinName*, I2C*, int gpioExIndex); //add in gpios for other setup?
+        GPIOexpander(PinName* pins, int I2CaddressIn,  I2C*, int gpioExIndex); //add in gpios for other setup?
         void write(uint16_t pin, uint8_t state);
         //void setPinMode(uint16_t pin, uint8_t mode);
         uint8_t read(uint16_t pin);

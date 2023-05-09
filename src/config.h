@@ -74,7 +74,8 @@
 #define PIN_MOTOR_DIR_CTRL_LEFT PTD0
 #define PIN_MOTOR_DIR_CTRL_RIGHT PTD2
 
-
+//FSO controller pins
+static PinName FSO_CONTROLLER_PINS[3] = {PIN_FRDM_LED_GREEN, PIN_FRDM_LED_RED, PIN_FAN_PWM};
 //-------------------------------------GPIO Expander Configuration-------------------
 static const int GPIO_EXPANDER_ADDRESSES[4] = {0x20, 0x21, 0x22, 0x23};
 
@@ -109,7 +110,7 @@ static const char PCAL6524_INTERRUPT_MASK[4][3] = {
     {0xFF, 0xFF, 0xFF}, //Interrupt on sfp_out_los but no others
 };
 
-static PinName GPIO_EXPANDER_PINS[4][2] = {
+static PinName GPIO_EXPANDER_FRDM_PINS[4][2] = {
     {PIN_GPIO_1_RESET_N, PIN_GPIO_1_INT_N},
     {PIN_GPIO_2_RESET_N, PIN_GPIO_2_INT_N},
     {PIN_GPIO_3_RESET_N, PIN_GPIO_3_INT_N},
