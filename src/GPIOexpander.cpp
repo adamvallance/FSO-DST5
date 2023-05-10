@@ -32,7 +32,8 @@ void GPIOexpander::writeRegister(uint8_t reg, uint8_t value){
 //     I2CB.write(0x23, &testVal, 1);
 
 // ;
-    I2CB.write(I2Caddress, (char*) value, 1);
+    const char bytesToWrite[2] = {reg, value};
+    I2CB.write(I2Caddress, &bytesToWrite[0], 2);
     ERROR_LED = !ERROR_LED;
 
 }
