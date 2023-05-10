@@ -21,7 +21,7 @@ class FSOcontroller{
     FullExpandedGPIO* expandedGPIO;
 
     public:
-        FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2C* I2CA, I2C* I2CB);
+        FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2C* I2CB); //, I2C* I2CA
         void start();
         void setError();
 

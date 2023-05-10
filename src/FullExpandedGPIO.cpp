@@ -4,7 +4,7 @@
 FullExpandedGPIO::FullExpandedGPIO(I2C* i2c):
     i2c(i2c)
     {
-       
+;               
 }
 
 void FullExpandedGPIO::registerInterrupt(int gpioExIndex, callbackClass *cb){
@@ -12,6 +12,7 @@ void FullExpandedGPIO::registerInterrupt(int gpioExIndex, callbackClass *cb){
 }
 
 void FullExpandedGPIO::write(GPIOexpanderPin pin, uint8_t state){
+
     gpioExpanders[pin.gpioExIndex]->write(pin.gpioExPinNumber, state);
 }
 

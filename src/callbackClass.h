@@ -5,6 +5,8 @@
 
 //global error led
 extern DigitalOut ERROR_LED;
+extern I2C I2CA;
+extern I2C I2CB;
 
 class callbackClass{
     public:

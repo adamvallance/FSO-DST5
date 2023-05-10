@@ -1,15 +1,16 @@
 #include "GPIOexpander.h"
 
-GPIOexpander::GPIOexpander(PinName* pins, int I2CaddressIn, I2C* i2c, int gpioExIndexIn):
+GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
     RESET_N(pins[0], 1),
-    INT_N(pins[1]), 
-    i2c(i2c)
+    INT_N(pins[1]) 
     {   
 
         gpioExIndex = gpioExIndexIn;
         I2Caddress = I2CaddressIn;
         reset();
         setPinDefaults(gpioExIndex); //set registers to configure as described in config.h
+    
+
     }
 
 void GPIOexpander::registerInterrupt(callbackClass * cb){
@@ -25,16 +26,24 @@ void GPIOexpander::reset(){
 
 
 void GPIOexpander::writeRegister(uint8_t reg, uint8_t value){
-    i2c->write(I2Caddress, (char*) value, 1);
+                //debug
+    const char testVal = 0xFF;
+    I2CB.write(0x23, &testVal, 1);
+    ERROR_LED = 0;
+;
+    //i2c->write(I2Caddress, (char*) value, 1);
+    //const char test = 0xFF;
+    //i2c->write(I2Caddress, &test, 1);
+    //i2c->start();
 }
 void GPIOexpander::writePortRegisters(uint8_t reg, char data){
-    i2c->write(I2Caddress, &data, 3);
+    I2CB.write(I2Caddress, &data, 3);
 }
 
 uint8_t GPIOexpander::readRegister(uint8_t reg){
     char readData;
-    i2c->write(I2Caddress, (char*) reg, 1); 
-    i2c->read(I2Caddress, &readData, 1);
+    I2CB.write(I2Caddress, (char*) reg, 1); 
+    I2CB.read(I2Caddress, &readData, 1);
     return (uint8_t) readData;
 }
 
@@ -84,19 +93,22 @@ void GPIOexpander::write(uint16_t pin, uint8_t state){
 		PCAL6524_OUTPUT = PCAL6524_OUTPUT_PORT_2;
 	}
 
+    //debug
+    writeRegister(PCAL6524_OUTPUT, 0xFF);
+    return;
+
 	// Read the current Value of out the ouput register
     output_reg_value = readRegister(PCAL6524_OUTPUT);
-    //output_reg_value = 0x0; //debug
 	//Deterime if Pin is being asked to go hi or to go low and set only that pins value;
 	if (state == 1)
 	{
 		output_reg_value = output_reg_value | (uint8_t)pin;
-		//writeRegister(PCAL6524_OUTPUT, output_reg_value);
+		writeRegister(PCAL6524_OUTPUT, output_reg_value);
 		return;
 	}
 	else if (state == 0){
 		output_reg_value = output_reg_value & ~((uint8_t)pin);
-		//writeRegister(PCAL6524_OUTPUT, output_reg_value);
+		writeRegister(PCAL6524_OUTPUT, output_reg_value);
 		return;
 	}
 	return;	

@@ -10,10 +10,10 @@
 
 class FullExpandedGPIO{
     I2C* i2c;
-    //GPIOexpander motorEl_GPIOexpander = {&GPIO_EXPANDER_FRDM_PINS[0][0], GPIO_EXPANDER_ADDRESSES[0],  i2c, 0};
-    //GPIOexpander motorAz_GPIOexpander = {&GPIO_EXPANDER_FRDM_PINS[1][0], GPIO_EXPANDER_ADDRESSES[1], i2c, 1};
-    //GPIOexpander GPIOexpander3= {&GPIO_EXPANDER_FRDM_PINS[2][0], GPIO_EXPANDER_ADDRESSES[2], i2c, 2};
-    GPIOexpander GPIOexpander4= {&GPIO_EXPANDER_FRDM_PINS[3][0], GPIO_EXPANDER_ADDRESSES[3], i2c, 3};
+    //GPIOexpander motorEl_GPIOexpander = {i2c, &GPIO_EXPANDER_FRDM_PINS[0][0], GPIO_EXPANDER_ADDRESSES[0], 0};
+    //GPIOexpander motorAz_GPIOexpander = {i2c, &GPIO_EXPANDER_FRDM_PINS[1][0], GPIO_EXPANDER_ADDRESSES[1], 1};
+    //GPIOexpander GPIOexpander3= {i2c, &GPIO_EXPANDER_FRDM_PINS[2][0], GPIO_EXPANDER_ADDRESSES[2], 2};
+    GPIOexpander GPIOexpander4= {&GPIO_EXPANDER_FRDM_PINS[3][0],  GPIO_EXPANDER_ADDRESSES[3], 3};
      //--------CREATE GPIO EXPANDERS-------------
      public:
         FullExpandedGPIO(I2C*);

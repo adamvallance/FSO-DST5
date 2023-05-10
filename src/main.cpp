@@ -11,8 +11,10 @@ int main()
 {   
     printf("Initialising...\n");
     //---------CREATE I2C Interfaces-------
-    I2C I2CA ={PIN_I2CA_SDA, PIN_I2CA_SCL};
-    I2C I2CB = {PIN_I2CB_SDA, PIN_I2CB_SCL};
+    //I2C I2CA ={PIN_I2CA_SDA, PIN_I2CA_SCL}; //debug add back
+    //I2C I2CB = {PIN_I2CB_SDA, PIN_I2CB_SCL};
+
+
 
     //Create expanded gpio interface
     FullExpandedGPIO expandedGPIO = {&I2CB};
@@ -41,7 +43,7 @@ int main()
 
     //Thread controllerThread;
     //create main controller class instantce
-    FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &I2CA, &I2CB};
+    FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &I2CB}; // &I2CA, before i2cb
     //start the controller to poll for power
     controller.start(); //blocking, has infinite execution loop inside
 }
