@@ -39,7 +39,7 @@ int main()
     Thread gpioTest;
     gpioTestClass gpioTester = {&expandedGPIO};
 
-
+    //Thread controllerThread;
     //create main controller class instantce
     FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &I2CA, &I2CB};
     //start the controller to poll for power
