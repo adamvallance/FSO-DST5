@@ -16,12 +16,10 @@
 class FSOcontroller{
     DigitalOut nominalRunningLED;
     PwmOut fanPWM;
-    I2C* I2CA;
-    I2C* I2CB;
     FullExpandedGPIO* expandedGPIO;
 
     public:
-        FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2C* I2CB); //, I2C* I2CA
+        FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO); 
         void start();
         void setError();
 

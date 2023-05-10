@@ -3,11 +3,9 @@
 //global error led
 DigitalOut ERROR_LED(PIN_FRDM_LED_RED, 1);
 
-FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2C* I2CB): // I2C* I2CA
+FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO): // I2C* I2CA
     nominalRunningLED(pins[0], 0), //active low 
     fanPWM(pins[1]), 
-    //I2CA(I2CA),
-    I2CB(I2CB),
     expandedGPIO(expandedGPIO)
     {
         ;

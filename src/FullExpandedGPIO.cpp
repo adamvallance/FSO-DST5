@@ -1,9 +1,7 @@
 #include "FullExpandedGPIO.h"
 #include <cstdint>
 
-FullExpandedGPIO::FullExpandedGPIO(I2C* i2c):
-    i2c(i2c)
-    {
+FullExpandedGPIO::FullExpandedGPIO(){
 ;               
 }
 
