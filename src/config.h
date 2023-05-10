@@ -87,7 +87,7 @@ static const char PCAL6524_CONFIGURATION[4][3] = {
     {0x0, 0x0, 0x8},  //U2 
     {0x0, 0x0, 0x8}, //U3
     {0x0, 0x55, 0x55}, //U4 //P1 and P2 01010101
-    {0xFF, 0xFE, 0x40}, //U5 present and los inputs + debug
+    {0xFF, 0xFF, 0x0F}, //U5 present and los inputs + debug
 };
 //SETS PINS TO PullUp or PullDown (1) or No PullUP/PullDown (0)
 static const char PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {

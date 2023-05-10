@@ -28,7 +28,7 @@ class GPIOexpander{
     private:
         int I2Caddress;
         void writeRegister(uint8_t, uint8_t);
-        void writePortRegisters(uint8_t, char);
+        void writePortRegisters(uint8_t, const char*);
         uint8_t readRegister(uint8_t);
 };
 

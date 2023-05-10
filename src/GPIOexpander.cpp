@@ -34,11 +34,12 @@ void GPIOexpander::writeRegister(uint8_t reg, uint8_t value){
 // ;
     const char bytesToWrite[2] = {reg, value};
     I2CB.write(I2Caddress, &bytesToWrite[0], 2);
-    ERROR_LED = !ERROR_LED;
+    //ERROR_LED = !ERROR_LED;
 
 }
-void GPIOexpander::writePortRegisters(uint8_t reg, char data){
-    I2CB.write(I2Caddress, &data, 3);
+void GPIOexpander::writePortRegisters(uint8_t reg, const char* data){
+    const char bytesToWrite[4] = {reg, data[0], data[1], data[2]};
+    I2CB.write(I2Caddress, &bytesToWrite[0], 4);
     ERROR_LED = !ERROR_LED;
 
 }
@@ -55,10 +56,10 @@ void GPIOexpander::setPinDefaults(int gpioExIndex){
         printf("Error, gpio expander selection of range");
         return;//error
     }
-    writePortRegisters(PCAL6524_CONFIGURATION_PORT_0, PCAL6524_CONFIGURATION[gpioExIndex][0]);
-    writePortRegisters(PCAL6524_RESISTOR_PULL_ENABLE_PORT_0, PCAL6524_RESISTOR_PULL_ENABLE[gpioExIndex][0]); //1 PU or PD, 0 NO PU/PD
-    writePortRegisters(PCAL6524_RESISTOR_PULL_SELECTION_PORT_0, PCAL6524_RESISTOR_PULL_SELECTION[gpioExIndex][0]);//1 PU, 0 PD
-    writePortRegisters(PCAL6524_INTERRUPT_MASK_PORT_0, PCAL6524_INTERRUPT_MASK[gpioExIndex][0]); //1 no interrupt 0 interrupts
+    writePortRegisters(PCAL6524_CONFIGURATION_PORT_0, &PCAL6524_CONFIGURATION[gpioExIndex][0]);
+    writePortRegisters(PCAL6524_RESISTOR_PULL_ENABLE_PORT_0, &PCAL6524_RESISTOR_PULL_ENABLE[gpioExIndex][0]); //1 PU or PD, 0 NO PU/PD
+    writePortRegisters(PCAL6524_RESISTOR_PULL_SELECTION_PORT_0, &PCAL6524_RESISTOR_PULL_SELECTION[gpioExIndex][0]);//1 PU, 0 PD
+    writePortRegisters(PCAL6524_INTERRUPT_MASK_PORT_0, &PCAL6524_INTERRUPT_MASK[gpioExIndex][0]); //1 no interrupt 0 interrupts
 
     // //uses gpioExIndex to set default pins through registers as defined in config.h
     // writeRegister(PCAL6524_CONFIGURATION_PORT_0, PCAL6524_CONFIGURATION[gpioExIndex][0]); //1 input, 0 output
