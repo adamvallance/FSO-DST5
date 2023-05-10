@@ -2,12 +2,13 @@
 #include <system_error>
 
 GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
-    RESET_N(pins[0], 0),
+    RESET_N(pins[0], 1),
     INT_N(pins[1]) 
     {   
 
         gpioExIndex = gpioExIndexIn;
         I2Caddress = I2CaddressIn;
+        //RESET_N.write(1);
         reset();
         setPinDefaults(gpioExIndex); //set registers to configure as described in config.h
     
@@ -19,10 +20,11 @@ void GPIOexpander::registerInterrupt(callbackClass * cb){
 }
 
 void GPIOexpander::reset(){
-    I2CB.write(GPIO_EXPANDER_RESET[0], &GPIO_EXPANDER_RESET[1], 1);
-    // RESET_N.write(0); 
-    // ThisThread::sleep_for(POWER_POLL_SLEEP);
-    // RESET_N.write(1); //remove out of reset mode
+    //I2CB.write(GPIO_EXPANDER_RESET[0], &GPIO_EXPANDER_RESET[1], 1);
+    RESET_N.write(0); 
+    ThisThread::sleep_for(POWER_POLL_SLEEP);
+    RESET_N.write(1); //remove out of reset mode
+    ThisThread::sleep_for(POWER_POLL_SLEEP);
 }
 
 
