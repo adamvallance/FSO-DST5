@@ -95,12 +95,11 @@ void GPIOexpander::write(uint16_t pin, uint8_t state){
 		PCAL6524_OUTPUT = PCAL6524_OUTPUT_PORT_2;
 	}
 
-    //debug
-    writeRegister(PCAL6524_OUTPUT, 0xFF);
-    return;
 
 	// Read the current Value of out the ouput register
-    output_reg_value = readRegister(PCAL6524_OUTPUT);
+    //output_reg_value = readRegister(PCAL6524_OUTPUT);
+    //debug !!!
+    output_reg_value = 0x00;
 	//Deterime if Pin is being asked to go hi or to go low and set only that pins value;
 	if (state == 1)
 	{

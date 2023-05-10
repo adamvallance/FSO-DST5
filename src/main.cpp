@@ -16,9 +16,9 @@ int main()
     FullExpandedGPIO expandedGPIO;
 
     //gpio test, make sure only one gpio expander initialised
-    //Thread gpioTestThread;
-    //gpioTestClass test = {&expandedGPIO};
-    //gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
+    Thread gpioTestThread;
+    gpioTestClass test = {&expandedGPIO};
+    gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
 
     //--------CREATE Xpoint switches -------------
 

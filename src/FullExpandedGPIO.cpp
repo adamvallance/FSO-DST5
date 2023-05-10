@@ -11,11 +11,14 @@ void FullExpandedGPIO::registerInterrupt(int gpioExIndex, callbackClass *cb){
 
 void FullExpandedGPIO::write(GPIOexpanderPin pin, uint8_t state){
 
-    gpioExpanders[pin.gpioExIndex]->write(pin.gpioExPinNumber, state);
+    //gpioExpanders[pin.gpioExIndex]->write(pin.gpioExPinNumber, state);
+    gpioExpanders[0]->write(pin.gpioExPinNumber, state);
+
 }
 
 uint8_t FullExpandedGPIO::read(GPIOexpanderPin pin){
     return gpioExpanders[pin.gpioExIndex]->read(pin.gpioExPinNumber);
+
 }
 
 
