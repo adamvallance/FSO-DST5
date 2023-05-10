@@ -6,58 +6,58 @@
 /*=========================================================================
     CONFIGURATION Register adresses
     -----------------------------------------------------------------------*/
-    const uint8_t PCAL6524_INPUT_PORT_0	=	0x00;    //INPUT PORT 0 Register  - Read Only
-	const uint8_t PCAL6524_INPUT_PORT_1	=	0x01;    //INPUT PORT 1 Register  - Read Only
-	const uint8_t PCAL6524_INPUT_PORT_2	=	0x02;    //INPUT PORT 2 Register  - Read Only
-	const uint8_t PCAL6524_OUTPUT_PORT_0	=	0x04;    //OUTPUT PORT 0 Register  - Read & Write
-	const uint8_t PCAL6524_OUTPUT_PORT_1	=	0x05;    //OUTPUT PORT 1 Register  - Read & Write
-	const uint8_t PCAL6524_OUTPUT_PORT_2	=	0x06;    //OUTPUT PORT 2 Register  - Read & Write
-	const uint8_t PCAL6524_POLARITY_INVERSION_PORT_0	=	0x08;    //Read & Write
-	const uint8_t PCAL6524_POLARITY_INVERSION_PORT_1	=	0x09;    //Read & Write
-	const uint8_t PCAL6524_POLARITY_INVERSION_PORT_2	=	0x0A;    //Read & Write
-	const uint8_t PCAL6524_CONFIGURATION_PORT_0	=	0x0C;    //Read & Write
-	const uint8_t PCAL6524_CONFIGURATION_PORT_1	=	0x0D;    //Read & Write
-	const uint8_t PCAL6524_CONFIGURATION_PORT_2	=	0x0E;    //Read & Write
-	const uint8_t PCAL6524_OUTPUT_STRENGH_OA	=	0x40;
-	const uint8_t PCAL6524_OUTPUT_STRENGH_0B 	=	0x41;
-	const uint8_t PCAL6524_OUTPUT_STRENGH_1A	=	0x42;
-	const uint8_t PCAL6524_OUTPUT_STRENGH_1B 	=	0x43;
-	const uint8_t PCAL6524_OUTPUT_STRENGH_2A	=	0x44;
-	const uint8_t PCAL6524_OUTPUT_STRENGH_2B 	=	0x45;
-	const uint8_t PCAL6524_INPUT_LATCH_PORT_0	=	0X48;
-	const uint8_t PCAL6524_INPUT_LATCH_PORT_1	=	0X49;
-	const uint8_t PCAL6524_INPUT_LATCH_PORT_2	=	0X4A;
-	const uint8_t PCAL6524_RESISTOR_PULL_ENABLE_PORT_0	=	0x4C;
-	const uint8_t PCAL6524_RESISTOR_PULL_ENABLE_PORT_1	=	0x4D;
-	const uint8_t PCAL6524_RESISTOR_PULL_ENABLE_PORT_2	=	0x4E;
-	const uint8_t PCAL6524_RESISTOR_PULL_SELECTION_PORT_0	=	0x50;
-	const uint8_t PCAL6524_RESISTOR_PULL_SELECTION_PORT_1	=	0x51;
-	const uint8_t PCAL6524_RESISTOR_PULL_SELECTION_PORT_2	=	0x52;
-	const uint8_t PCAL6524_INTERRUPT_MASK_PORT_0		= 	0x54;
-	const uint8_t PCAL6524_INTERRUPT_MASK_PORT_1		= 	0x55;
-	const uint8_t PCAL6524_INTERRUPT_MASK_PORT_2		= 	0x56;
-	const uint8_t PCAL6524_INTERRUPT_STATUS_PORT_0 		= 	0x58;
-	const uint8_t PCAL6524_INTERRUPT_STATUS_PORT_1		= 	0x59;
-	const uint8_t PCAL6524_INTERRUPT_STATUS_PORT_2 		= 	0x5A;
-	const uint8_t PCAL6524_OUTPUT_PORT_CONFIG 			= 	0x5C;
-	const uint8_t PCAL6524_INTERRUPT_EDGE_PORT_0A		=	0x60;
-	const uint8_t PCAL6524_INTERRUPT_EDGE_PORT_0B		=	0x61;
-	const uint8_t PCAL6524_INTERRUPT_EDGE_PORT_1A		=	0x62;
-	const uint8_t PCAL6524_INTERRUPT_EDGE_PORT_1B		=	0x63;
-	const uint8_t PCAL6524_INTERRUPT_EDGE_PORT_2A		=	0x64;
-	const uint8_t PCAL6524_INTERRUPT_EDGE_PORT_2B		=	0x65;
-	const uint8_t PCAL6524_INTERRUPT_CLEAR_PORT_0 		= 	0x68;
-	const uint8_t PCAL6524_INTERRUPT_CLEAR_PORT_1 		= 	0x69;
-	const uint8_t PCAL6524_INTERRUPT_CLEAR_PORT_2 		= 	0x6A;
-	const uint8_t PCAL6524_INPUT_STATUS_PORT_0 			= 	0x6C;
-	const uint8_t PCAL6524_INPUT_STATUS_PORT_1			=	0x6D;
-	const uint8_t PCAL6524_INPUT_STATUS_PORT_2			=	0x6E;
-	const uint8_t PCAL6524_PIN_OUTPUT_CONFIG_PORT_0		=	0x70;
-	const uint8_t PCAL6524_PIN_OUTPUT_CONFIG_PORT_1 	=	0x71;
-	const uint8_t PCAL6524_PIN_OUTPUT_CONFIG_PORT_2 	=	0x72;
-	const uint8_t PCAL6524_SWITCH_DEBOUCE_ENABLE_PORT_0 = 	0x74;
-	const uint8_t PCAL6524_SWITCH_DEBOUCE_ENABLE_PORT_1 = 	0x75;
-	const uint8_t PCAL6524_SWITCH_DEBOUCE_COUNT			=	0x76;
+    const char PCAL6524_INPUT_PORT_0	=	0x00;    //INPUT PORT 0 Register  - Read Only
+	const char PCAL6524_INPUT_PORT_1	=	0x01;    //INPUT PORT 1 Register  - Read Only
+	const char PCAL6524_INPUT_PORT_2	=	0x02;    //INPUT PORT 2 Register  - Read Only
+	const char PCAL6524_OUTPUT_PORT_0	=	0x04;    //OUTPUT PORT 0 Register  - Read & Write
+	const char PCAL6524_OUTPUT_PORT_1	=	0x05;    //OUTPUT PORT 1 Register  - Read & Write
+	const char PCAL6524_OUTPUT_PORT_2	=	0x06;    //OUTPUT PORT 2 Register  - Read & Write
+	const char PCAL6524_POLARITY_INVERSION_PORT_0	=	0x08;    //Read & Write
+	const char PCAL6524_POLARITY_INVERSION_PORT_1	=	0x09;    //Read & Write
+	const char PCAL6524_POLARITY_INVERSION_PORT_2	=	0x0A;    //Read & Write
+	const char PCAL6524_CONFIGURATION_PORT_0	=	0x0C;    //Read & Write
+	const char PCAL6524_CONFIGURATION_PORT_1	=	0x0D;    //Read & Write
+	const char PCAL6524_CONFIGURATION_PORT_2	=	0x0E;    //Read & Write
+	const char PCAL6524_OUTPUT_STRENGH_OA	=	0x40;
+	const char PCAL6524_OUTPUT_STRENGH_0B 	=	0x41;
+	const char PCAL6524_OUTPUT_STRENGH_1A	=	0x42;
+	const char PCAL6524_OUTPUT_STRENGH_1B 	=	0x43;
+	const char PCAL6524_OUTPUT_STRENGH_2A	=	0x44;
+	const char PCAL6524_OUTPUT_STRENGH_2B 	=	0x45;
+	const char PCAL6524_INPUT_LATCH_PORT_0	=	0X48;
+	const char PCAL6524_INPUT_LATCH_PORT_1	=	0X49;
+	const char PCAL6524_INPUT_LATCH_PORT_2	=	0X4A;
+	const char PCAL6524_RESISTOR_PULL_ENABLE_PORT_0	=	0x4C;
+	const char PCAL6524_RESISTOR_PULL_ENABLE_PORT_1	=	0x4D;
+	const char PCAL6524_RESISTOR_PULL_ENABLE_PORT_2	=	0x4E;
+	const char PCAL6524_RESISTOR_PULL_SELECTION_PORT_0	=	0x50;
+	const char PCAL6524_RESISTOR_PULL_SELECTION_PORT_1	=	0x51;
+	const char PCAL6524_RESISTOR_PULL_SELECTION_PORT_2	=	0x52;
+	const char PCAL6524_INTERRUPT_MASK_PORT_0		= 	0x54;
+	const char PCAL6524_INTERRUPT_MASK_PORT_1		= 	0x55;
+	const char PCAL6524_INTERRUPT_MASK_PORT_2		= 	0x56;
+	const char PCAL6524_INTERRUPT_STATUS_PORT_0 		= 	0x58;
+	const char PCAL6524_INTERRUPT_STATUS_PORT_1		= 	0x59;
+	const char PCAL6524_INTERRUPT_STATUS_PORT_2 		= 	0x5A;
+	const char PCAL6524_OUTPUT_PORT_CONFIG 			= 	0x5C;
+	const char PCAL6524_INTERRUPT_EDGE_PORT_0A		=	0x60;
+	const char PCAL6524_INTERRUPT_EDGE_PORT_0B		=	0x61;
+	const char PCAL6524_INTERRUPT_EDGE_PORT_1A		=	0x62;
+	const char PCAL6524_INTERRUPT_EDGE_PORT_1B		=	0x63;
+	const char PCAL6524_INTERRUPT_EDGE_PORT_2A		=	0x64;
+	const char PCAL6524_INTERRUPT_EDGE_PORT_2B		=	0x65;
+	const char PCAL6524_INTERRUPT_CLEAR_PORT_0 		= 	0x68;
+	const char PCAL6524_INTERRUPT_CLEAR_PORT_1 		= 	0x69;
+	const char PCAL6524_INTERRUPT_CLEAR_PORT_2 		= 	0x6A;
+	const char PCAL6524_INPUT_STATUS_PORT_0 			= 	0x6C;
+	const char PCAL6524_INPUT_STATUS_PORT_1			=	0x6D;
+	const char PCAL6524_INPUT_STATUS_PORT_2			=	0x6E;
+	const char PCAL6524_PIN_OUTPUT_CONFIG_PORT_0		=	0x70;
+	const char PCAL6524_PIN_OUTPUT_CONFIG_PORT_1 	=	0x71;
+	const char PCAL6524_PIN_OUTPUT_CONFIG_PORT_2 	=	0x72;
+	const char PCAL6524_SWITCH_DEBOUCE_ENABLE_PORT_0 = 	0x74;
+	const char PCAL6524_SWITCH_DEBOUCE_ENABLE_PORT_1 = 	0x75;
+	const char PCAL6524_SWITCH_DEBOUCE_COUNT			=	0x76;
 /*=========================================================================*/
 
 /*=========================================================================
@@ -94,9 +94,9 @@
 // /*=========================================================================
 // Pin types. //probably not needed as not setting individual pins
 //     -----------------------------------------------------------------------*/	
-// 	const uint8_t OUTPUT = 0x0;
-// 	const uint8_t INPUT_PULLDOWN = 0x01;
-//     const uint8_t INPUT_PULLUP = 0x02;
+// 	const char OUTPUT = 0x0;
+// 	const char INPUT_PULLDOWN = 0x01;
+//     const char INPUT_PULLUP = 0x02;
 // /*=========================================================================*/
 
 #endif// FSO_GPIO_EXPANDER_CONFIG_H

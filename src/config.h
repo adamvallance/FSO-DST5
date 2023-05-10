@@ -216,7 +216,7 @@ static const GPIOexpanderPin GPIO_DEBUG_LOOP_A = {3, P2_5};
 static const GPIOexpanderPin GPIO_DEBUG_LOOP_B = {3, P2_6};
 static const GPIOexpanderPin GPIO_DEBUG_LED = {3, P2_7};
 
-
+static const char GPIO_EXPANDER_RESET[2] = {0x0, 0x6};
 
 //Motors Pin list
 static PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};

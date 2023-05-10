@@ -16,8 +16,8 @@ class FullExpandedGPIO{
      //--------CREATE GPIO EXPANDERS-------------
      public:
         FullExpandedGPIO();
-        void write(GPIOexpanderPin, uint8_t state);
-        uint8_t read(GPIOexpanderPin);
+        void write(GPIOexpanderPin, char state);
+        char read(GPIOexpanderPin);
         void reset();
         void registerInterrupt(int gpioExIndex, callbackClass* cb);
 

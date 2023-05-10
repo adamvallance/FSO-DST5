@@ -15,9 +15,9 @@ class GPIOexpander{
 
     public:
         GPIOexpander(PinName* pins, int I2CaddressIn, int gpioExIndex); //add in gpios for other setup?
-        void write(uint16_t pin, uint8_t state);
-        //void setPinMode(uint16_t pin, uint8_t mode);
-        uint8_t read(uint16_t pin);
+        void write(uint16_t pin, char state);
+        //void setPinMode(uint16_t pin, char mode);
+        char read(uint16_t pin);
         void reset();
         void setPinDefaults(int);
         void registerInterrupt(callbackClass* );
@@ -27,9 +27,9 @@ class GPIOexpander{
 
     private:
         int I2Caddress;
-        void writeRegister(uint8_t, uint8_t);
-        void writePortRegisters(uint8_t, const char*);
-        uint8_t readRegister(uint8_t);
+        void writeRegister(char, char);
+        void writePortRegisters(char, const char*);
+        char readRegister(char);
 };
 
 

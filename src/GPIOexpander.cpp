@@ -2,7 +2,7 @@
 #include <system_error>
 
 GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
-    RESET_N(pins[0], 1),
+    RESET_N(pins[0], 0),
     INT_N(pins[1]) 
     {   
 
@@ -19,14 +19,14 @@ void GPIOexpander::registerInterrupt(callbackClass * cb){
 }
 
 void GPIOexpander::reset(){
-    RESET_N = 0; 
-    ThisThread::sleep_for(POWER_POLL_SLEEP);
-    RESET_N = 1; //remove out of reset mode
-    setPinDefaults(gpioExIndex);
+    I2CB.write(GPIO_EXPANDER_RESET[0], &GPIO_EXPANDER_RESET[1], 1);
+    // RESET_N.write(0); 
+    // ThisThread::sleep_for(POWER_POLL_SLEEP);
+    // RESET_N.write(1); //remove out of reset mode
 }
 
 
-void GPIOexpander::writeRegister(uint8_t reg, uint8_t value){
+void GPIOexpander::writeRegister(char reg, char value){
 //                     //debug
 //     const char testVal = 0xFF;
 //     I2CB.write(0x23, &testVal, 1);
@@ -37,18 +37,18 @@ void GPIOexpander::writeRegister(uint8_t reg, uint8_t value){
     //ERROR_LED = !ERROR_LED;
 
 }
-void GPIOexpander::writePortRegisters(uint8_t reg, const char* data){
+void GPIOexpander::writePortRegisters(char reg, const char* data){
     const char bytesToWrite[4] = {reg, data[0], data[1], data[2]};
     I2CB.write(I2Caddress, &bytesToWrite[0], 4);
     ERROR_LED = !ERROR_LED;
 
 }
 
-uint8_t GPIOexpander::readRegister(uint8_t reg){
+char GPIOexpander::readRegister(char reg){
     char readData;
-    I2CB.write(I2Caddress, (char*) reg, 1); 
+    I2CB.write(I2Caddress, &reg, 1); 
     I2CB.read(I2Caddress, &readData, 1);
-    return (uint8_t) readData;
+    return readData;
 }
 
 void GPIOexpander::setPinDefaults(int gpioExIndex){
@@ -78,10 +78,10 @@ void GPIOexpander::setPinDefaults(int gpioExIndex){
 
 }
 
-void GPIOexpander::write(uint16_t pin, uint8_t state){
+void GPIOexpander::write(uint16_t pin, char state){
 
-	uint8_t output_reg_value;
-	uint8_t PCAL6524_OUTPUT;
+	char output_reg_value;
+	char PCAL6524_OUTPUT;
 	
 	//Determine wich bank of pins the requested pin is in
 	if (pin == P0_0 || pin == P0_1|| pin == P0_2 || pin == P0_3 || pin == P0_4 || pin == P0_5 || pin == P0_6 || pin == P0_7)
@@ -99,18 +99,18 @@ void GPIOexpander::write(uint16_t pin, uint8_t state){
 
 
 	// Read the current Value of out the ouput register
-    //output_reg_value = readRegister(PCAL6524_OUTPUT);
+    output_reg_value = readRegister(PCAL6524_OUTPUT);
     //debug !!!
-    output_reg_value = 0x00;
+    //output_reg_value = 0x00;
 	//Deterime if Pin is being asked to go hi or to go low and set only that pins value;
 	if (state == 1)
 	{
-		output_reg_value = output_reg_value | (uint8_t)pin;
+		output_reg_value = output_reg_value | (char)pin;
 		writeRegister(PCAL6524_OUTPUT, output_reg_value);
 		return;
 	}
 	else if (state == 0){
-		output_reg_value = output_reg_value & ~((uint8_t)pin);
+		output_reg_value = output_reg_value & ~((char)pin);
 		writeRegister(PCAL6524_OUTPUT, output_reg_value);
 		return;
 	}
@@ -118,10 +118,10 @@ void GPIOexpander::write(uint16_t pin, uint8_t state){
 }
 
 
-uint8_t GPIOexpander::read(uint16_t pin)
+char GPIOexpander::read(uint16_t pin)
 {
-	uint8_t input_reg_data;
-	uint8_t PCAL6524_INPUT;
+	char input_reg_data;
+	char PCAL6524_INPUT;
 	//Determine wich bank of pins the requested pin is in
 if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || pin == P0_5 || pin == P0_6 || pin == P0_7)
 	{
@@ -138,10 +138,10 @@ if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || p
 	//read the input register data
 	input_reg_data = readRegister(PCAL6524_INPUT);
 	//Isolate the reqested pin value from all other values
-	input_reg_data = input_reg_data & (uint8_t)pin;
+	input_reg_data = input_reg_data & (char)pin;
 	
 	//Bit Shift the resulting data over so the pin's requested value becomes the LSB
-	switch ((uint8_t)pin)
+	switch ((char)pin)
 	{
 		case (0x01):  //For Pins Px_0
 		{
@@ -184,13 +184,13 @@ if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || p
  
 
  ////commented out for now. Just set as defaults once. 
-// void GPIOexpander::setPinMode(uint16_t pin, uint8_t mode){
-// 	uint8_t config_data;
-// 	uint8_t pullup_config_data;
-// 	uint8_t pullup_value_data;	
-// 	uint8_t PCAL6524_CONFIGURATION;
-// 	uint8_t PCAL6524_RESISTOR_PULL_ENABLE;
-// 	uint8_t PCAL6524_RESISTOR_PULL_SELECTION;
+// void GPIOexpander::setPinMode(uint16_t pin, char mode){
+// 	char config_data;
+// 	char pullup_config_data;
+// 	char pullup_value_data;	
+// 	char PCAL6524_CONFIGURATION;
+// 	char PCAL6524_RESISTOR_PULL_ENABLE;
+// 	char PCAL6524_RESISTOR_PULL_SELECTION;
 // 	//Determine wich bank of pins the requested pin is in
 // 	if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || pin == P0_5 || pin == P0_6 ||pin == P0_7) //If pin is in the First bank
 // 	{
@@ -226,7 +226,7 @@ if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || p
 // 	if (mode == OUTPUT)
 // 	{
 // 		//Combine the current configuration with the request pin to ensure that only that pin has chaned
-// 		config_data = config_data ^ (uint8_t)pin; //bitwise xor
+// 		config_data = config_data ^ (char)pin; //bitwise xor
 //         //Combine the current configuration with the request pin to ensure that only that pin has chaned
 // 		//Write the new configuration back to the Resistor
 // 		writeRegister(PCAL6524_CONFIGURATION,config_data);  //Write the new configuration back to the Resistor
@@ -235,13 +235,13 @@ if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || p
 // 	else if (mode == INPUT_PULLUP)
 // 	{
 // 		//Combine the current configuration with the request pin to ensure that only that pin has chaned
-// 		config_data = config_data | (uint8_t)pin;
+// 		config_data = config_data | (char)pin;
 // 		//Write the new configuration back to the Resistor
 // 		writeRegister(PCAL6524_CONFIGURATION,config_data);//Write the new configuration back to the Resistor
 // 		//This is used to configure the pullup/down resistor are actived and configured correctly
-// 		pullup_config_data = pullup_config_data | (uint8_t)pin;
+// 		pullup_config_data = pullup_config_data | (char)pin;
 // 		writeRegister(PCAL6524_RESISTOR_PULL_ENABLE,pullup_config_data);
-// 		pullup_value_data = pullup_value_data | (uint8_t)pin;
+// 		pullup_value_data = pullup_value_data | (char)pin;
 // 		writeRegister(PCAL6524_RESISTOR_PULL_SELECTION,pullup_value_data);
 // 		return;
 // 	}
@@ -252,9 +252,9 @@ if (pin == P0_0 || pin == P0_1 || pin == P0_2 || pin == P0_3 || pin == P0_4 || p
 // 		//Write the new configuration back to the Resistor
 // 		writeRegister(PCAL6524_CONFIGURATION,config_data);//Write the new configuration back to the Resistor
 // 		//This is used to configure the pullup/down resistor are actived and configured correctly
-// 		pullup_config_data = pullup_config_data | (uint8_t)pin;
+// 		pullup_config_data = pullup_config_data | (char)pin;
 // 		writeRegister(PCAL6524_RESISTOR_PULL_ENABLE,pullup_config_data);
-// 		pullup_value_data = pullup_value_data ^ (uint8_t)pin;
+// 		pullup_value_data = pullup_value_data ^ (char)pin;
 // 		writeRegister(PCAL6524_RESISTOR_PULL_SELECTION,pullup_config_data);
 // 		return;
 // 	}
