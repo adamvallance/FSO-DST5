@@ -16,9 +16,9 @@ int main()
     FullExpandedGPIO expandedGPIO;
 
     //gpio test, make sure only one gpio expander initialised
-    Thread gpioTestThread;
-    gpioTestClass test = {&expandedGPIO};
-    gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
+    //Thread gpioTestThread;
+    //gpioTestClass test = {&expandedGPIO};
+    //gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
 
     //--------CREATE Xpoint switches -------------
 
@@ -32,10 +32,6 @@ int main()
     // MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
     // //start motors thread
     // motorsThread.start(callback(&motorDriver, &MotorDriver::start));
-
-    //GPIO tester
-    Thread gpioTest;
-    gpioTestClass gpioTester = {&expandedGPIO};
 
     //Thread controllerThread;
     //create main controller class instantce

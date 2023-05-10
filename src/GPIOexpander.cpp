@@ -1,4 +1,5 @@
 #include "GPIOexpander.h"
+#include <system_error>
 
 GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
     RESET_N(pins[0], 1),
@@ -26,18 +27,19 @@ void GPIOexpander::reset(){
 
 
 void GPIOexpander::writeRegister(uint8_t reg, uint8_t value){
-                //debug
-    const char testVal = 0xFF;
-    I2CB.write(0x23, &testVal, 1);
-    ERROR_LED = 0;
-;
-    //i2c->write(I2Caddress, (char*) value, 1);
-    //const char test = 0xFF;
-    //i2c->write(I2Caddress, &test, 1);
-    //i2c->start();
+//                     //debug
+//     const char testVal = 0xFF;
+//     I2CB.write(0x23, &testVal, 1);
+
+// ;
+    I2CB.write(I2Caddress, (char*) value, 1);
+    ERROR_LED = !ERROR_LED;
+
 }
 void GPIOexpander::writePortRegisters(uint8_t reg, char data){
     I2CB.write(I2Caddress, &data, 3);
+    ERROR_LED = !ERROR_LED;
+
 }
 
 uint8_t GPIOexpander::readRegister(uint8_t reg){

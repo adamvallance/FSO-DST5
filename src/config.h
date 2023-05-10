@@ -15,6 +15,7 @@
 //general threads
 #define POWER_POLL_SLEEP 100ms
 #define BLOCKING_SLEEP 1000ms
+#define GPIO_TEST_HALF_PERIOD 500ms
 //stepper motors
 #define AZIMUTH_STEP_DIR_LEFT 0 //swap these around to invert motor direction
 #define AZIMUTH_STEP_DIR_RIGHT 1
@@ -77,7 +78,7 @@
 //FSO controller pins
 static PinName FSO_CONTROLLER_PINS[2] = {PIN_FRDM_LED_GREEN, PIN_FAN_PWM};
 //-------------------------------------GPIO Expander Configuration-------------------
-static const int GPIO_EXPANDER_ADDRESSES[4] = {0x20, 0x21, 0x22, 0x23};
+static const int GPIO_EXPANDER_ADDRESSES[4] = {0x40, 0x42, 0x44, 0x46};
 
 //for each of these the rows are each gpio expander, the items in each row are for each of the three ports P0, P1 and P2
 //SETS PINS TO INPUT (1) or OUTPUT (0) as a mask for 8 BITS
