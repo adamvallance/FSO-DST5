@@ -33,16 +33,5 @@ class FullExpandedGPIO{
 
 };
 
-//create instances of this in FSOcontroller.h
-class gpioTestClass: public callbackClass{
-    public:
-        gpioTestClass(FullExpandedGPIO* gpios){
-            gpios->registerInterrupt(0, this);
-        }
-        void interrupt(){
-            printf("testInterrupt");
-            ERROR_LED.write(0);
-        }
-};
 
 #endif //FSO_FULL_EXPANDED_GPIO_H

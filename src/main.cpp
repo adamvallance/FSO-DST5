@@ -4,6 +4,7 @@
  */
 #include "mbed.h"
 #include "FSOcontroller.h"
+#include "gpioTester.h"
 
 
 int main()
@@ -13,9 +14,14 @@ int main()
     I2C I2CA ={PIN_I2CA_SDA, PIN_I2CA_SCL};
     I2C I2CB = {PIN_I2CB_SDA, PIN_I2CB_SCL};
 
+    //Create expanded gpio interface
     FullExpandedGPIO expandedGPIO = {&I2CB};
+
+    //gpio test, make sure only one gpio expander initialised
+    Thread gpioTestThread;
     gpioTestClass test = {&expandedGPIO};
-    
+    gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
+
     //--------CREATE Xpoint switches -------------
 
     //--------CREATE SFPs -------------
@@ -23,11 +29,16 @@ int main()
     int indexHighestPower = 0;
 
 
-    //------CREATE MOTOR DRIVER OBJECT------------------
-    Thread motorsThread;
-    MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
-    //start motors thread
-    motorsThread.start(callback(&motorDriver, &MotorDriver::start));
+    // // //------CREATE MOTOR DRIVER OBJECT------------------
+    // Thread motorsThread;
+    // MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
+    // //start motors thread
+    // motorsThread.start(callback(&motorDriver, &MotorDriver::start));
+
+    //GPIO tester
+    Thread gpioTest;
+    gpioTestClass gpioTester = {&expandedGPIO};
+
 
     //create main controller class instantce
     FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &I2CA, &I2CB};
