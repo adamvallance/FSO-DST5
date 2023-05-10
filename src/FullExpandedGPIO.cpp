@@ -11,8 +11,8 @@ void FullExpandedGPIO::registerInterrupt(int gpioExIndex, callbackClass *cb){
 
 void FullExpandedGPIO::write(GPIOexpanderPin pin, char state){
 
-    //gpioExpanders[pin.gpioExIndex]->write(pin.gpioExPinNumber, state);
-    gpioExpanders[0]->write(pin.gpioExPinNumber, state);
+    gpioExpanders[pin.gpioExIndex]->write(pin.gpioExPinNumber, state);
+    //gpioExpanders[0]->write(pin.gpioExPinNumber, state);
 
 }
 

@@ -23,12 +23,12 @@ void gpioTestClass::toggleDebug(){
 
 
     while(true){
-    //     gpios->write(GPIO_DEBUG_LED, 0);
+        gpios->write(GPIO_DEBUG_LED, 0);
 
-    //     ThisThread::sleep_for(GPIO_TEST_HALF_PERIOD);
+        ThisThread::sleep_for(GPIO_TEST_HALF_PERIOD);
 
-    //     gpios->write(GPIO_DEBUG_LED, 1);
-    //     ThisThread::sleep_for(GPIO_TEST_HALF_PERIOD);
+        gpios->write(GPIO_DEBUG_LED, 1);
+        ThisThread::sleep_for(GPIO_TEST_HALF_PERIOD);
         ;
     }
 }
