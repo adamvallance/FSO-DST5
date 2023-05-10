@@ -111,11 +111,14 @@ static const char PCAL6524_INTERRUPT_MASK[4][3] = {
     {0xFF, 0xFF, 0xFF}, //Interrupt on sfp_out_los but no others
 };
 
+//Note this is in a different order from schematic, rows align to U4, U5, U2, U3, not as names suggest
+//todo clean this up
 static PinName GPIO_EXPANDER_FRDM_PINS[4][2] = {
-    {PIN_GPIO_1_RESET_N, PIN_GPIO_1_INT_N},
-    {PIN_GPIO_2_RESET_N, PIN_GPIO_2_INT_N},
     {PIN_GPIO_3_RESET_N, PIN_GPIO_3_INT_N},
     {PIN_GPIO_4_RESET_N, PIN_GPIO_4_INT_N},
+    {PIN_GPIO_1_RESET_N, PIN_GPIO_1_INT_N},
+    {PIN_GPIO_2_RESET_N, PIN_GPIO_2_INT_N},
+
 
 };
 //maybe add interrupt on sfp_out_los (PCAL6524_Interupt_mask[4][3]=FE)
