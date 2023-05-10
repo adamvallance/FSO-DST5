@@ -83,32 +83,38 @@ static const int GPIO_EXPANDER_ADDRESSES[4] = {0x40, 0x42, 0x44, 0x46};
 //for each of these the rows are each gpio expander, the items in each row are for each of the three ports P0, P1 and P2
 //SETS PINS TO INPUT (1) or OUTPUT (0) as a mask for 8 BITS
 //defaulting to output for NC
+//CHECK THESE PX_7 is msb and PX_0 is lsb
 static const char PCAL6524_CONFIGURATION[4][3] = {
     {0x0, 0x0, 0x8},  //U2 
     {0x0, 0x0, 0x8}, //U3
     {0x0, 0x55, 0x55}, //U4 //P1 and P2 01010101
-    {0xFF, 0xFF, 0x0F}, //U5 present and los inputs + debug
+    //{0xFF, 0xFF, 0x0F}, //U5 present and los inputs + debug
+    {0xFF, 0xFF, 0x2F}, //TP5 as input 
 };
 //SETS PINS TO PullUp or PullDown (1) or No PullUP/PullDown (0)
 static const char PCAL6524_RESISTOR_PULL_ENABLE[4][3] = {
     {0x0, 0x0, 0x8},  //pulled up motor_x_fault
     {0x0, 0x0, 0x8},
     {0x0, 0x55, 0x55}, //pull up all sfp_fault
-    {0xFF, 0xFE, 0x0}, //pull up all present and los
+    //{0xFF, 0xFE, 0x1}, //pull up all present and los
+
+    {0xFF, 0xFE, 0x21}, //debug tp5 input
 };
 //Sets pins to 1 PU, 0 PD if enabled by mask see above
 static const char PCAL6524_RESISTOR_PULL_SELECTION[4][3] = {
     {0x0, 0x0, 0x8},  
     {0x0, 0x0, 0x8},
     {0x0, 0x55, 0x55},
-    {0xFF, 0xFE, 0x0},
+    //{0xFF, 0xFE, 0x1}
+    {0xFF, 0xFE, 0x21}, //debug tp5 input
 };
 //Sets pins to 1 No Interrupt, 0 Interrupt if an input
 static const char PCAL6524_INTERRUPT_MASK[4][3] = {
     {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_1_FAULT_N  
     {0xFF, 0xFF, 0xF7}, //Interrupt on MOTOR_2_FAULT_N
     {0xFF, 0xAA, 0xAA}, //Interrupt all sfp_fault
-    {0xFF, 0xFF, 0xFF}, //Interrupt on sfp_out_los but no others
+    //{0xFF, 0xFF, 0x1}, //Interrupt on sfp_out_los but no others
+    {0xFF, 0xFF, 0x21} //tp5 as interrupt
 };
 
 //Note this is in a different order from schematic, rows align to U4, U5, U2, U3, not as names suggest

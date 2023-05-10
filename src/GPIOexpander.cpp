@@ -17,6 +17,7 @@ GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
 
 void GPIOexpander::registerInterrupt(callbackClass * cb){
     INT_N.fall(callback(cb, &callbackClass::interrupt)); 
+    INT_N.rise(callback(cb, &callbackClass::interrupt));
 }
 
 void GPIOexpander::reset(){
@@ -29,20 +30,13 @@ void GPIOexpander::reset(){
 
 
 void GPIOexpander::writeRegister(char reg, char value){
-//                     //debug
-//     const char testVal = 0xFF;
-//     I2CB.write(0x23, &testVal, 1);
-
-// ;
     const char bytesToWrite[2] = {reg, value};
     I2CB.write(I2Caddress, &bytesToWrite[0], 2);
-    //ERROR_LED = !ERROR_LED;
 
 }
 void GPIOexpander::writePortRegisters(char reg, const char* data){
     const char bytesToWrite[4] = {reg, data[0], data[1], data[2]};
     I2CB.write(I2Caddress, &bytesToWrite[0], 4);
-    ERROR_LED = !ERROR_LED;
 
 }
 
