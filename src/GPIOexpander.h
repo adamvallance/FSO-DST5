@@ -10,7 +10,7 @@
 
 class GPIOexpander{
     DigitalOut RESET_N;
-    InterruptIn INT_N;
+    //InterruptIn INT_N; //TODO add interrupt functionality that doesn't shit it's pants
     int gpioExIndex;
 
     public:

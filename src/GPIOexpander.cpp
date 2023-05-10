@@ -2,8 +2,8 @@
 #include <system_error>
 
 GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
-    RESET_N(pins[0], 1),
-    INT_N(pins[1]) 
+    RESET_N(pins[0], 1)//,
+    //INT_N(pins[1]) 
     {   
 
         gpioExIndex = gpioExIndexIn;
@@ -16,8 +16,9 @@ GPIOexpander::GPIOexpander(PinName* pins,  int I2CaddressIn, int gpioExIndexIn):
     }
 
 void GPIOexpander::registerInterrupt(callbackClass * cb){
-    INT_N.fall(callback(cb, &callbackClass::interrupt)); 
-    INT_N.rise(callback(cb, &callbackClass::interrupt));
+    // INT_N.fall(callback(cb, &callbackClass::interrupt)); 
+    // INT_N.rise(callback(cb, &callbackClass::interrupt));
+    
 }
 
 void GPIOexpander::reset(){
