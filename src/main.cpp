@@ -17,6 +17,7 @@ int main()
 
     //gpio test, make sure only one gpio expander initialised
     Thread gpioTestThread;
+
     gpioTestClass test = {&expandedGPIO};
     gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
 
@@ -27,8 +28,10 @@ int main()
     int indexHighestPower = 0;
 
 
-    // // //------CREATE MOTOR DRIVER OBJECT------------------
+    // //------CREATE MOTOR DRIVER OBJECT------------------
+    
     // Thread motorsThread;
+
     // MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
     // //start motors thread
     // motorsThread.start(callback(&motorDriver, &MotorDriver::start));

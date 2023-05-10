@@ -227,6 +227,35 @@ static const GPIOexpanderPin GPIO_DEBUG_LED = {3, P2_7};
 
 static const char GPIO_EXPANDER_RESET[2] = {0x0, 0x6};
 
+//I2C buffers
+static const char I2C_BUFFER_ADDRESSES[2] = {0xE0, 0xE2};
+
+static const char I2C_BUFFER_SELECT[8] = {
+                                        0xF8, //channel 0 //1 for no reset
+                                        0x9, //channel 1
+                                        0xA, //channel 2
+                                        0xB, //channel 3
+                                        0xC, //channel 4
+                                        0xD, //channel 5
+                                        0xE, //channel 6
+                                        0xF, //channel 7
+};
+
+//treating sfpOut as sfp0
+static const char I2C_BUFFER_SELECT_SFP[8][2] = {
+    {I2C_BUFFER_ADDRESSES[1], I2C_BUFFER_SELECT[0]}, //sfp0 (OUT) on channel 0 buf 1 (U21)
+    {I2C_BUFFER_ADDRESSES[0], I2C_BUFFER_SELECT[3]}, //SFP1 on channel 3 buf 0 (u6)
+    {I2C_BUFFER_ADDRESSES[0], I2C_BUFFER_SELECT[0]}, //sfp2 on channel 0 buf 0
+    {I2C_BUFFER_ADDRESSES[0], I2C_BUFFER_SELECT[1]}, //sfp3 on channel 1 buf 0
+    {I2C_BUFFER_ADDRESSES[0], I2C_BUFFER_SELECT[2]}, //sfp4 on channel 2 buf 0
+    {I2C_BUFFER_ADDRESSES[1], I2C_BUFFER_SELECT[3]}, //sfp5 on channel 3 buf 1
+    {I2C_BUFFER_ADDRESSES[1], I2C_BUFFER_SELECT[2]}, //sfp6 on channel 2 buf 1
+    {I2C_BUFFER_ADDRESSES[1], I2C_BUFFER_SELECT[1]}, //sfp7 on channel 1 buf 1
+};
+
+static const char I2C_BUFFER_RESET = 0x8;
+static const char I2C_BUFFER_NO_SELECTION = 0x0;
+
 //Motors Pin list
 static PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
 static PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
