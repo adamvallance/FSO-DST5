@@ -3,10 +3,12 @@
 //global error led
 DigitalOut ERROR_LED(PIN_FRDM_LED_RED, 1);
 
-FSOcontroller::FSOcontroller(PinName* pins):
+FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2C* I2CA, I2C* I2CB):
     nominalRunningLED(pins[0], 0), //active low 
-    errorRunningLED(pins[1], 1), //active low
-    fanPWM(pins[2])
+    fanPWM(pins[1]), 
+    I2CA(I2CA),
+    I2CB(I2CB),
+    expandedGPIO(expandedGPIO)
     {
         ;
 }
@@ -14,11 +16,6 @@ FSOcontroller::FSOcontroller(PinName* pins):
 void FSOcontroller::start(){
     fanPWM.period(FAN_PWM_PERIOD);
     fanPWM.write(FAN_PWM_DUTY);
-
-    //start motors thread
-    motorsThread.start(callback(&(this->motorDriver), &MotorDriver::start));
-
-    //start main polling thread
     exec();
 }
 

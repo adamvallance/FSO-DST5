@@ -15,11 +15,13 @@
 
 class FSOcontroller{
     DigitalOut nominalRunningLED;
-    DigitalOut errorRunningLED;
     PwmOut fanPWM;
+    I2C* I2CA;
+    I2C* I2CB;
+    FullExpandedGPIO* expandedGPIO;
 
     public:
-        FSOcontroller(PinName* pins);
+        FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2C* I2CA, I2C* I2CB);
         void start();
         void setError();
 
@@ -28,23 +30,7 @@ class FSOcontroller{
         void pollForPower();
         void exec();
 
-        //---------CREATE I2C Interfaces-------
-        I2C I2CA ={PIN_I2CA_SDA, PIN_I2CA_SCL};
-        I2C I2CB = {PIN_I2CB_SDA, PIN_I2CB_SCL};
-
-        FullExpandedGPIO expandedGPIO = {&I2CB};
-        gpioTestClass test = {&expandedGPIO};
         
-        //--------CREATE Xpoint switches -------------
-
-        //--------CREATE SFPs -------------
-        std::vector<float> SFPpowers;
-        int indexHighestPower = 0;
-
-
-        //------CREATE MOTOR DRIVER OBJECT------------------
-        Thread motorsThread;
-        MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
 
 };
 
