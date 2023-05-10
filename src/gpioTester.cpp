@@ -5,9 +5,9 @@ gpioTestClass::gpioTestClass(FullExpandedGPIO* gpios):
 {   
     gpios->registerInterrupt(0, this);
 
-    gpios->registerInterrupt(1, this);
-    gpios->registerInterrupt(2, this);
-    gpios->registerInterrupt(3, this);    
+    // gpios->registerInterrupt(1, this);
+    // gpios->registerInterrupt(2, this);
+    // gpios->registerInterrupt(3, this);    
 }
 
 void gpioTestClass::interrupt(){
