@@ -1,8 +1,9 @@
 #include "tester.h"
 
-testClass::testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs):
+testClass::testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints):
     gpios(gpios),
-    i2cbufs(i2cbufs)
+    i2cbufs(i2cbufs),
+    xpoints(xpoints)
 {   
     gpios->registerInterrupt(0, this);
 
@@ -56,3 +57,26 @@ void testClass::I2CbufferTest(){
         ThisThread::sleep_for(1000ms);
     }
 }
+
+void testClass::XPointsTest(){
+    //xpoints->reset();
+    xpoints->routeRX(1);
+    while(true){
+        //xpoints->routeAllTX();
+        //xpoints->routeRX(1);
+        for (int sfp = 1; sfp<8; sfp++){
+            xpoints->routeTX(sfp);
+        }
+        ThisThread::sleep_for(1000ms);
+    }
+}
+
+//alex test using motor buttons
+#ifdef ALEX_TEST
+void testClass:XPointsToggleTX1(){
+    if (!TX1){
+        xpoints->routeTX(1);
+    }
+}
+
+#endif

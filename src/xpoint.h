@@ -11,7 +11,7 @@ class XPoints{
        XPoints(FullExpandedGPIO*); 
        void routeRX(int);
        void routeTX(int);
-       void routeAllTX(int);
+       void routeAllTX();
        void reset();
        int getCurrentTXSFP();
     private:

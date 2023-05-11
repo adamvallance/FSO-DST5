@@ -6,6 +6,7 @@
 #include "FSOcontroller.h"
 #include "tester.h"
 #include "I2CBuffers.h"
+#include "xpoint.h"
 
 
 int main()
@@ -15,14 +16,17 @@ int main()
 
     //Create expanded gpio interface
     FullExpandedGPIO expandedGPIO;
+    //Create I2C buffers
     I2CBuffers i2cbufs = {&expandedGPIO};
-
+    //Create XPoint switches 
+    XPoints xpoints = {&expandedGPIO};
     //gpio test, make sure only one gpio expander initialised
     Thread testerThread;
 
-    testClass test = {&expandedGPIO, &i2cbufs};
+    testClass test = {&expandedGPIO, &i2cbufs, &xpoints};
     //testerThread.start(callback(&test, &testClass::toggleDebugGPIO));
-    testerThread.start(callback(&test, &testClass::I2CbufferTest));
+    //testerThread.start(callback(&test, &testClass::I2CbufferTest));
+    testerThread.start(callback(&test, &testClass::XPointsTest));
 
     //--------CREATE Xpoint switches -------------
 

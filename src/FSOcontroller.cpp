@@ -18,7 +18,7 @@ void FSOcontroller::start(){
 }
 
 void FSOcontroller::exec(){
-    printf("Initialisation complete. Begining power tracking.\n");
+    printf("Initialisation complete. Beginning power tracking.\n");
     while(true){
         //pollForPower();
         nominalRunningLED = !nominalRunningLED;
