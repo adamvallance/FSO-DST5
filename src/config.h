@@ -260,7 +260,7 @@ static const char I2C_BUFFER_NO_SELECTION = 0x0;
 static PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
 static PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
 
-
+static const char SFP_I2C_ADDRESS = 0xA0;
 
 
 #endif //FSO_CONFIG_H
