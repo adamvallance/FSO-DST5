@@ -5,8 +5,6 @@
 #include "config.h"
 #include <vector>
 #include "motorDriver.h"
-#include "I2CBuffer.h"
-#include "GPIOexpander.h"
 #include "FullExpandedGPIO.h"
 #include <string>
 

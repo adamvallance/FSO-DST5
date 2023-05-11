@@ -1,6 +1,6 @@
-#include "gpioTester.h"
+#include "tester.h"
 
-gpioTestClass::gpioTestClass(FullExpandedGPIO* gpios):
+testClass::testClass(FullExpandedGPIO* gpios):
     gpios(gpios)
 {   
     gpios->registerInterrupt(0, this);
@@ -10,12 +10,12 @@ gpioTestClass::gpioTestClass(FullExpandedGPIO* gpios):
     // gpios->registerInterrupt(3, this);    
 }
 
-void gpioTestClass::interrupt(){
+void testClass::interrupt(){
     ERROR_LED.write(0);
     printf("test interrupt\n");
 }
 
-void gpioTestClass::toggleDebug(){
+void testClass::toggleDebugGPIO(){
     // //gpios->write(GPIO_DEBUG_LOOP_A, 1);
     // //gpios->write(GPIO_DEBUG_LOOP_A, 0);
     // gpios->write(GPIO_DEBUG_LOOP_A, 0);

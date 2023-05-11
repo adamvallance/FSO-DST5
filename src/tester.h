@@ -3,12 +3,12 @@
 #include "mbed.h"
 #include "FullExpandedGPIO.h"
 //create instances of this in main
-class gpioTestClass: public callbackClass{
+class testClass: public callbackClass{
     FullExpandedGPIO* gpios;
     public:
-        gpioTestClass(FullExpandedGPIO* gpios);
+        testClass(FullExpandedGPIO* gpios);
         void interrupt();
-        void toggleDebug();
+        void toggleDebugGPIO();
 };
 
 #endif //FSO_GPIO_TESTER

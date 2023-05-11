@@ -4,7 +4,7 @@
  */
 #include "mbed.h"
 #include "FSOcontroller.h"
-#include "gpioTester.h"
+#include "tester.h"
 
 
 int main()
@@ -16,10 +16,10 @@ int main()
     FullExpandedGPIO expandedGPIO;
 
     //gpio test, make sure only one gpio expander initialised
-    Thread gpioTestThread;
+    Thread testerThread;
 
-    gpioTestClass test = {&expandedGPIO};
-    gpioTestThread.start(callback(&test, &gpioTestClass::toggleDebug));
+    testClass test = {&expandedGPIO};
+    testerThread.start(callback(&test, &testClass::toggleDebugGPIO));
 
     //--------CREATE Xpoint switches -------------
 
