@@ -45,8 +45,10 @@ class FSOcontroller{
         void exec();
         std::vector<float> SFPpowers;
         int highestPowerSFP = 1;
-
-        
+        int prevHighestPowerSFP = 1;
+#ifdef ROUTE_TX_ONLY_ONE_FIBRE
+        bool allOnAfterLowPower=false;
+#endif
 
 };
 

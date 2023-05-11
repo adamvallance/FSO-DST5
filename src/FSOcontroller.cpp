@@ -11,6 +11,11 @@ FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2CB
     xpoints(xpoints)
     {   
         SFPpowers.reserve(7);
+#ifndef ROUTE_TX_ONLY_ONE_FIBRE
+    xpoints->routeAllTx();
+#else
+    xpoints->routeTX(1);
+#endif
 }
 
 void FSOcontroller::start(){
@@ -22,7 +27,7 @@ void FSOcontroller::start(){
 void FSOcontroller::exec(){
     printf("Initialisation complete. Beginning power tracking.\n");
     while(true){
-        //pollForPower();
+        pollForPower();
         nominalRunningLED = !nominalRunningLED;
         ThisThread::sleep_for(POWER_POLL_SLEEP);
         //expandedGPIO.write(GPIO_DEBUG_LED, tempRunning.read()); //toggle GPIO expander LED
@@ -44,6 +49,7 @@ void FSOcontroller::pollForPower(){
     for (int sfp=1; sfp<8; sfp++){
         printf("%.2f  ", SFPpowers[sfp-1]);
     }
+    printf("\n");
 #endif
           
 
@@ -52,9 +58,28 @@ void FSOcontroller::pollForPower(){
 #ifdef ALEX_TEST
     return; //if alex test skip routing based on highest power
 #endif     
+
     
     xpoints->routeRX(highestPowerSFP);
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
-    xpoints->routeTX(highestPowerSFP);
+        //if highest on same fibre and is above the low power threshold don't route anything
+    if ((SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD) && (highestPowerSFP == prevHighestPowerSFP)){ //if it's still the highest power don't switch
+        return;
+    }else{ 
+        prevHighestPowerSFP = highestPowerSFP;
+    }
+
+    if (allOnAfterLowPower && (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD)){
+        xpoints->routeTX(highestPowerSFP);
+        allOnAfterLowPower = false;
+    }
+    else if (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD){
+        xpoints->routeAllTX();
+        allOnAfterLowPower=true;
+    }else{ //normal switch, 1 fibre tx to a different fibre tx
+        xpoints->routeTX(highestPowerSFP);
+
+    }
 #endif 
 }
+

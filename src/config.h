@@ -11,6 +11,8 @@
 #define ALEX_TEST
 #define ROUTE_TX_ONLY_ONE_FIBRE
 
+static const float SFP_LOW_POWER_THRESHOLD = 0; //idk set this to better value
+
 //-----------Operational configuration-------------------------
 #define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
 
