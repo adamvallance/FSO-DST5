@@ -344,5 +344,16 @@ static PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_D
 //-------------SFPs
 static const char SFP_I2C_ADDRESS = 0xA2;
 
+static const GPIOexpanderPin SFP_TX_DISABLE[8] = {
+    GPIO_SFP_OUT_TX_DISABLE,
+    GPIO_SFP_1_TX_DISABLE,
+    GPIO_SFP_2_TX_DISABLE,
+    GPIO_SFP_3_TX_DISABLE,
+    GPIO_SFP_4_TX_DISABLE,
+    GPIO_SFP_5_TX_DISABLE,
+    GPIO_SFP_6_TX_DISABLE,
+    GPIO_SFP_7_TX_DISABLE,
+
+};
 
 #endif //FSO_CONFIG_H
