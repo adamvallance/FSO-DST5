@@ -38,19 +38,21 @@ void testClass::I2CbufferTest(){
      //buf 0 (sfps 1234) on i2cB
      //buf 1 sfps567out on i2cA
     i2cbufs->reset();
-    char dummyData[2] = {0xB0, 0x0B};
+    //char dummyData[2] = {0xB0, 0x0B};
+    char dummyData[1] = {96};
+
     while(true){
         for (int i = 1; i<5; i++){
             i2cbufs->selectSFP(i);
-            I2CB.write(SFP_I2C_ADDRESS, &dummyData[0], 2);
+            I2CB.write(SFP_I2C_ADDRESS, &dummyData[0], 1);
         }
         for (int j = 5; j<8; j++){
             i2cbufs->selectSFP(j);
-            I2CA.write(SFP_I2C_ADDRESS, &dummyData[0], 2);
+            I2CA.write(SFP_I2C_ADDRESS, &dummyData[0], 1);
         }
         //sfp out
         i2cbufs->selectSFP(0);
-        I2CA.write(SFP_I2C_ADDRESS, &dummyData[0], 2);
-
+        I2CA.write(SFP_I2C_ADDRESS, &dummyData[0], 1);
+        ThisThread::sleep_for(1000ms);
     }
 }
