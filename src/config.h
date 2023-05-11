@@ -256,10 +256,90 @@ static const char I2C_BUFFER_SELECT_SFP[8][2] = {
 static const char I2C_BUFFER_RESET = 0x8;
 static const char I2C_BUFFER_NO_SELECTION = 0x0;
 
+
+//------------xpoints
+//register addresses
+static const char XPOINT_OUTPUT_PORT_0 = 0x0;
+static const char XPOINT_OUTPUT_PORT_1 = 0x1;
+static const char XPOINT_OUTPUT_PORT_2 = 0x2;
+static const char XPOINT_OUTPUT_PORT_3 = 0x3;
+static const char XPOINT_OUTPUT_PORT_4 = 0x4;
+static const char XPOINT_OUTPUT_PORT_5 = 0x5;
+static const char XPOINT_OUTPUT_PORT_6 = 0x6;
+static const char XPOINT_OUTPUT_PORT_7 = 0x7;
+static const char XPOINT_INPUT_PORT_0 = 0x8;
+static const char XPOINT_INPUT_PORT_1 = 0x9;
+static const char XPOINT_INPUT_PORT_2 = 0xA;
+static const char XPOINT_INPUT_PORT_3 = 0xB;
+static const char XPOINT_INPUT_PORT_4 = 0xC;
+static const char XPOINT_INPUT_PORT_5 = 0xD;
+static const char XPOINT_INPUT_PORT_6 = 0xE;
+static const char XPOINT_INPUT_PORT_7 = 0xF;
+static const char XPOINT_SWITCH_CONTROL = 0x10;
+
+static const char XPOINT_OUTPUT_PORTS[8]={
+    XPOINT_OUTPUT_PORT_0,
+    XPOINT_OUTPUT_PORT_1,
+    XPOINT_OUTPUT_PORT_2,
+    XPOINT_OUTPUT_PORT_3,
+    XPOINT_OUTPUT_PORT_4,
+    XPOINT_OUTPUT_PORT_5,
+    XPOINT_OUTPUT_PORT_6,
+    XPOINT_OUTPUT_PORT_7,
+};
+static const char XPOINT_INPUT_PORTS[8]={
+    XPOINT_INPUT_PORT_0,
+    XPOINT_INPUT_PORT_1,
+    XPOINT_INPUT_PORT_2,
+    XPOINT_INPUT_PORT_3,
+    XPOINT_INPUT_PORT_4,
+    XPOINT_INPUT_PORT_5,
+    XPOINT_INPUT_PORT_6,
+    XPOINT_INPUT_PORT_7,
+};
+
+
+static const char XPOINT_TX_I2C_ADDRESS = 0x58;
+static const char XPOINT_RX_I2C_ADDRESS = 0x5A; 
+
+static const char XPOINT_CLEAR_TX[8][2]{
+    {XPOINT_OUTPUT_PORTS[0], 0}, 
+    {XPOINT_OUTPUT_PORTS[1], 1}, 
+    {XPOINT_OUTPUT_PORTS[2], 2}, 
+    {XPOINT_OUTPUT_PORTS[3], 3}, 
+    {XPOINT_OUTPUT_PORTS[4], 4}, 
+    {XPOINT_OUTPUT_PORTS[5], 5}, 
+    {XPOINT_OUTPUT_PORTS[6], 6}, 
+    {XPOINT_OUTPUT_PORTS[7], 7}
+};
+
+static const char XPOINT_ROUTE_TX[8][2]{
+    {XPOINT_OUTPUT_PORTS[0], 0}, 
+    {XPOINT_OUTPUT_PORTS[1], 0}, 
+    {XPOINT_OUTPUT_PORTS[2], 0}, 
+    {XPOINT_OUTPUT_PORTS[3], 0}, 
+    {XPOINT_OUTPUT_PORTS[4], 0}, 
+    {XPOINT_OUTPUT_PORTS[5], 0}, 
+    {XPOINT_OUTPUT_PORTS[6], 0}, 
+    {XPOINT_OUTPUT_PORTS[7], 0} //not used
+};
+
+static const char XPOINT_ROUTE_RX[8][2]{
+    {XPOINT_OUTPUT_PORTS[0], 6}, //sfp1
+    {XPOINT_OUTPUT_PORTS[0], 5}, //sfp2
+    {XPOINT_OUTPUT_PORTS[0], 4}, //sfp3
+    {XPOINT_OUTPUT_PORTS[0], 3}, //sfp4 
+    {XPOINT_OUTPUT_PORTS[0], 2}, //sfp5 
+    {XPOINT_OUTPUT_PORTS[0], 1}, //sfp6 
+    {XPOINT_OUTPUT_PORTS[0], 0}, //sfp7 
+    {XPOINT_OUTPUT_PORTS[0], 7}, //not used
+};
+
 //Motors Pin list
 static PinName motor_controls_out[4] = {PIN_MOTOR_1_STEP, PIN_MOTOR_1_DIR, PIN_MOTOR_2_STEP, PIN_MOTOR_2_DIR};
 static PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_DOWN, PIN_MOTOR_DIR_CTRL_LEFT, PIN_MOTOR_DIR_CTRL_RIGHT};
 
+//-------------SFPs
 static const char SFP_I2C_ADDRESS = 0xA2;
 
 

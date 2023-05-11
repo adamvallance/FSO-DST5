@@ -1,18 +1,24 @@
-//#ifndef FSO_XPOINT_H
-//#define FSO_XPOINT_H
-//#include "mbed.h"
-//#include "config.h"
-//#include "GPIOExpander.h"
+#ifndef FSO_XPOINT_H
+#define FSO_XPOINT_H
+#include "mbed.h"
+#include "config.h"
+#include "FullExpandedGpio.h"
 
-//class XPoint{
+class XPoints{
 
-//    I2C i2c;
-//    GPIOExpander gpioEx;
+   FullExpandedGPIO* gpios;
+   public:
+       XPoints(FullExpandedGPIO*); 
+       void routeRX(int);
+       void routeTX(int);
+       void routeAllTX(int);
+       void reset();
+       int getCurrentTXSFP();
+    private:
+        bool clearOtherTx = false;
+        int currentRoutedTx = 1;
+        char bytesToWrite[2];
 
-//    public:
-//        XPoint(I2C*, GPIOexpander*); //add in gpios for other setup?
-//        void route(int);
+};
 
-//};
-
-//#endif //FSO_XPOINT_H
+#endif //FSO_XPOINT_H
