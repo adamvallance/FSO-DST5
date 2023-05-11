@@ -9,6 +9,7 @@
 
 #define VERBOSE_XPOINT_SWITCH_DEBUG 
 #define ALEX_TEST
+#define ROUTE_TX_ONLY_ONE_FIBRE
 
 //-----------Operational configuration-------------------------
 #define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
@@ -26,12 +27,6 @@
 #define HALF_STEP_TIME 200ms //debug change this 
 #define TIME_MOTOR_STEPPING 5s //use this and above to set number of steps for default. 
 
-
-
-//I2C Addresses of devices and selected registers.
-#define I2C_SFP_ADDRESS 0xA2
-#define SFP_RX_POWER_ADDRESS 104 
-#define SFP_POWER_BYTE_LEN 2
 
 //FAN
 #define FAN_PWM_DUTY 0.5
@@ -344,6 +339,9 @@ static PinName motor_controls_in[4]={PIN_MOTOR_DIR_CTRL_UP, PIN_MOTOR_DIR_CTRL_D
 //-------------SFPs
 static const char SFP_I2C_ADDRESS = 0xA2;
 
+//I2C Addresses of devices and selected registers.
+static const char SFP_RX_POWER_REG_ADDRESS = 0x68;
+static int SFP_POWER_BYTE_LEN = 2;
 static const GPIOexpanderPin SFP_TX_DISABLE[8] = {
     GPIO_SFP_OUT_TX_DISABLE,
     GPIO_SFP_1_TX_DISABLE,
@@ -355,5 +353,7 @@ static const GPIOexpanderPin SFP_TX_DISABLE[8] = {
     GPIO_SFP_7_TX_DISABLE,
 
 };
+
+
 
 #endif //FSO_CONFIG_H

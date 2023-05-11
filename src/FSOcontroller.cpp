@@ -3,12 +3,14 @@
 //global error led
 DigitalOut ERROR_LED(PIN_FRDM_LED_RED, 1);
 
-FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO): // I2C* I2CA
+FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2CBuffers* i2cbufs, XPoints* xpoints): // I2C* I2CA
     nominalRunningLED(pins[0], 0), //active low 
     fanPWM(pins[1]), 
-    expandedGPIO(expandedGPIO)
-    {
-        ;
+    expandedGPIO(expandedGPIO),
+    i2cbufs(i2cbufs),
+    xpoints(xpoints)
+    {   
+        SFPpowers.reserve(7);
 }
 
 void FSOcontroller::start(){
@@ -27,33 +29,32 @@ void FSOcontroller::exec(){
     }
 }
 
+void FSOcontroller::disableSFPs(){
+    for (int sfp = 0; sfp<8; sfp++){
+        sfps[sfp]->disable();
+    }
+}
 
 void FSOcontroller::pollForPower(){
-    //        char power[2];
-//        unsigned short int powerInt; //16 bit unsigned
-//        for (int sfp = 1; sfp<8; sfp++){
-//            if (sfp<5){
-//                I2CbufferA.setOn(sfp);
-//                I2CA.write(I2C_SFP_ADDRESS, SFP_RX_POWER_ADDRESS);
-//                I2CA.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN); //power is two bytes
-//            }else{
-//                I2CbufferB.setOn(sfp);
-//                I2CB.write(I2C_SFP_ADDRESS, SFP_RX_POWER_ADDRESS);
-//                I2CB.read(I2C_SFP_ADDRESS, power, SFP_POWER_BYTE_LEN);
-//            }         
-//            //poll for power
-//            powerInt = (power[0] << 8) + power[1]; //unsigned int
-//            SFPpowers[sfp-1] = power*RX_POWER_WEIGHT_4 + power*RX_POWER_WEIGHT_3 + power*RX_POWER_WEIGHT_2 + power*RX_POWER_WEIGHT1 + RX_POWER_WEIGHT_0;
-//            //check if this is needed or is internally calibrated. If internally calibrated simply use power*rx_power_weight1.
-//            //poll and check these first then decide whether to read these every time on init or use hard coded.
-//        }
-//        #ifdef DEBUG_OUTPUT_POWERS
-//        printf("POWERS ");
-//        for (auto pwr: SFPpowers){
-//            printf("%.2f", pwr);
-//        }
-//        printf("\n");
-//        #endif
-//        indexHighestPower = std::distance(SFPpowers.begin(), std::max_element(SFPpowers.begin(), SFPpowers.end())); 
-//        RX_CROSSPOINT.route(indexHighestPower+1); //for highest power at sfp 2 (position 1) route to position 1 + 1 = 2                            
+    for (int sfp=1; sfp<8; sfp++){
+        SFPpowers[sfp-1] = sfps[sfp]->getPower();
+    }
+#ifdef DEBUG_OUTPUT_POWERS
+        printf("POWERS ");
+    for (int sfp=1; sfp<8; sfp++){
+        printf("%.2f  ", SFPpowers[sfp-1]);
+    }
+#endif
+          
+
+    highestPowerSFP = std::distance(SFPpowers.begin(), std::max_element(SFPpowers.begin(), SFPpowers.end())) + 1; 
+
+#ifdef ALEX_TEST
+    return; //if alex test skip routing based on highest power
+#endif     
+    
+    xpoints->routeRX(highestPowerSFP);
+#ifdef ROUTE_TX_ONLY_ONE_FIBRE
+    xpoints->routeTX(highestPowerSFP);
+#endif 
 }

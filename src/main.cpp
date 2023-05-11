@@ -34,14 +34,6 @@ int main()
     //testerThread.start(callback(&test, &testClass::XPointsTest));
     #endif
 
-
-    
-
-    //--------CREATE SFPs -------------
-    std::vector<float> SFPpowers;
-    int indexHighestPower = 0;
-
-
     // //------CREATE MOTOR DRIVER OBJECT------------------
     
     // Thread motorsThread;
@@ -52,7 +44,7 @@ int main()
 
     //Thread controllerThread;
     //create main controller class instantce
-    FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO}; 
+    FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &i2cbufs, &xpoints}; 
     //start the controller to poll for power
     controller.start(); //blocking, has infinite execution loop inside
 }
