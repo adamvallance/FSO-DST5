@@ -3,10 +3,10 @@
 //global error led
 DigitalOut ERROR_LED(PIN_FRDM_LED_RED, 1);
 
-FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* expandedGPIO, I2CBuffers* i2cbufs, XPoints* xpoints): // I2C* I2CA
+FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints): // I2C* I2CA
     nominalRunningLED(pins[0], 0), //active low 
     fanPWM(pins[1]), 
-    expandedGPIO(expandedGPIO),
+    gpios(gpios),
     i2cbufs(i2cbufs),
     xpoints(xpoints)
     {   
@@ -29,8 +29,7 @@ void FSOcontroller::exec(){
     while(true){
         pollForPower();
         nominalRunningLED = !nominalRunningLED;
-        ThisThread::sleep_for(POWER_POLL_SLEEP);
-        //expandedGPIO.write(GPIO_DEBUG_LED, tempRunning.read()); //toggle GPIO expander LED
+        //ThisThread::sleep_for(POWER_POLL_SLEEP);
     }
 }
 

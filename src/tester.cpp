@@ -82,7 +82,10 @@ void testClass::XPointsTest(){
         for (int sfp = 1; sfp<8; sfp++){
             xpoints->routeTX(sfp);
         }
-        ThisThread::sleep_for(1000ms);
+        gpios->write(GPIO_DEBUG_LED, 0);
+        ThisThread::sleep_for(500ms);
+        gpios->write(GPIO_DEBUG_LED, 1);
+        ThisThread::sleep_for(500ms);
     }
 }
 
@@ -107,12 +110,10 @@ void testClass::start(){
             ThisThread::sleep_for(10ms);
             continue;
         }
-        ThisThread::sleep_for(1s);//debounce
+
+
     }
-    // TX1On.fall(callback(this, &testClass::XPointsTX1On));
-    // TX2On.fall(callback(this, &testClass::XPointsTX2On));
-    // SwapRXBtn.fall(callback(this, &testClass::SwapRX));
-    // bothOnOrReset.fall(callback(this, &testClass::reset));
+
 }
 
 void testClass::XPointsTX1On(){
