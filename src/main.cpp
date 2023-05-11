@@ -20,15 +20,22 @@ int main()
     I2CBuffers i2cbufs = {&expandedGPIO};
     //Create XPoint switches 
     XPoints xpoints = {&expandedGPIO};
-    //gpio test, make sure only one gpio expander initialised
-    Thread testerThread;
 
+    //gpio test, make sure gpio expander interrupts are off until crash is fixed
+    Thread testerThread;
+    #ifdef ALEX_TEST
+    testClass test = {&expandedGPIO, &i2cbufs, &xpoints, &motor_controls_in[0]};
+    testerThread.start(callback(&test, &testClass::start));
+    #else
     testClass test = {&expandedGPIO, &i2cbufs, &xpoints};
+    
     //testerThread.start(callback(&test, &testClass::toggleDebugGPIO));
     //testerThread.start(callback(&test, &testClass::I2CbufferTest));
-    testerThread.start(callback(&test, &testClass::XPointsTest));
+    //testerThread.start(callback(&test, &testClass::XPointsTest));
+    #endif
 
-    //--------CREATE Xpoint switches -------------
+
+    
 
     //--------CREATE SFPs -------------
     std::vector<float> SFPpowers;

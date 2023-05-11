@@ -7,6 +7,8 @@
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
+#define VERBOSE_XPOINT_SWITCH_DEBUG 
+#define ALEX_TEST
 
 //-----------Operational configuration-------------------------
 #define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.

@@ -9,8 +9,25 @@ class testClass: public callbackClass{
     FullExpandedGPIO* gpios;
     I2CBuffers* i2cbufs;
     XPoints* xpoints;
+#ifdef ALEX_TEST
+    PinName* pins;
+    DigitalIn TX1On;
+    DigitalIn TX2On;
+    DigitalIn SwapRXBtn;
+    DigitalIn bothOnOrReset;
+    public:
+        testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints, PinName* pins);
+        void XPointsTX1On();
+        void XPointsTX2On();
+        void SwapRX();
+        void bothOn();
+        void start();
+        int current = 0;
+        bool allTxOn = false;
+#else //normal
     public:
         testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints);
+#endif
         void interrupt();
         void toggleDebugGPIO();
         void I2CbufferTest();

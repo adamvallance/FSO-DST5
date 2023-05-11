@@ -1,10 +1,25 @@
 #include "tester.h"
+#ifdef ALEX_TEST
+testClass::testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints, PinName* pins):
+    gpios(gpios),
+    i2cbufs(i2cbufs),
+    xpoints(xpoints),
+    pins(pins), 
 
+    TX1On(pins[2]),
+    TX2On(pins[1]),
+    SwapRXBtn(pins[3]),
+    bothOnOrReset(pins[0]) //up
+
+{
+
+#else
 testClass::testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints):
     gpios(gpios),
     i2cbufs(i2cbufs),
     xpoints(xpoints)
-{   
+{
+#endif
     gpios->registerInterrupt(0, this);
 
     // gpios->registerInterrupt(1, this);
@@ -73,10 +88,59 @@ void testClass::XPointsTest(){
 
 //alex test using motor buttons
 #ifdef ALEX_TEST
-void testClass:XPointsToggleTX1(){
-    if (!TX1){
-        xpoints->routeTX(1);
+
+void testClass::start(){
+    printf("Starting test\n");
+    //polling loop
+    while(true){
+        if (TX1On.read()==0){
+            XPointsTX1On();
+        }
+        else if (TX2On.read() == 0){
+            XPointsTX2On();
+
+        }else if(SwapRXBtn.read() == 0){
+            SwapRX();
+        }else if (bothOnOrReset.read() == 0){
+            bothOn();
+        }else{
+            ThisThread::sleep_for(10ms);
+            continue;
+        }
+        ThisThread::sleep_for(1s);//debounce
+    }
+    // TX1On.fall(callback(this, &testClass::XPointsTX1On));
+    // TX2On.fall(callback(this, &testClass::XPointsTX2On));
+    // SwapRXBtn.fall(callback(this, &testClass::SwapRX));
+    // bothOnOrReset.fall(callback(this, &testClass::reset));
+}
+
+void testClass::XPointsTX1On(){
+    xpoints->routeTX(1);
+}
+void testClass::XPointsTX2On(){
+    xpoints->routeTX(2);
+}
+void testClass::SwapRX(){
+    if (current == 0){
+        xpoints->routeRX(2);
+        current =1;
+    }else{
+        xpoints->routeRX(1);
+        current = 0;
     }
 }
+void testClass::bothOn()
+{   
+    if (!allTxOn){
+        xpoints->routeAllTX();
+    }else{
+        xpoints->reset();
+    }
+    allTxOn = !allTxOn;
+    
+
+}
+
 
 #endif
