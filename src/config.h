@@ -7,12 +7,14 @@
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
-#define VERBOSE_XPOINT_SWITCH_DEBUG 
-#define ALEX_TEST
-#define ROUTE_TX_ONLY_ONE_FIBRE
+#define VERBOSE_XPOINT_SWITCH_DEBUG //prints out operations on every switch
+#define ALEX_TEST //skips routing based on powers and sticks with buttons
+#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
+#define DISABLE_FAST_POWER_POLL //comment for full rate power polling
 
+#ifdef ROUTE_TX_ONLY_ONE_FIBRE
 static const float SFP_LOW_POWER_THRESHOLD = 0; //idk set this to better value
-
+#endif
 //-----------Operational configuration-------------------------
 #define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
 

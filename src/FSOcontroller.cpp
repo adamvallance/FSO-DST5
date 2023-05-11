@@ -29,7 +29,9 @@ void FSOcontroller::exec(){
     while(true){
         pollForPower();
         nominalRunningLED = !nominalRunningLED;
-        //ThisThread::sleep_for(POWER_POLL_SLEEP);
+#ifndef DISABLE_FAST_POWER_POLL
+        ThisThread::sleep_for(POWER_POLL_SLEEP);
+#endif
     }
 }
 

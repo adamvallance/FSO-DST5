@@ -110,10 +110,12 @@ void testClass::start(){
             ThisThread::sleep_for(10ms);
             continue;
         }
-
+        gpios->write(GPIO_DEBUG_LED, 0); //debounce and indicate running with gpio
+        ThisThread::sleep_for(500ms);
+        gpios->write(GPIO_DEBUG_LED, 1);
+        ThisThread::sleep_for(500ms);
 
     }
-
 }
 
 void testClass::XPointsTX1On(){
