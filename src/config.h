@@ -305,14 +305,14 @@ static const char XPOINT_TX_I2C_ADDRESS = 0x58;
 static const char XPOINT_RX_I2C_ADDRESS = 0x5A; 
 
 static const char XPOINT_CLEAR_TX[8][2]{ //to clear tx connect to port 1 (grounded)
-    {XPOINT_OUTPUT_PORTS[0], 1}, 
-    {XPOINT_OUTPUT_PORTS[1], 1}, 
-    {XPOINT_OUTPUT_PORTS[2], 1}, 
-    {XPOINT_OUTPUT_PORTS[3], 1}, 
-    {XPOINT_OUTPUT_PORTS[4], 1}, 
-    {XPOINT_OUTPUT_PORTS[5], 1}, 
-    {XPOINT_OUTPUT_PORTS[6], 1}, 
-    {XPOINT_OUTPUT_PORTS[7], 1}
+    {XPOINT_OUTPUT_PORTS[0], 0x20}, //set to channel 1 //ABCXXXX, ABC = OUTPUT PORT NO
+    {XPOINT_OUTPUT_PORTS[1], 0x20}, 
+    {XPOINT_OUTPUT_PORTS[2], 0x20}, 
+    {XPOINT_OUTPUT_PORTS[3], 0x20}, 
+    {XPOINT_OUTPUT_PORTS[4], 0x20}, 
+    {XPOINT_OUTPUT_PORTS[5], 0x20}, 
+    {XPOINT_OUTPUT_PORTS[6], 0x20}, 
+    {XPOINT_OUTPUT_PORTS[7], 0x20}
 };
 
 static const char XPOINT_ROUTE_TX[8][2]{

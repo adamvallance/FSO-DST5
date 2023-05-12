@@ -113,7 +113,7 @@ void testClass::start(){
             XPointsTX2On();
 
         }else if(SwapRXBtn.read() == 0){
-            SwapRX();
+            IncrementRX();
         }else if (bothOnOrReset.read() == 0){
             bothOn();
         }else{
@@ -140,28 +140,13 @@ void testClass::XPointsTX2On(){
     // gpios->write(SFP_TX_DISABLE[1], 1);
     // gpios->write(SFP_TX_DISABLE[2], 0);
 }
-void testClass::SwapRX(){
-    if (current == 0){
-        //write to port five if msb first
-        //char write[2] = {XPOINT_OUTPUT_PORT_0,  0xA0};
-        xpoints->routeRX(2);
-        //I2CB.write(XPOINT_RX_I2C_ADDRESS, &write[0],2);
-        //debug
-        char back;
-        I2CB.write(XPOINT_RX_I2C_ADDRESS, &XPOINT_OUTPUT_PORT_0,1);
-        I2CB.read(XPOINT_RX_I2C_ADDRESS, &back, 1);
-        current =1;
-    }else{
-        //write to port five if msb first
-        //char write2[2] = {XPOINT_OUTPUT_PORT_0,  0xC0};
-        xpoints->routeRX(1);
-        //I2CB.write(XPOINT_RX_I2C_ADDRESS, &write2[0],2);
-        //debug
-        char back;
-        I2CB.write(XPOINT_RX_I2C_ADDRESS, &XPOINT_OUTPUT_PORT_0,1);
-        I2CB.read(XPOINT_RX_I2C_ADDRESS, &back, 1);
-        current = 0;
+void testClass::IncrementRX(){
+    current +=1;
+    if (current == 8){
+        current = 1;
     }
+    xpoints->routeRX(current);
+
 }
 void testClass::bothOn()
 {   

@@ -19,10 +19,10 @@ class testClass: public callbackClass{
         testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints, PinName* pins);
         void XPointsTX1On();
         void XPointsTX2On();
-        void SwapRX();
+        void IncrementRX();
         void bothOn();
         void start();
-        int current = 0;
+        int current = 7;
         bool allTxOn = false;
 #else //normal
     public:
