@@ -120,9 +120,15 @@ void testClass::start(){
 
 void testClass::XPointsTX1On(){
     xpoints->routeTX(1);
+    gpios->write(SFP_TX_DISABLE[1], 0);
+    gpios->write(SFP_TX_DISABLE[2], 1);
+
+
 }
 void testClass::XPointsTX2On(){
     xpoints->routeTX(2);
+    gpios->write(SFP_TX_DISABLE[1], 1);
+    gpios->write(SFP_TX_DISABLE[2], 0);
 }
 void testClass::SwapRX(){
     if (current == 0){
@@ -137,8 +143,11 @@ void testClass::bothOn()
 {   
     if (!allTxOn){
         xpoints->routeAllTX();
+        gpios->write(SFP_TX_DISABLE[1], 0);
+        gpios->write(SFP_TX_DISABLE[2], 0);
     }else{
         xpoints->reset();
+        XPointsTX1On();
     }
     allTxOn = !allTxOn;
     

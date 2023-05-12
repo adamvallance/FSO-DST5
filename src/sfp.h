@@ -4,7 +4,7 @@
 #include "mbed.h"
 #include "config.h"
 #include "FullExpandedGPIO.h"
-#include "I2CBuffers.h"
+#include "I2CBuffers.h" 
 
 class SFP{
     FullExpandedGPIO* gpios;
@@ -14,6 +14,7 @@ class SFP{
         SFP(FullExpandedGPIO*, I2CBuffers*, int); //add in gpios for other setup?
         float getPower();
         void disable();
+        void enable();
 };
 
 #endif //FSO_I2C_BUFFER_H

@@ -15,6 +15,9 @@ FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* gpios, I2CBuffers*
     xpoints->routeAllTx();
 #else
     xpoints->routeTX(1);
+    for (int sfp=2; sfp<8; sfp++){
+        sfps[sfp]->disable();
+    }
 #endif
 }
 
@@ -62,25 +65,38 @@ void FSOcontroller::pollForPower(){
 
     
     xpoints->routeRX(highestPowerSFP);
+
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
-        //if highest on same fibre and is above the low power threshold don't route anything
+
+    //if highest on same fibre as before and is above the low power threshold don't route anything
     if ((SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD) && (highestPowerSFP == prevHighestPowerSFP)){ //if it's still the highest power don't switch
         return;
-    }else{ 
-        prevHighestPowerSFP = highestPowerSFP;
     }
 
-    if (allOnAfterLowPower && (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD)){
+    //All TX On, Power threshold now exceeded so turn 6 of the 7 off
+    if (allOnAfterLowPower && (SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD)){
         xpoints->routeTX(highestPowerSFP);
+        for (int sfp = 1; sfp<8; sfp++){
+            if (sfp == highestPowerSFP){ //if highest, leave enabled else turn off
+                continue;
+            }
+            sfps[sfp]->disable();
+        }
         allOnAfterLowPower = false;
+    }else if (allOnAfterLowPower){ //All TX on, opwer threshold not exceeded, keep all on
+        return;
     }
-    else if (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD){
+    else if (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD){ //All TX off and highest is too weak so turn all on
         xpoints->routeAllTX();
+        for (int sfp = 1; sfp<8; sfp++){
+            sfps[sfp]->enable();
+        }
         allOnAfterLowPower=true;
-    }else{ //normal switch, 1 fibre tx to a different fibre tx
+    }else{ //normal switch, 1 fibre tx to a different fibre tx, power is above threshold
         xpoints->routeTX(highestPowerSFP);
-
     }
+    prevHighestPowerSFP = highestPowerSFP;
+
 #endif 
 }
 

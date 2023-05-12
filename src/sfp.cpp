@@ -7,12 +7,16 @@ SFP::SFP(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, int SFPindex):
     SFPindex(SFPindex)
     
 {   
-    gpios->write(SFP_TX_DISABLE[SFPindex], 0); //clear disable
-
+    enable();
 }
 
 void SFP::disable(){
     gpios->write(SFP_TX_DISABLE[SFPindex], 1);
+}
+
+void SFP::enable(){
+    gpios->write(SFP_TX_DISABLE[SFPindex], 0); //clear disable
+
 }
 
 float SFP::getPower(){
