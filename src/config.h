@@ -11,7 +11,8 @@
 #define ALEX_TEST //skips routing based on powers and sticks with buttons
 #define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
 //#define DISABLE_FAST_POWER_POLL //comment for full rate power polling
-#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
+#define DISABLE_POWER_POLL
+//#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
 
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
 static const float SFP_LOW_POWER_THRESHOLD = 0; //idk set this to better value
@@ -303,15 +304,15 @@ static const char XPOINT_INPUT_PORTS[8]={
 static const char XPOINT_TX_I2C_ADDRESS = 0x58;
 static const char XPOINT_RX_I2C_ADDRESS = 0x5A; 
 
-static const char XPOINT_CLEAR_TX[8][2]{
-    {XPOINT_OUTPUT_PORTS[0], 0}, 
+static const char XPOINT_CLEAR_TX[8][2]{ //to clear tx connect to port 1 (grounded)
+    {XPOINT_OUTPUT_PORTS[0], 1}, 
     {XPOINT_OUTPUT_PORTS[1], 1}, 
-    {XPOINT_OUTPUT_PORTS[2], 2}, 
-    {XPOINT_OUTPUT_PORTS[3], 3}, 
-    {XPOINT_OUTPUT_PORTS[4], 4}, 
-    {XPOINT_OUTPUT_PORTS[5], 5}, 
-    {XPOINT_OUTPUT_PORTS[6], 6}, 
-    {XPOINT_OUTPUT_PORTS[7], 7}
+    {XPOINT_OUTPUT_PORTS[2], 1}, 
+    {XPOINT_OUTPUT_PORTS[3], 1}, 
+    {XPOINT_OUTPUT_PORTS[4], 1}, 
+    {XPOINT_OUTPUT_PORTS[5], 1}, 
+    {XPOINT_OUTPUT_PORTS[6], 1}, 
+    {XPOINT_OUTPUT_PORTS[7], 1}
 };
 
 static const char XPOINT_ROUTE_TX[8][2]{
@@ -325,15 +326,15 @@ static const char XPOINT_ROUTE_TX[8][2]{
     {XPOINT_OUTPUT_PORTS[7], 0} //not used
 };
 
-static const char XPOINT_ROUTE_RX[8][2]{
-    {XPOINT_OUTPUT_PORTS[0], 6}, //sfp1
-    {XPOINT_OUTPUT_PORTS[0], 5}, //sfp2
-    {XPOINT_OUTPUT_PORTS[0], 4}, //sfp3
-    {XPOINT_OUTPUT_PORTS[0], 3}, //sfp4 
-    {XPOINT_OUTPUT_PORTS[0], 2}, //sfp5 
-    {XPOINT_OUTPUT_PORTS[0], 1}, //sfp6 
-    {XPOINT_OUTPUT_PORTS[0], 0}, //sfp7 
-    {XPOINT_OUTPUT_PORTS[0], 7}, //not used
+static const char XPOINT_ROUTE_RX[8][2]{ //ABCXXXXX, ABC = OUTPUT PORT NO 
+    {XPOINT_OUTPUT_PORTS[0], 0xC0}, //sfp1 //channel 6
+    {XPOINT_OUTPUT_PORTS[0], 0xA0}, //sfp2 //channel 5
+    {XPOINT_OUTPUT_PORTS[0], 0x80}, //sfp3 //channel 4
+    {XPOINT_OUTPUT_PORTS[0], 0x60}, //sfp4 //channel 3
+    {XPOINT_OUTPUT_PORTS[0], 0x40}, //sfp5 //channel 2
+    {XPOINT_OUTPUT_PORTS[0], 0x20}, //sfp6 //channel 1
+    {XPOINT_OUTPUT_PORTS[0], 0}, //sfp7 //channel 0
+    {XPOINT_OUTPUT_PORTS[0], 0}, //not used
 };
 
 //Motors Pin list

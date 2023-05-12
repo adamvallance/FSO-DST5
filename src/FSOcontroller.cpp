@@ -45,6 +45,10 @@ void FSOcontroller::disableSFPs(){
 }
 
 void FSOcontroller::pollForPower(){
+#ifdef DISABLE_POWER_POLL
+    return;
+#endif
+
     for (int sfp=1; sfp<8; sfp++){
         SFPpowers[sfp-1] = sfps[sfp]->getPower();
     }

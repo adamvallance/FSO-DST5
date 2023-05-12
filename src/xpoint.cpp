@@ -30,33 +30,38 @@ void XPoints::routeRX(int inputSFP){
 void XPoints::routeTX(int outputSFP){
     if (currentRoutedTx == -1){ //if following a flash of all on, turn them off
         for (int sfp = 1; sfp < 8; sfp ++){
-            if (sfp == currentRoutedTx){
-                break;
+
+            if (sfp == outputSFP){
+                continue;
             }
             I2CA.write(XPOINT_TX_I2C_ADDRESS, &XPOINT_CLEAR_TX[sfp-1][0], 2);
         }
         #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
-        printf("Other SFP TX except for %d turned off \n", outputSFP);
+            printf("Other SFP TX except for %d turned off \n", outputSFP);
         #endif
+        currentRoutedTx = outputSFP;
+        return;
+
     }
 
     else if (outputSFP != currentRoutedTx){ //turn off already on 
         I2CA.write(XPOINT_TX_I2C_ADDRESS, &XPOINT_CLEAR_TX[currentRoutedTx-1][0], 2);
         #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
-        printf("Turning off SFP (%d) TX\n", currentRoutedTx);
+            printf("Turning off SFP (%d) TX\n", currentRoutedTx);
         #endif
+        //write to pass input port 0 to the selected output port register
+        I2CA.write(XPOINT_TX_I2C_ADDRESS, &XPOINT_ROUTE_TX[outputSFP-1][0], 2);
+        #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
+            printf("Turning on SFP %d TX \n", outputSFP);
+        #endif
+    currentRoutedTx = outputSFP;
     }else{ //if correct sfp already on skip 
         #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
-        printf("SFP %d TX already on\n", outputSFP);
+            printf("SFP %d TX already on\n", outputSFP);
         #endif
         return;
     }
-    //write to pass input port 0 to the selected output port register
-    I2CA.write(XPOINT_TX_I2C_ADDRESS, &XPOINT_ROUTE_TX[outputSFP-1][0], 2);
-    #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
-        printf("Turning on SFP %d TX \n", outputSFP);
-    #endif
-    currentRoutedTx = outputSFP;
+
 }
 
 void XPoints::routeAllTX(){

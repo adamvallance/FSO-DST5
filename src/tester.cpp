@@ -73,27 +73,37 @@ void testClass::I2CbufferTest(){
     }
 }
 
-void testClass::XPointsTest(){
-    //xpoints->reset();
-    xpoints->routeRX(1);
-    while(true){
-        //xpoints->routeAllTX();
-        //xpoints->routeRX(1);
-        for (int sfp = 1; sfp<8; sfp++){
-            xpoints->routeTX(sfp);
-        }
-        gpios->write(GPIO_DEBUG_LED, 0);
-        ThisThread::sleep_for(500ms);
-        gpios->write(GPIO_DEBUG_LED, 1);
-        ThisThread::sleep_for(500ms);
-    }
-}
+// void testClass::XPointsTest(){
+//     //xpoints->reset();
+//     xpoints->routeRX(1);
+//     while(true){
+//         //xpoints->routeAllTX();
+//         //xpoints->routeRX(1);
+//         for (int sfp = 1; sfp<8; sfp++){
+//             xpoints->routeTX(sfp);
+//         }
+//         gpios->write(GPIO_DEBUG_LED, 0);
+//         ThisThread::sleep_for(500ms);
+//         gpios->write(GPIO_DEBUG_LED, 1);
+//         ThisThread::sleep_for(500ms);
+//     }
+// }
 
 //alex test using motor buttons
 #ifdef ALEX_TEST
 
 void testClass::start(){
     printf("Starting test\n");
+    gpios->write(SFP_TX_DISABLE[1], 0);
+    gpios->write(SFP_TX_DISABLE[2], 0);
+    gpios->write(SFP_TX_DISABLE[0], 0);
+
+    gpios->write(SFP_TX_DISABLE[3], 0);
+    gpios->write(SFP_TX_DISABLE[4], 0);  
+    gpios->write(SFP_TX_DISABLE[5], 0);   
+    gpios->write(SFP_TX_DISABLE[6], 0);
+    gpios->write(SFP_TX_DISABLE[7], 0);
+
     //polling loop
     while(true){
         if (TX1On.read()==0){
@@ -110,9 +120,9 @@ void testClass::start(){
             ThisThread::sleep_for(10ms);
             continue;
         }
-        gpios->write(GPIO_DEBUG_LED, 0); //debounce and indicate running with gpio
+        // gpios->write(GPIO_DEBUG_LED, 0); //debounce and indicate running with gpio
         ThisThread::sleep_for(500ms);
-        gpios->write(GPIO_DEBUG_LED, 1);
+        // gpios->write(GPIO_DEBUG_LED, 1);
         ThisThread::sleep_for(500ms);
 
     }
@@ -120,22 +130,36 @@ void testClass::start(){
 
 void testClass::XPointsTX1On(){
     xpoints->routeTX(1);
-    gpios->write(SFP_TX_DISABLE[1], 0);
-    gpios->write(SFP_TX_DISABLE[2], 1);
+    // gpios->write(SFP_TX_DISABLE[1], 0);
+    // gpios->write(SFP_TX_DISABLE[2], 1);
 
 
 }
 void testClass::XPointsTX2On(){
     xpoints->routeTX(2);
-    gpios->write(SFP_TX_DISABLE[1], 1);
-    gpios->write(SFP_TX_DISABLE[2], 0);
+    // gpios->write(SFP_TX_DISABLE[1], 1);
+    // gpios->write(SFP_TX_DISABLE[2], 0);
 }
 void testClass::SwapRX(){
     if (current == 0){
+        //write to port five if msb first
+        //char write[2] = {XPOINT_OUTPUT_PORT_0,  0xA0};
         xpoints->routeRX(2);
+        //I2CB.write(XPOINT_RX_I2C_ADDRESS, &write[0],2);
+        //debug
+        char back;
+        I2CB.write(XPOINT_RX_I2C_ADDRESS, &XPOINT_OUTPUT_PORT_0,1);
+        I2CB.read(XPOINT_RX_I2C_ADDRESS, &back, 1);
         current =1;
     }else{
+        //write to port five if msb first
+        //char write2[2] = {XPOINT_OUTPUT_PORT_0,  0xC0};
         xpoints->routeRX(1);
+        //I2CB.write(XPOINT_RX_I2C_ADDRESS, &write2[0],2);
+        //debug
+        char back;
+        I2CB.write(XPOINT_RX_I2C_ADDRESS, &XPOINT_OUTPUT_PORT_0,1);
+        I2CB.read(XPOINT_RX_I2C_ADDRESS, &back, 1);
         current = 0;
     }
 }
@@ -143,8 +167,8 @@ void testClass::bothOn()
 {   
     if (!allTxOn){
         xpoints->routeAllTX();
-        gpios->write(SFP_TX_DISABLE[1], 0);
-        gpios->write(SFP_TX_DISABLE[2], 0);
+        // gpios->write(SFP_TX_DISABLE[1], 0);
+        // gpios->write(SFP_TX_DISABLE[2], 0);
     }else{
         xpoints->reset();
         XPointsTX1On();
