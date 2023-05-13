@@ -13,7 +13,7 @@
 #define DISABLE_FAST_POWER_POLL //comment for slow speed polling
 //#define DISABLE_POWER_POLL
 #define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
-
+//#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
 static const float SFP_LOW_POWER_THRESHOLD = 0; //idk set this to better value
 #endif

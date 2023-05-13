@@ -47,6 +47,30 @@ int main()
         //Thread controllerThread;
     //create main controller class instantce
     FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &i2cbufs, &xpoints}; 
+
+    // //test
+    // char addr = 56;
+    // char rec[20];
+    // i2cbufs.selectSFP(1);
+    // I2CB.write(SFP_I2C_ADDRESS, &addr, 1);
+    // I2CB.read(SFP_I2C_ADDRESS, &rec[0], 20);
+    // for (int i = 0; i<20; i++){
+    //     printf("%#04x\n", rec[i]);
+    // }
+    // char addr2 = 92;
+    // char rec2;
+    // i2cbufs.selectSFP(1);
+    // I2CB.write(0xA0, &addr2, 1);
+    // I2CB.read(0xA0, &rec2, 1);
+    // printf("%#04x\n", rec);
+    // i2cbufs.selectSFP(1);
+    // I2CB.write(SFP_I2C_ADDRESS, &addr, 1);
+    // I2CB.read(SFP_I2C_ADDRESS, &rec[0], 20);
+    // for (int i = 0; i<20; i++){
+    //     printf("%#04x\n", rec[i]);
+    // }
+
+
     //start the controller to poll for power
     controller.start(); //blocking, has infinite execution loop inside
     #endif

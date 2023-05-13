@@ -19,7 +19,7 @@ void SFP::enableTX(){
 
 }
 
-float SFP::getRXPower(){
+int SFP::getRXPower(){
 // char power[2];
     unsigned short int powerInt; //16 bit unsigned
     char powerRec[2];
@@ -41,11 +41,11 @@ float SFP::getRXPower(){
         }
 
     } 
-    powerInt = (powerRec[0] << 8) + powerRec[1]; //unsigned int
+    powerInt = (powerRec[0] << 8) + powerRec[1]; //unsigned int for optical avg power (W*0.1u), 
 
     
     //for now
-    return powerInt * 1.0;
+    return powerInt;
     //return powerInt*RX_POWER_WEIGHT_4 + powerInt*RX_POWER_WEIGHT_3 + powerInt*RX_POWER_WEIGHT_2 + powerInt*RX_POWER_WEIGHT1 + RX_POWER_WEIGHT_0;
         //poll for power
         //check if this is needed or is internally calibrated. If internally calibrated simply use power*rx_power_weight1.

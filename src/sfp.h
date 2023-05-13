@@ -12,7 +12,7 @@ class SFP{
     int SFPindex;
     public:
         SFP(FullExpandedGPIO*, I2CBuffers*, int); //add in gpios for other setup?
-        float getRXPower();
+        int getRXPower();
         void disableTX();
         void enableTX();
 };

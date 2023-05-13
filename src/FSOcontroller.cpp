@@ -58,11 +58,21 @@ void FSOcontroller::pollForPower(){
         SFPpowers[sfp-1] = sfps[sfp]->getRXPower();
     }
 #ifdef DEBUG_OUTPUT_POWERS
-        printf("POWERS ");
+#ifdef DEBUG_OUTPUT_POWERS_DBM
+    printf("POWERS (dBm): ");
+    float powerdBm;
     for (int sfp=1; sfp<8; sfp++){
-        printf("%.2f  ", SFPpowers[sfp-1]);
+        powerdBm = 10*log10(SFPpowers[sfp-1]*1000);
+        printf("%.2f  ", powerdBm);
     }
     printf("\n");
+#else
+    printf("POWERS (uW): ");
+    for (int sfp=1; sfp<8; sfp++){
+        printf("%d  ", SFPpowers[sfp-1]/10);
+    }
+    printf("\n");
+#endif
 #endif
 
 //search for highest power sfp
