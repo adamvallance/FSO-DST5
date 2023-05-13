@@ -10,7 +10,7 @@ FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* gpios, I2CBuffers*
     i2cbufs(i2cbufs),
     xpoints(xpoints)
     {   
-        SFPpowers.reserve(7);
+        SFPpowers.reserve(7); //allocate memory for 7 power measurements
 #ifndef ROUTE_TX_ONLY_ONE_FIBRE //route all if doing all
     xpoints->routeAllTx(); 
     for (int sfp=1; sfp<8; sfp++){
@@ -37,7 +37,7 @@ void FSOcontroller::exec(){
     while(true){
         pollForPower();
         nominalRunningLED = !nominalRunningLED;
-#ifndef DISABLE_FAST_POWER_POLL
+#ifdef DISABLE_FAST_POWER_POLL
         ThisThread::sleep_for(POWER_POLL_SLEEP);
 #endif
     }
@@ -64,14 +64,22 @@ void FSOcontroller::pollForPower(){
     }
     printf("\n");
 #endif
-          
 
-    highestPowerSFP = std::distance(SFPpowers.begin(), std::max_element(SFPpowers.begin(), SFPpowers.end())) + 1; 
+//search for highest power sfp
+    highestPowerSFP = 1; 
+    for (int sfp =2; sfp<8; sfp++){     
+        if (SFPpowers[sfp-1]>SFPpowers[highestPowerSFP-1]){
+            highestPowerSFP = sfp;
+        }
+    }
+
+#ifdef VERBOSE_XPOINT_SWITCH_DEBUG 
+    printf("highest power SFP: %d\n", highestPowerSFP);
+#endif
 
 #ifdef ROUTING_TEST
     return; //if routing test skip routing based on highest power and use buttons
 #endif     
-
     
     xpoints->routeRX(highestPowerSFP);
 

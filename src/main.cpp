@@ -39,8 +39,7 @@ int main()
         ThisThread::sleep_for(100ms);
     }
     #else
-    testClass test = {&expandedGPIO, &i2cbufs, &xpoints};
-    
+    //testClass test = {&expandedGPIO, &i2cbufs, &xpoints};
     //testerThread.start(callback(&test, &testClass::toggleDebugGPIO));
     //testerThread.start(callback(&test, &testClass::I2CbufferTest));
     //testerThread.start(callback(&test, &testClass::XPointsTest));

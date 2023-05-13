@@ -8,6 +8,7 @@
 #include "FullExpandedGPIO.h"
 #include <string>
 #include "sfp.h"
+#include "iterator"
 #include "I2CBuffers.h"
 #include "xpoint.h"
 
