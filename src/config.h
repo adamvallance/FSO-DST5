@@ -9,7 +9,7 @@
 
 //#define VERBOSE_XPOINT_SWITCH_DEBUG //prints out operations on every switch
 //#define ROUTING_TEST //skips routing based on powers and sticks with buttons
-#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
+//#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
 //#define DISABLE_FAST_POWER_POLL //comment for slow speed polling
 //#define DISABLE_POWER_POLL
 //#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.

@@ -12,9 +12,9 @@ FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* gpios, I2CBuffers*
     {   
         SFPpowers.reserve(7); //allocate memory for 7 power measurements
 #ifndef ROUTE_TX_ONLY_ONE_FIBRE //route all if doing all
-    xpoints->routeAllTx(); 
+    xpoints->routeAllTX(); 
     for (int sfp=0; sfp<8; sfp++){
-        sfps[sfp]->enable();
+        sfps[sfp]->enableTX();
     }
 #else //If on one fibre on at a time operation
     xpoints->routeTX(1);
