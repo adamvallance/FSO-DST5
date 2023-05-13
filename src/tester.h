@@ -9,7 +9,7 @@ class testClass: public callbackClass{
     FullExpandedGPIO* gpios;
     I2CBuffers* i2cbufs;
     XPoints* xpoints;
-#ifdef ALEX_TEST
+#ifdef ROUTING_TEST
     PinName* pins;
     DigitalIn TX1On;
     DigitalIn TX2On;

@@ -32,7 +32,7 @@ int main()
 
     //gpio test, make sure gpio expander interrupts are off until crash is fixed
     Thread testerThread;
-    #ifdef ALEX_TEST
+    #ifdef ROUTING_TEST
     testClass test = {&expandedGPIO, &i2cbufs, &xpoints, &motor_controls_in[0]};
     testerThread.start(callback(&test, &testClass::start));
     while(true){

@@ -1,5 +1,5 @@
 #include "tester.h"
-#ifdef ALEX_TEST
+#ifdef ROUTING_TEST
 testClass::testClass(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, XPoints* xpoints, PinName* pins):
     gpios(gpios),
     i2cbufs(i2cbufs),
@@ -90,7 +90,7 @@ void testClass::I2CbufferTest(){
 // }
 
 //alex test using motor buttons
-#ifdef ALEX_TEST
+#ifdef ROUTING_TEST
 
 void testClass::start(){
     printf("Starting test\n");

@@ -7,19 +7,19 @@ SFP::SFP(FullExpandedGPIO* gpios, I2CBuffers* i2cbufs, int SFPindex):
     SFPindex(SFPindex)
     
 {   
-    enable();
+    ;
 }
 
-void SFP::disable(){
+void SFP::disableTX(){
     gpios->write(SFP_TX_DISABLE[SFPindex], 1);
 }
 
-void SFP::enable(){
+void SFP::enableTX(){
     gpios->write(SFP_TX_DISABLE[SFPindex], 0); //clear disable
 
 }
 
-float SFP::getPower(){
+float SFP::getRXPower(){
 // char power[2];
     unsigned short int powerInt; //16 bit unsigned
     char powerRec[2];
