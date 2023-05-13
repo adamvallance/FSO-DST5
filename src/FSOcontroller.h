@@ -50,7 +50,11 @@ class FSOcontroller{
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
         bool allOnAfterLowPower=false;
 #endif
-
+#ifdef POLL_SPEED_TEST
+        Timer t;
+        int pollCounter = 0;
+        int currentToggle=1;
+#endif
 };
 
 

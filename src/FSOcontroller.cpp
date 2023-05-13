@@ -13,7 +13,7 @@ FSOcontroller::FSOcontroller(PinName* pins, FullExpandedGPIO* gpios, I2CBuffers*
         SFPpowers.reserve(7); //allocate memory for 7 power measurements
 #ifndef ROUTE_TX_ONLY_ONE_FIBRE //route all if doing all
     xpoints->routeAllTx(); 
-    for (int sfp=1; sfp<8; sfp++){
+    for (int sfp=0; sfp<8; sfp++){
         sfps[sfp]->enable();
     }
 #else //If on one fibre on at a time operation
@@ -34,9 +34,24 @@ void FSOcontroller::start(){
 
 void FSOcontroller::exec(){
     printf("Initialisation complete. Beginning power tracking.\n");
+#ifdef POLL_SPEED_TEST
+    t.start();
+#endif
+
     while(true){
         pollForPower();
         nominalRunningLED = !nominalRunningLED;
+#ifdef POLL_SPEED_TEST
+    pollCounter++;
+    if (pollCounter == 10000){
+        t.stop();
+        printf("Time taken for 10000 polls = %d milliseconds\n", t.read_ms());
+        pollCounter = 0;
+        t.reset();
+        t.start();
+    }
+    
+#endif
 #ifdef DISABLE_FAST_POWER_POLL
         ThisThread::sleep_for(POWER_POLL_SLEEP);
 #endif
@@ -94,6 +109,30 @@ void FSOcontroller::pollForPower(){
     
     xpoints->routeRX(highestPowerSFP);
 
+//forced switching for polling test
+#ifdef POWER_POLL_TEST_FORCE_SWITCH
+
+#ifdef POWER_POLL_FORCE_SWITCH_TX
+    xpoints->routeTX(currentToggle + 1);
+#endif
+#ifdef  POWER_POLL_FORCE_SWITCH_RX
+    xpoints->routeRX(currentToggle + 1);
+    
+#endif
+#ifdef POWER_POLL_FORCE_TOGGLE_DISABLE
+if (currentToggle==1){
+    sfps[1]->enableTX();
+    sfps[2]->disableTX();
+}else{
+    sfps[1]->disableTX();
+    sfps[2]->enableTX();
+}
+
+#endif
+    currentToggle = (currentToggle + 1) %2;
+    return;
+#endif
+
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
 
     //if highest on same fibre as before and is above the low power threshold don't route anything
@@ -122,6 +161,9 @@ void FSOcontroller::pollForPower(){
         allOnAfterLowPower=true;
     }else{ //normal switch, 1 fibre tx to a different fibre tx, power is above threshold
         xpoints->routeTX(highestPowerSFP);
+        sfps[prevHighestPowerSFP]->disableTX();
+        sfps[highestPowerSFP]->enableTX();
+
     }
     prevHighestPowerSFP = highestPowerSFP;
 
