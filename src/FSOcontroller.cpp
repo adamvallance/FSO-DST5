@@ -57,19 +57,20 @@ void FSOcontroller::pollForPower(){
     for (int sfp=1; sfp<8; sfp++){
         SFPpowers[sfp-1] = sfps[sfp]->getRXPower();
     }
+
 #ifdef DEBUG_OUTPUT_POWERS
 #ifdef DEBUG_OUTPUT_POWERS_DBM
     printf("POWERS (dBm): ");
     float powerdBm;
     for (int sfp=1; sfp<8; sfp++){
-        powerdBm = 10*log10(SFPpowers[sfp-1]*1000);
+        powerdBm = 10*log10(SFPpowers[sfp-1]*POWER_READING_CONV_DBM);
         printf("%.2f  ", powerdBm);
     }
     printf("\n");
 #else
     printf("POWERS (uW): ");
     for (int sfp=1; sfp<8; sfp++){
-        printf("%d  ", SFPpowers[sfp-1]/10);
+        printf("%d  ", (int) SFPpowers[sfp-1]*POWER_READING_CONV_UW);
     }
     printf("\n");
 #endif

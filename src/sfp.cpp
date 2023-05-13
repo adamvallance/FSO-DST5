@@ -31,18 +31,21 @@ int SFP::getRXPower(){
     else if (SFPindex <5){
         I2CB.write(SFP_I2C_ADDRESS, &SFP_RX_POWER_REG_ADDRESS, 1);
         if (I2CB.read(SFP_I2C_ADDRESS, powerRec, 2) !=0){ //if read fails - if sfp not installed
-            return 0.0;
+            return 0;
         }
         
     }else{
         I2CA.write(SFP_I2C_ADDRESS, &SFP_RX_POWER_REG_ADDRESS, 1);
         if (I2CA.read(SFP_I2C_ADDRESS, powerRec, 2) != 0){ //if read fails return 0
-            return 0.0;
+            return 0;
         }
 
     } 
-    powerInt = (powerRec[0] << 8) + powerRec[1]; //unsigned int for optical avg power (W*0.1u), 
 
+    powerInt = (powerRec[0] << 8) + powerRec[1]; //unsigned int for optical avg power (W*0.1u), 
+    if (powerInt == 1){
+        return 0; //FS sfps return 1 for power for no input.
+    }
     
     //for now
     return powerInt;
