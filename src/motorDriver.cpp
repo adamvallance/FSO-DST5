@@ -69,8 +69,8 @@ void MotorDriver::applySettings(){
 void MotorDriver::start(){
     gpios->write(GPIO_MOTOR_1_SLEEP_N, 1); //wake up motors
     gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
-    gpios->write(GPIO_MOTOR_1_ENBL_N, 0);//enable motor outputs
-    gpios->write(GPIO_MOTOR_2_ENBL_N, 0);//enable motor outputs
+    // gpios->write(GPIO_MOTOR_1_ENBL_N, 0);//enable motor outputs
+    // gpios->write(GPIO_MOTOR_2_ENBL_N, 0);//enable motor outputs
     exec();
 }
 
@@ -113,9 +113,12 @@ void MotorDriver::doStep(int motor){
     applySettings();
     for (int i = 0; i< MOTOR_N_STEPS; i++){
         steps[motor]->write(1);
-        ThisThread::sleep_for(HALF_STEP_TIME);
+        //ThisThread::sleep_for(HALF_STEP_TIME);
+        wait_us(HALF_STEP_TIME);
         steps[motor]->write(0);
-        ThisThread::sleep_for(HALF_STEP_TIME);
+        //ThisThread::sleep_for(HALF_STEP_TIME);
+        wait_us(HALF_STEP_TIME);
+
     }
 }
 
