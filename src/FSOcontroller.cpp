@@ -162,6 +162,7 @@ if (currentToggle==1){
         for (int sfp = 1; sfp<8; sfp++){
             if (sfp == highestPowerSFP){ //if highest, leave enabled else turn off
                 sfps[sfp]->enableTX();
+                continue;
             }
             sfps[sfp]->disableTX();
         }
@@ -198,12 +199,12 @@ if (currentToggle==1){
         return;
     }
 
-#else
+#else //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH --------------------bugged END --------------------
 
     if (isHighestPowerAboveThreshold && (highestPowerSFP == prevHighestPowerSFP)){
         return;
     }
-#endif //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH --------------------bugged --------------------
+#endif 
 //-------ONE ON, DIFFERENT FROM BEFORE AS LAST TIME, POWER HIGH, DON'T CHANGE ANYTHING ------------------------------------------------------
     
     else{ //normal switch, 1 fibre tx to a different fibre tx, power is above threshold
