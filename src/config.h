@@ -7,13 +7,14 @@
 //Author Adam Vallance
 //This file defines operational condition and pin connections as seen on page 7 of the Rev B schematic.
 
-//#define VERBOSE_XPOINT_SWITCH_DEBUG //prints out operations on every switch
+#define VERBOSE_XPOINT_SWITCH_DEBUG //prints out operations on every switch
 //#define ROUTING_TEST //skips routing based on powers and sticks with buttons
-//#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
-//#define DISABLE_FAST_POWER_POLL //comment for slow speed polling
+#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
+//#define ROUTE_TX_ONLY_ONE_FIBRE_ROUTE_INDIVIDUALLY //uncomment to do tx routes every poll cycle. Without this the tx are still disabled/enabled using gpios
+#define DISABLE_FAST_POWER_POLL //comment for slow speed polling
 //#define DISABLE_POWER_POLL
-//#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
-//#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
+#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
+#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
 
 // #define POLL_SPEED_TEST
 // #define POWER_POLL_SLEEP_FORCE_SWITCH
