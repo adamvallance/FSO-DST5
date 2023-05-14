@@ -23,6 +23,7 @@ void GPIOexpander::registerInterrupt(callbackClass * cb){
 
 void GPIOexpander::reset(){
     //I2CB.write(GPIO_EXPANDER_RESET[0], &GPIO_EXPANDER_RESET[1], 1);
+    printf("RESET");
     RESET_N.write(0); 
     ThisThread::sleep_for(POWER_POLL_SLEEP);
     RESET_N.write(1); //remove out of reset mode

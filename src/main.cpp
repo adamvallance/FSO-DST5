@@ -17,7 +17,8 @@ int main()
     //Create expanded gpio interface
     FullExpandedGPIO expandedGPIO;
 
-    if (EnableMotorsMode==0){//if holding down motor up button on startup
+    //if (EnableMotorsMode==0){//if holding down motor up button on startup
+    if (true){ 
             printf("Motor mode enabled. Restart once aligned for data switching.\n");
         //------CREATE MOTOR DRIVER OBJECT------------------
         
