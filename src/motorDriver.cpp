@@ -1,6 +1,6 @@
 #include "motorDriver.h"
 
-
+DigitalOut led(PIN_FRDM_LED_RED);
 MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs, FullExpandedGPIO* gpios):
     gpios(gpios),
     //initialise member digital outputs which are static based on the input list of pin names
@@ -14,8 +14,13 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs, 
     motorDirCtrlLeft(motorButtonInputs[0]),
     motorDirCtrlRight(motorButtonInputs[1])
 
+
+
 {   //settings for motors
-    sleep();//sleep so these settings don't take effect immediately.
+    //sleep();//sleep so these settings don't take effect immediately.
+    applySettings();
+}
+void MotorDriver::applySettings(){
 
     gpios->write(GPIO_MOTOR_1_ADEC, 1);//smart tune to minimize ripple
     gpios->write(GPIO_MOTOR_2_ADEC, 1);//smart tune to minimize ripple
@@ -42,8 +47,8 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs, 
     gpios->write(GPIO_MOTOR_1_TOFF, 1);
     gpios->write(GPIO_MOTOR_2_TOFF_OE_N, 0);
     gpios->write(GPIO_MOTOR_2_TOFF, 1); 
-    ;
 }
+
 
 void MotorDriver::start(){
     //register interrupt callbacks
@@ -52,57 +57,62 @@ void MotorDriver::start(){
     motorDirCtrlLeft.fall(callback(this, &MotorDriver::stepLeft));
     motorDirCtrlRight.fall(callback(this, &MotorDriver::stepRight));
 
-
+    gpios->write(GPIO_MOTOR_1_SLEEP_N, 1); //wake up motors
+    gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
+    gpios->write(GPIO_MOTOR_1_ENBL_N, 0);//enable motor outputs
+    gpios->write(GPIO_MOTOR_2_ENBL_N, 0);//enable motor outputs
     exec();
 }
 
-void MotorDriver::wakeUp(){
-    if (isAsleep){
-        gpios->write(GPIO_MOTOR_1_SLEEP_N, 1); //wake up motors
-        gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
-        gpios->write(GPIO_MOTOR_1_ENBL_N, 0);//enable motor outputs
-        gpios->write(GPIO_MOTOR_2_ENBL_N, 0);//enable motor outputs
-    }else{
-        //reset timeout
-        sleepTimeout.detach();
-        ;
-    }
-    sleepTimeout.attach(callback(this, &MotorDriver::setSleepFlag), MOTOR_SLEEP_TIMEOUT);
-    isAsleep = false;
+// void MotorDriver::wakeUp(){
+//     if (isAsleep){
+//         gpios->write(GPIO_MOTOR_1_SLEEP_N, 1); //wake up motors
+//         gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
+//         gpios->write(GPIO_MOTOR_1_ENBL_N, 0);//enable motor outputs
+//         gpios->write(GPIO_MOTOR_2_ENBL_N, 0);//enable motor outputs
+//     }else{
+//         //reset timeout
+//         sleepTimeout.detach();
+//         ;
+//     }
+//     sleepTimeout.attach(callback(this, &MotorDriver::setSleepFlag), MOTOR_SLEEP_TIMEOUT);
+//     isAsleep = false;
     
-    ;
+//     ;
 
-}
+// }
 
-void MotorDriver::setSleepFlag(){
-    goToSleep = true;
-}
-void MotorDriver::sleep(){
-    gpios->write(GPIO_MOTOR_1_SLEEP_N, 0); //set motors to sleep
-    gpios->write(GPIO_MOTOR_2_SLEEP_N, 0);
-    gpios->write(GPIO_MOTOR_1_ENBL_N, 1);//disable motor outputs
-    gpios->write(GPIO_MOTOR_2_ENBL_N, 1);//disable motor outputs
-    isAsleep = true;
-}
+// void MotorDriver::setSleepFlag(){
+//     goToSleep = true;
+// }
+// void MotorDriver::sleep(){
+//     gpios->write(GPIO_MOTOR_1_SLEEP_N, 0); //set motors to sleep
+//     gpios->write(GPIO_MOTOR_2_SLEEP_N, 0);
+//     gpios->write(GPIO_MOTOR_1_ENBL_N, 1);//disable motor outputs
+//     gpios->write(GPIO_MOTOR_2_ENBL_N, 1);//disable motor outputs
+//     isAsleep = true;
+// }
 //periodically wakes up sleeping thread. An interrupt will alternatively wake up thread.
 void MotorDriver::exec(){
     while(true){
-        if (goToSleep){
-            sleep();
-            goToSleep = false;//clear flag
-        }
-        if (currentlyStepping){
-            ThisThread::sleep_for(BLOCKING_SLEEP);
-        }
+        led = !led;
+        
+        // if (goToSleep){
+        //     sleep();
+        //     goToSleep = false;//clear flag
+        // }
+        // // if (currentlyStepping){
+        // //     ThisThread::sleep_for(BLOCKING_SLEEP);
+        // // }
         if (azStepTriggered){
 #ifdef VERBOSE_MOTOR_DEBUG
     printf("Azimuth Step Triggered");
 #endif  
             gpios->write(GPIO_DEBUG_LED, 0);
-            wakeUp();
+            //wakeUp();
 
-            // stepTickerAz.attach(callback(this, &MotorDriver::doHalfStepAz), HALF_STEP_TIME);
-            // stopAzStepping.attach(callback(this, &MotorDriver::stopStepAz), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
+            stepTickerAz.attach(callback(this, &MotorDriver::doHalfStepAz), HALF_STEP_TIME);
+            stopAzStepping.attach(callback(this, &MotorDriver::stopStepAz), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
             azStepTriggered= false;
             currentlyStepping = true;
             gpios->write(GPIO_DEBUG_LED, 1);
@@ -113,9 +123,9 @@ void MotorDriver::exec(){
 #endif
             gpios->write(GPIO_DEBUG_LED, 0);
 
-            wakeUp();
-            // stepTickerEl.attach(callback(this, &MotorDriver::doHalfStepEl), HALF_STEP_TIME);
-            // stopElStepping.attach(callback(this, &MotorDriver::stopStepEl), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
+            //wakeUp();
+            stepTickerEl.attach(callback(this, &MotorDriver::doHalfStepEl), HALF_STEP_TIME);
+            stopElStepping.attach(callback(this, &MotorDriver::stopStepEl), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
             elStepTriggered = false;
             currentlyStepping = true;
             gpios->write(GPIO_DEBUG_LED, 1);
@@ -180,8 +190,8 @@ void MotorDriver::stopStepEl(){
     motor2Step = 0;
 }
 
-void MotorDriver::interrupt(){
-    //This means motor1fault or motor2fault
-    printf("Motor fault");
-    ERROR_LED.write(0);
-}
+// void MotorDriver::interrupt(){
+//     //This means motor1fault or motor2fault
+//     printf("Motor fault");
+//     ERROR_LED.write(0);
+// }

@@ -3,10 +3,9 @@
 #define FSO_MOTOR_DRIVER_H
 #include "mbed.h"
 #include "config.h"
-#include "callbackClass.h"
 #include "FullExpandedGPIO.h"
 
-class MotorDriver: public callbackClass{
+class MotorDriver{
     FullExpandedGPIO* gpios;
     DigitalOut motor1Step;
     DigitalOut motor1Dir;
@@ -21,9 +20,8 @@ class MotorDriver: public callbackClass{
     public:
         MotorDriver(PinName*, PinName*, FullExpandedGPIO*); 
         void stepMotor(int);
-        void debug(int);
         void start();
-        void interrupt();
+        //void interrupt();
 
     private: 
     //callback stubs
@@ -40,6 +38,7 @@ class MotorDriver: public callbackClass{
         void wakeUp();
         void sleep();
         void setSleepFlag();
+        void applySettings();
 
         bool azStepTriggered = false;
         bool elStepTriggered = false;
