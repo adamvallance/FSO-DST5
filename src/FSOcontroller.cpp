@@ -147,34 +147,46 @@ if (currentToggle==1){
 
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
 
-//     //if highest on same fibre as before and is above the low power threshold don't route anything
-//     if ((SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD) && (highestPowerSFP == prevHighestPowerSFP)){ //if it's still the highest power don't switch
-//         return;
-//     }
+//----------------------BUGGED ------------------
+#ifdef ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH
+    //if highest on same fibre as before and is above the low power threshold don't route anything
+    if ((SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD) && (highestPowerSFP == prevHighestPowerSFP)){ //if it's still the highest power don't switch
+        return;
+    }
 
-//     //All TX On, Power threshold now exceeded so turn 6 of the 7 off
-//     if (allOnAfterLowPower && (SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD)){
+    //All TX On, Power threshold now exceeded so turn 6 of the 7 off
+    if (allOnAfterLowPower && (SFPpowers[highestPowerSFP] > SFP_LOW_POWER_THRESHOLD)){
 
-// #ifdef ROUTE_TX_ONLY_ONE_FIBRE_ROUTE_INDIVIDUALLY 
-//         xpoints->routeTX(highestPowerSFP);
-// #endif
+#ifdef ROUTE_TX_ONLY_ONE_FIBRE_ROUTE_INDIVIDUALLY 
+        xpoints->routeTX(highestPowerSFP);
+#endif
 
-//         for (int sfp = 1; sfp<8; sfp++){
-//             if (sfp == highestPowerSFP){ //if highest, leave enabled else turn off
-//                 continue;
-//             }
-//             sfps[sfp]->disableTX();
-//         }
-//         allOnAfterLowPower = false;
-//     }else if (allOnAfterLowPower){ //All TX on, power  threshold not exceeded, keep all on
-//         return;
-//     }
+        for (int sfp = 1; sfp<8; sfp++){
+            if (sfp == highestPowerSFP){ //if highest, leave enabled else turn off
+                sfps[sfp]->enableTX();
+            }
+            sfps[sfp]->disableTX();
+        }
+        allOnAfterLowPower = false;
+#ifdef VERBOSE_XPOINT_SWITCH_DEBUG 
+    printf("flashing all off\n");
+#endif
+    }else if (allOnAfterLowPower &&  (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD)){ //All TX on, power  threshold not exceeded, keep all on
+        return;
+    }
 //     else if (SFPpowers[highestPowerSFP] < SFP_LOW_POWER_THRESHOLD){ //All TX off and highest is too weak so turn all on
 //         xpoints->routeAllTX();
 //         for (int sfp = 1; sfp<8; sfp++){
 //             sfps[sfp]->enableTX();
 //         }
 //         allOnAfterLowPower=true;
+// #ifdef VERBOSE_XPOINT_SWITCH_DEBUG 
+//     printf("flashing all on\n");
+// #endif
+    // }
+#endif //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH --------------------bugged --------------------
+
+
     if (highestPowerSFP == prevHighestPowerSFP){
         return;
     }else{ //normal switch, 1 fibre tx to a different fibre tx, power is above threshold

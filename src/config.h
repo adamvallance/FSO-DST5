@@ -11,6 +11,7 @@
 //#define ROUTING_TEST //skips routing based on powers and sticks with buttons
 #define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
 //#define ROUTE_TX_ONLY_ONE_FIBRE_ROUTE_INDIVIDUALLY //uncomment to do tx routes every poll cycle. Without this the tx are still disabled/enabled using gpios
+//#define ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH //enables flash of all TX on if highest power is less than SFP_LOW_POWER_THRESHOLD
 #define DISABLE_FAST_POWER_POLL //comment for slow speed polling
 //#define DISABLE_POWER_POLL
 #define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
@@ -24,7 +25,7 @@
 // #define POWER_POLL_FORCE_TOGGLE_DISABLE
 
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
-static const float SFP_LOW_POWER_THRESHOLD = 0; //idk set this to better value
+static const float SFP_LOW_POWER_THRESHOLD = 1; //idk set this to better value
 #endif
 //-----------Operational configuration-------------------------
 
