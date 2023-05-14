@@ -7,6 +7,7 @@
 #include "tester.h"
 #include "I2CBuffers.h"
 #include "xpoint.h"
+#include <cmath>
 
 
 int main()
@@ -23,11 +24,11 @@ int main()
 
         // // //------CREATE MOTOR DRIVER OBJECT------------------
     
-    // // Thread motorsThread;
+    Thread motorsThread;
 
-    // // MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0]};
-    // // //start motors thread
-    // // motorsThread.start(callback(&motorDriver, &MotorDriver::start));
+    MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0], &expandedGPIO};
+    //start motors thread
+    motorsThread.start(callback(&motorDriver, &MotorDriver::start));
 
 
     //gpio test, make sure gpio expander interrupts are off until crash is fixed
@@ -47,28 +48,6 @@ int main()
         //Thread controllerThread;
     //create main controller class instantce
     FSOcontroller controller = {&FSO_CONTROLLER_PINS[0], &expandedGPIO, &i2cbufs, &xpoints}; 
-
-    // //test
-    // char addr = 56;
-    // char rec[20];
-    // i2cbufs.selectSFP(1);
-    // I2CB.write(SFP_I2C_ADDRESS, &addr, 1);
-    // I2CB.read(SFP_I2C_ADDRESS, &rec[0], 20);
-    // for (int i = 0; i<20; i++){
-    //     printf("%#04x\n", rec[i]);
-    // }
-    // char addr2 = 92;
-    // char rec2;
-    // i2cbufs.selectSFP(1);
-    // I2CB.write(0xA0, &addr2, 1);
-    // I2CB.read(0xA0, &rec2, 1);
-    // printf("%#04x\n", rec);
-    // i2cbufs.selectSFP(1);
-    // I2CB.write(SFP_I2C_ADDRESS, &addr, 1);
-    // I2CB.read(SFP_I2C_ADDRESS, &rec[0], 20);
-    // for (int i = 0; i<20; i++){
-    //     printf("%#04x\n", rec[i]);
-    // }
 
 
     //start the controller to poll for power
