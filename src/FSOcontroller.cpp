@@ -152,7 +152,6 @@ if (currentToggle==1){
     isHighestPowerAboveThreshold = (SFPpowers[highestPowerSFP-1] > SFP_LOW_POWER_THRESHOLD);
 
  
-
 //-------ALL ON, POWER HIGH, TURN MOST OFF------------------------------------------------------  
     if (allOnAfterLowPower && isHighestPowerAboveThreshold){
 
@@ -162,7 +161,7 @@ if (currentToggle==1){
 
         for (int sfp = 1; sfp<8; sfp++){
             if (sfp == highestPowerSFP){ //if highest, leave enabled else turn off
-                continue;
+                sfps[sfp]->enableTX();
             }
             sfps[sfp]->disableTX();
         }
@@ -175,7 +174,7 @@ if (currentToggle==1){
     }
     
  //-------ALL ON, POWER LOW, KEEP ALL ON------------------------------------------------------   
-    else if (allOnAfterLowPower &&  !isHighestPowerAboveThreshold){ //All TX on, power  threshold not exceeded, keep all on
+    else if (allOnAfterLowPower &&  (isHighestPowerAboveThreshold == false)){ //All TX on, power  threshold not exceeded, keep all on
         return;
     }
 //------------------ONE ON, POWER LOW, TURN ALL ON------------------------------------------------------    
@@ -192,12 +191,19 @@ if (currentToggle==1){
 #endif
 
     }
-#endif //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH --------------------bugged --------------------
 
 //-------ONE ON, SAME AS LAST TIME, POWER HIGH, DON'T CHANGE ANYTHING ------------------------------------------------------
-    if (isHighestPowerAboveThreshold && (highestPowerSFP == prevHighestPowerSFP)){ //if it's still the highest power don't switch
+
+    else if (isHighestPowerAboveThreshold && (highestPowerSFP == prevHighestPowerSFP)){ //if it's still the highest power don't switch
         return;
     }
+
+#else
+
+    if (isHighestPowerAboveThreshold && (highestPowerSFP == prevHighestPowerSFP)){
+        return;
+    }
+#endif //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH --------------------bugged --------------------
 //-------ONE ON, DIFFERENT FROM BEFORE AS LAST TIME, POWER HIGH, DON'T CHANGE ANYTHING ------------------------------------------------------
     
     else{ //normal switch, 1 fibre tx to a different fibre tx, power is above threshold
