@@ -27,24 +27,36 @@ void MotorDriver::applySettings(){
     
     gpios->write(GPIO_MOTOR_1_DEC0_OE_N, 0); //write logic high to dec0
     gpios->write(GPIO_MOTOR_1_DEC0, 1); 
+    gpios->write(GPIO_MOTOR_1_DEC1_OE_N, 0); //write logic high to dec0
+    gpios->write(GPIO_MOTOR_1_DEC1, 1); 
     gpios->write(GPIO_MOTOR_2_DEC0_OE_N, 0); //write logic high to dec1
     gpios->write(GPIO_MOTOR_2_DEC0, 1); 
+    gpios->write(GPIO_MOTOR_2_DEC1_OE_N, 0); //write logic high to dec1
+    gpios->write(GPIO_MOTOR_2_DEC1, 1); 
 
     //Current scalar torque DAC 11 for 100 ZZ for 50 see datasheet for more
     //try 50
-    // gpios->write(GPIO_MOTOR_1_I0_OE_N, 1);
-    // gpios->write(GPIO_MOTOR_2_I0_OE_N, 1);
-    gpios->write(GPIO_MOTOR_1_I0_OE_N, 0);
-    gpios->write(GPIO_MOTOR_2_I0_OE_N, 0);
-    gpios->write(GPIO_MOTOR_1_I0, 1);
-    gpios->write(GPIO_MOTOR_2_I0, 1);
+    gpios->write(GPIO_MOTOR_1_I0_OE_N, 1);
+    gpios->write(GPIO_MOTOR_1_I1_OE_N, 1);
+
+    gpios->write(GPIO_MOTOR_2_I0_OE_N, 1);
+    gpios->write(GPIO_MOTOR_1_I1_OE_N, 1);
+
+    // gpios->write(GPIO_MOTOR_1_I0_OE_N, 0);
+    // gpios->write(GPIO_MOTOR_2_I0_OE_N, 0);
+    // gpios->write(GPIO_MOTOR_1_I0, 1);
+    // gpios->write(GPIO_MOTOR_2_I0, 1);
 
     //disable microstepping
     gpios->write(GPIO_MOTOR_1_M0_OE_N, 0); //logic 0
     gpios->write(GPIO_MOTOR_1_M0, 0); 
+    gpios->write(GPIO_MOTOR_1_M1_OE_N, 0); //logic 0
+    gpios->write(GPIO_MOTOR_1_M1, 0); 
+
     gpios->write(GPIO_MOTOR_2_M0_OE_N, 0); //logic 0
     gpios->write(GPIO_MOTOR_2_M0, 0); 
-
+    gpios->write(GPIO_MOTOR_2_M1_OE_N, 0); //logic 0
+    gpios->write(GPIO_MOTOR_2_M1, 0); 
 
     //set toff to 30us (longest)
     gpios->write(GPIO_MOTOR_1_TOFF_OE_N, 0);// logic 1
@@ -90,6 +102,7 @@ void MotorDriver::readInputs(){
 }
 
 void MotorDriver::doStep(int motor){
+    gpios->gpioExpanders[motor]->setPinDefaults(motor);
     if (motor == 0){
         gpios->write(GPIO_MOTOR_1_SLEEP_N, 1);
         gpios->write(GPIO_MOTOR_1_ENBL_N, 0);
@@ -98,7 +111,6 @@ void MotorDriver::doStep(int motor){
         gpios->write(GPIO_MOTOR_2_ENBL_N, 0);
     }
     applySettings();
-    gpios->gpioExpanders[motor]->setPinDefaults(motor);
     for (int i = 0; i< MOTOR_N_STEPS; i++){
         steps[motor]->write(1);
         ThisThread::sleep_for(HALF_STEP_TIME);

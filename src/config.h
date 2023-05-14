@@ -40,7 +40,7 @@ static const float SFP_LOW_POWER_THRESHOLD = 1; //idk set this to better value
 #define AZIMUTH_STEP_DIR_RIGHT 1
 #define ELEVATION_STEP_DIR_UP 0
 #define ELEVATION_STEP_DIR_DOWN 1
-#define HALF_STEP_TIME 200ms //debug change this 
+#define HALF_STEP_TIME 2ms //debug change this 
 #define TIME_MOTOR_STEPPING 5s //use this and above to set number of steps for default. 
 #define MOTOR_SLEEP_TIMEOUT 10s //motor drivers go to low power mode after this time
 #define MOTOR_N_STEPS 10
