@@ -15,6 +15,8 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs, 
     motorDirCtrlRight(motorButtonInputs[3])
 
 {   //settings for motors
+    sleep();//sleep so these settings don't take effect immediately.
+
     gpios->write(GPIO_MOTOR_1_ADEC, 1);//smart tune to minimize ripple
     gpios->write(GPIO_MOTOR_2_ADEC, 1);//smart tune to minimize ripple
     
@@ -50,7 +52,6 @@ void MotorDriver::start(){
     motorDirCtrlLeft.fall(callback(this, &MotorDriver::stepLeft));
     motorDirCtrlRight.fall(callback(this, &MotorDriver::stepRight));
 
-    
 
     exec();
 }
@@ -64,15 +65,18 @@ void MotorDriver::wakeUp(){
     }else{
         //reset timeout
         sleepTimeout.detach();
-
+        ;
     }
-    sleepTimeout.attach(callback(this, &MotorDriver::sleep), MOTOR_SLEEP_TIMEOUT);
+    sleepTimeout.attach(callback(this, &MotorDriver::setSleepFlag), MOTOR_SLEEP_TIMEOUT);
     isAsleep = false;
-
+    
+    ;
 
 }
 
-
+void MotorDriver::setSleepFlag(){
+    goToSleep = true;
+}
 void MotorDriver::sleep(){
     gpios->write(GPIO_MOTOR_1_SLEEP_N, 0); //set motors to sleep
     gpios->write(GPIO_MOTOR_2_SLEEP_N, 0);
@@ -83,20 +87,39 @@ void MotorDriver::sleep(){
 //periodically wakes up sleeping thread. An interrupt will alternatively wake up thread.
 void MotorDriver::exec(){
     while(true){
+        if (goToSleep){
+            sleep();
+            goToSleep = false;//clear flag
+        }
+        if (currentlyStepping){
+            continue;
+        }
         if (azStepTriggered){
+#ifdef VERBOSE_MOTOR_DEBUG
+    printf("Azimuth Step Triggered");
+#endif  
+            gpios->write(GPIO_DEBUG_LED, 0);
             wakeUp();
 
             stepTickerAz.attach(callback(this, &MotorDriver::doHalfStepAz), HALF_STEP_TIME);
             stopAzStepping.attach(callback(this, &MotorDriver::stopStepAz), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
             azStepTriggered= false;
             currentlyStepping = true;
+            gpios->write(GPIO_DEBUG_LED, 1);
         }
         if (elStepTriggered){
+#ifdef VERBOSE_MOTOR_DEBUG
+    printf("Elevation Step Triggered");
+#endif
+            gpios->write(GPIO_DEBUG_LED, 0);
+
             wakeUp();
             stepTickerEl.attach(callback(this, &MotorDriver::doHalfStepEl), HALF_STEP_TIME);
             stopElStepping.attach(callback(this, &MotorDriver::stopStepEl), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
             elStepTriggered = false;
             currentlyStepping = true;
+            gpios->write(GPIO_DEBUG_LED, 1);
+
         }
         ThisThread::sleep_for(BLOCKING_SLEEP);
     }
@@ -130,6 +153,7 @@ void MotorDriver::stepMotor(int direction){
             //step right;
             break;
     };
+
 
 
 };

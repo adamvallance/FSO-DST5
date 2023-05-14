@@ -39,12 +39,14 @@ class MotorDriver: public callbackClass{
         void exec();
         void wakeUp();
         void sleep();
+        void setSleepFlag();
 
         bool azStepTriggered = false;
         bool elStepTriggered = false;
 
         bool currentlyStepping = false;
         bool isAsleep = true;
+        bool goToSleep = false;
 
         Ticker stepTickerAz;
         Ticker stepTickerEl;
