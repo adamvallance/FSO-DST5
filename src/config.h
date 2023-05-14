@@ -43,7 +43,7 @@ static const float SFP_LOW_POWER_THRESHOLD = 1; //idk set this to better value
 #define HALF_STEP_TIME 200ms //debug change this 
 #define TIME_MOTOR_STEPPING 5s //use this and above to set number of steps for default. 
 #define MOTOR_SLEEP_TIMEOUT 10s //motor drivers go to low power mode after this time
- 
+#define MOTOR_N_STEPS 10
 //FAN
 #define FAN_PWM_DUTY 0.5
 #define FAN_PWM_PERIOD 0.00005 //20kHz
