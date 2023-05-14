@@ -15,8 +15,8 @@
 #define ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH //enables flash of all TX on if highest power is less than SFP_LOW_POWER_THRESHOLD
 #define DISABLE_FAST_POWER_POLL //add for slow speed polling
 //#define DISABLE_POWER_POLL
-//#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
-//#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
+#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
+#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
 
 // #define POLL_SPEED_TEST
 // #define POWER_POLL_SLEEP_FORCE_SWITCH
@@ -33,7 +33,7 @@ static const float SFP_LOW_POWER_THRESHOLD = 1; //idk set this to better value
 
 //general threads
 #define POWER_POLL_SLEEP 500ms
-#define BLOCKING_SLEEP 300ms
+#define BLOCKING_SLEEP 1s
 #define GPIO_TEST_HALF_PERIOD 500ms
 //stepper motors
 #define AZIMUTH_STEP_DIR_LEFT 0 //swap these around to invert motor direction

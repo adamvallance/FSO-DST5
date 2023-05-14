@@ -9,10 +9,10 @@ MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs, 
     motor2Step(motorControlsOut[2], 0),
     motor2Dir(motorControlsOut[3], 0), 
     //initialise member interrupt inputs 
-    motorDirCtrlUp(motorButtonInputs[0]),
-    motorDirCtrlDown(motorButtonInputs[1]),
-    motorDirCtrlLeft(motorButtonInputs[2]),
-    motorDirCtrlRight(motorButtonInputs[3])
+    motorDirCtrlUp(motorButtonInputs[2]),
+    motorDirCtrlDown(motorButtonInputs[3]),
+    motorDirCtrlLeft(motorButtonInputs[0]),
+    motorDirCtrlRight(motorButtonInputs[1])
 
 {   //settings for motors
     sleep();//sleep so these settings don't take effect immediately.
@@ -92,7 +92,7 @@ void MotorDriver::exec(){
             goToSleep = false;//clear flag
         }
         if (currentlyStepping){
-            continue;
+            ThisThread::sleep_for(BLOCKING_SLEEP);
         }
         if (azStepTriggered){
 #ifdef VERBOSE_MOTOR_DEBUG
@@ -101,8 +101,8 @@ void MotorDriver::exec(){
             gpios->write(GPIO_DEBUG_LED, 0);
             wakeUp();
 
-            stepTickerAz.attach(callback(this, &MotorDriver::doHalfStepAz), HALF_STEP_TIME);
-            stopAzStepping.attach(callback(this, &MotorDriver::stopStepAz), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
+            // stepTickerAz.attach(callback(this, &MotorDriver::doHalfStepAz), HALF_STEP_TIME);
+            // stopAzStepping.attach(callback(this, &MotorDriver::stopStepAz), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
             azStepTriggered= false;
             currentlyStepping = true;
             gpios->write(GPIO_DEBUG_LED, 1);
@@ -114,8 +114,8 @@ void MotorDriver::exec(){
             gpios->write(GPIO_DEBUG_LED, 0);
 
             wakeUp();
-            stepTickerEl.attach(callback(this, &MotorDriver::doHalfStepEl), HALF_STEP_TIME);
-            stopElStepping.attach(callback(this, &MotorDriver::stopStepEl), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
+            // stepTickerEl.attach(callback(this, &MotorDriver::doHalfStepEl), HALF_STEP_TIME);
+            // stopElStepping.attach(callback(this, &MotorDriver::stopStepEl), TIME_MOTOR_STEPPING); //replace this to allow for variable number of steps
             elStepTriggered = false;
             currentlyStepping = true;
             gpios->write(GPIO_DEBUG_LED, 1);
@@ -153,7 +153,6 @@ void MotorDriver::stepMotor(int direction){
             //step right;
             break;
     };
-
 
 
 };
