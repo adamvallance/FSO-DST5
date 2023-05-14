@@ -49,6 +49,8 @@ class FSOcontroller{
         int prevHighestPowerSFP = 1;
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
         bool allOnAfterLowPower=true; //debug
+        bool isHighestPowerAboveThreshold=true;
+
 #endif
 #ifdef POLL_SPEED_TEST
         Timer t;
