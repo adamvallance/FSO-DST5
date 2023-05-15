@@ -21,10 +21,12 @@ class MotorDriver{
     DigitalIn motorDirCtrlLeft;
     DigitalIn motorDirCtrlRight;
 
+    DigitalOut led;
+
     DigitalOut* steps[2] = {&motor1Step, &motor2Step};
 
     public:
-        MotorDriver(PinName*, PinName*, FullExpandedGPIO*); 
+        MotorDriver(PinName*, FullExpandedGPIO*); 
         void stepMotor(int);
         void start();
         //void interrupt();

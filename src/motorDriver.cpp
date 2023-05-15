@@ -1,19 +1,18 @@
 #include "motorDriver.h"
 
-DigitalOut led(PIN_FRDM_LED_RED);
-MotorDriver::MotorDriver(PinName* motorControlsOut, PinName* motorButtonInputs, FullExpandedGPIO* gpios):
+MotorDriver::MotorDriver(PinName* motorPins, FullExpandedGPIO* gpios):
     gpios(gpios),
     //initialise member digital outputs which are static based on the input list of pin names
-    motor1Step(motorControlsOut[0], 0),
-    motor1Dir(motorControlsOut[1], 0),
-    motor2Step(motorControlsOut[2], 0),
-    motor2Dir(motorControlsOut[3], 0), 
+    motor1Step(motorPins[0], 0),
+    motor1Dir(motorPins[1], 0),
+    motor2Step(motorPins[2], 0),
+    motor2Dir(motorPins[3], 0), 
     //initialise member interrupt inputs 
-    motorDirCtrlUp(motorButtonInputs[2]),
-    motorDirCtrlDown(motorButtonInputs[3]),
-    motorDirCtrlLeft(motorButtonInputs[0]),
-    motorDirCtrlRight(motorButtonInputs[1])
-
+    motorDirCtrlUp(motorPins[6]),
+    motorDirCtrlDown(motorPins[7]),
+    motorDirCtrlLeft(motorPins[4]),
+    motorDirCtrlRight(motorPins[5]),
+    led(motorPins[8])
 
 
 {   //settings for motors

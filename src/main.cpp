@@ -17,14 +17,13 @@ int main()
     //Create expanded gpio interface
     FullExpandedGPIO expandedGPIO;
 
-    //if (EnableMotorsMode==0){//if holding down motor up button on startup
-    if (true){ 
+    if (EnableMotorsMode==0){//if holding down motor up button on startup 
             printf("Motor mode enabled. Restart once aligned for data switching.\n");
         //------CREATE MOTOR DRIVER OBJECT------------------
         
         //Thread motorsThread;
 
-        MotorDriver motorDriver = {&motor_controls_out[0], &motor_controls_in[0], &expandedGPIO};
+        MotorDriver motorDriver = {&MOTOR_PINS[0], &expandedGPIO};
         //start motors thread
         //motorsThread.start(callback(&motorDriver, &MotorDriver::start));
         motorDriver.start();
