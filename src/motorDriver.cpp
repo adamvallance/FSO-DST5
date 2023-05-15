@@ -17,7 +17,7 @@ MotorDriver::MotorDriver(PinName* motorPins, FullExpandedGPIO* gpios):
 
 {   //settings for motors
     //sleep();//sleep so these settings don't take effect immediately.
-    applySettings();
+    //applySettings();
 }
 void MotorDriver::applySettings(){
 
@@ -34,17 +34,31 @@ void MotorDriver::applySettings(){
     gpios->write(GPIO_MOTOR_2_DEC1, 1); 
 
     //Current scalar torque DAC 11 for 100 ZZ for 50 see datasheet for more
-    //try 50
-    gpios->write(GPIO_MOTOR_1_I0_OE_N, 1);
-    gpios->write(GPIO_MOTOR_1_I1_OE_N, 1);
+    ////try 50%
+    // gpios->write(GPIO_MOTOR_1_I0_OE_N, 1);
+    // gpios->write(GPIO_MOTOR_1_I1_OE_N, 1);
+    // gpios->write(GPIO_MOTOR_2_I0_OE_N, 1);
+    // gpios->write(GPIO_MOTOR_2_I1_OE_N, 1);
 
-    gpios->write(GPIO_MOTOR_2_I0_OE_N, 1);
-    gpios->write(GPIO_MOTOR_1_I1_OE_N, 1);
-
-    // gpios->write(GPIO_MOTOR_1_I0_OE_N, 0);
-    // gpios->write(GPIO_MOTOR_2_I0_OE_N, 0);
+    // ////try 100%
+    // gpios->write(GPIO_MOTOR_1_I0_OE_N, 0);//logic 1
     // gpios->write(GPIO_MOTOR_1_I0, 1);
+    // gpios->write(GPIO_MOTOR_1_I1_OE_N, 0);//logic 1
+    // gpios->write(GPIO_MOTOR_1_I1, 1);
+    // gpios->write(GPIO_MOTOR_2_I0_OE_N, 0);//logic 1
     // gpios->write(GPIO_MOTOR_2_I0, 1);
+    // gpios->write(GPIO_MOTOR_2_I1_OE_N, 0);//logic 1
+    // gpios->write(GPIO_MOTOR_2_I1, 1);
+
+        ////try 12.5%
+    gpios->write(GPIO_MOTOR_1_I0_OE_N, 0);//logic 1
+    gpios->write(GPIO_MOTOR_1_I0, 1);
+    gpios->write(GPIO_MOTOR_1_I1_OE_N, 0);//logic 1
+    gpios->write(GPIO_MOTOR_1_I1, 1);
+    gpios->write(GPIO_MOTOR_2_I0_OE_N, 0);//logic 1
+    gpios->write(GPIO_MOTOR_2_I0, 1);
+    gpios->write(GPIO_MOTOR_2_I1_OE_N, 0);//logic 1
+    gpios->write(GPIO_MOTOR_2_I1, 1);
 
     //disable microstepping
     gpios->write(GPIO_MOTOR_1_M0_OE_N, 0); //logic 0
@@ -66,8 +80,8 @@ void MotorDriver::applySettings(){
 
 
 void MotorDriver::start(){
-    gpios->write(GPIO_MOTOR_1_SLEEP_N, 1); //wake up motors
-    gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
+    //gpios->write(GPIO_MOTOR_1_SLEEP_N, 1); //wake up motors
+    //gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
     // gpios->write(GPIO_MOTOR_1_ENBL_N, 0);//enable motor outputs
     // gpios->write(GPIO_MOTOR_2_ENBL_N, 0);//enable motor outputs
     exec();
@@ -101,22 +115,25 @@ void MotorDriver::readInputs(){
 }
 
 void MotorDriver::doStep(int motor){
+    if (motor == 0){
+        gpios->write(GPIO_MOTOR_1_ENBL_N, 0);
+    }else{
+        gpios->write(GPIO_MOTOR_2_ENBL_N, 0);
+    }
     gpios->gpioExpanders[motor]->setPinDefaults(motor);
     if (motor == 0){
         gpios->write(GPIO_MOTOR_1_SLEEP_N, 1);
-        gpios->write(GPIO_MOTOR_1_ENBL_N, 0);
     }else{
-        gpios->write(GPIO_MOTOR_2_SLEEP_N, 2);
-        gpios->write(GPIO_MOTOR_2_ENBL_N, 0);
+        gpios->write(GPIO_MOTOR_2_SLEEP_N, 1);
     }
     applySettings();
     for (int i = 0; i< MOTOR_N_STEPS; i++){
         steps[motor]->write(1);
-        //ThisThread::sleep_for(HALF_STEP_TIME);
-        wait_us(HALF_STEP_TIME);
+        ThisThread::sleep_for(HALF_STEP_TIME);
+        //wait_us(HALF_STEP_TIME);
         steps[motor]->write(0);
-        //ThisThread::sleep_for(HALF_STEP_TIME);
-        wait_us(HALF_STEP_TIME);
+        ThisThread::sleep_for(HALF_STEP_TIME);
+        //wait_us(HALF_STEP_TIME);
 
     }
 }

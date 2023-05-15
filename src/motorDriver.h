@@ -12,10 +12,6 @@ class MotorDriver{
     DigitalOut motor2Step;
     DigitalOut motor2Dir;
     
-    // InterruptIn motorDirCtrlUp;
-    // InterruptIn motorDirCtrlDown;
-    // InterruptIn motorDirCtrlLeft;
-    // InterruptIn motorDirCtrlRight;
     DigitalIn motorDirCtrlUp;
     DigitalIn motorDirCtrlDown;
     DigitalIn motorDirCtrlLeft;
@@ -29,41 +25,14 @@ class MotorDriver{
         MotorDriver(PinName*, FullExpandedGPIO*); 
         void stepMotor(int);
         void start();
-        //void interrupt();
 
     private: 
     void doStep(int );
-    // //callback stubs
-    //     void stepUp(){stepMotor(0);}; //replace to 0,1,2,3
-    //     void stepDown(){stepMotor(1);};
-    //     void stepLeft(){stepMotor(2);};
-    //     void stepRight(){stepMotor(3);};
 
-    //     void doHalfStepAz();
-    //     void doHalfStepEl();
-    //     void stopStepAz();
-    //     void stopStepEl();
         void exec();
         void readInputs();
-        // void wakeUp();
-        // void sleep();
-        // void setSleepFlag();
         void applySettings();
 
-        // bool azStepTriggered = false;
-        // bool elStepTriggered = false;
-
-        // bool currentlyStepping = false;
-        // bool isAsleep = true;
-        // bool goToSleep = false;
-
-        // Ticker stepTickerAz;
-        // Ticker stepTickerEl;
-
-        // Timeout stopAzStepping;
-        // Timeout stopElStepping;
-
-        // Timeout sleepTimeout;
 
     ;
 };
