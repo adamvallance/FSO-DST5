@@ -71,6 +71,7 @@ void FSOcontroller::disableSFPs(){
     }
 }
 
+
 void FSOcontroller::pollForPower(){
 #ifdef DISABLE_POWER_POLL
     return;
@@ -98,6 +99,17 @@ void FSOcontroller::pollForPower(){
 #endif
 #endif
 
+#ifdef PRINT_ACTIVE_CHANNEL
+    float powerdBm;
+    if (SFPpowers[highestPowerSFP-1]==0){
+        printf("No received signal. <-40dBm on all channels\n");
+    }else{
+
+        powerdBm = 10*log10(SFPpowers[highestPowerSFP-1]*POWER_READING_CONV_DBM);
+        printf("Active channel: %d     power: %.2fdBm\n", highestPowerSFP, powerdBm);
+        
+    }
+#endif
 //search for highest power sfp
     highestPowerSFP = 1; 
     for (int sfp =2; sfp<8; sfp++){     

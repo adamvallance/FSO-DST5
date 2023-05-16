@@ -10,14 +10,14 @@
 #define VERBOSE_MOTOR_DEBUG
 //#define VERBOSE_XPOINT_SWITCH_DEBUG //prints out operations on every switch
 //#define ROUTING_TEST //skips routing based on powers and sticks with buttons
-#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
+//#define ROUTE_TX_ONLY_ONE_FIBRE //back propogation method to determine
 //#define ROUTE_TX_ONLY_ONE_FIBRE_ROUTE_INDIVIDUALLY //uncomment to do tx routes every poll cycle. Without this the tx are still disabled/enabled using gpios
 #define ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH //enables flash of all TX on if highest power is less than SFP_LOW_POWER_THRESHOLD
 #define DISABLE_FAST_POWER_POLL //add for slow speed polling
 //#define DISABLE_POWER_POLL
-#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
-#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
-
+//#define DEBUG_OUTPUT_POWERS //comment this to disable printing of powers.
+//#define DEBUG_OUTPUT_POWERS_DBM //comment to have in units of uW
+#define PRINT_ACTIVE_CHANNEL
 // #define POLL_SPEED_TEST
 // #define POWER_POLL_SLEEP_FORCE_SWITCH
 // #define POWER_POLL_TEST_FORCE_SWITCH
