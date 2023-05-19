@@ -9,7 +9,7 @@ class XPoints{
    FullExpandedGPIO* gpios;
    public:
        XPoints(FullExpandedGPIO*); 
-       void routeRX(int);
+       int routeRX(int);
        void routeTX(int);
        void routeAllTX();
        void reset();
@@ -17,6 +17,7 @@ class XPoints{
     private:
         int currentRoutedTx = 1;
         char bytesToWrite[2];
+        int currentRoutedRx = 1;
 
 };
 

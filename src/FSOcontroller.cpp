@@ -42,6 +42,9 @@ void FSOcontroller::exec(){
 #ifdef POLL_SPEED_TEST
     t.start();
 #endif
+#ifdef SWITCH_RATE_TEST
+    t.start();
+#endif
 
     while(true){
         pollForPower();
@@ -56,8 +59,39 @@ void FSOcontroller::exec(){
         pollCounter = 0;
         t.reset();
         t.start();
-    }
-    
+    }    
+#endif
+
+#ifdef SWITCH_RATE_TEST
+    pollCounter++;
+    if (pollCounter == nPolls){
+        t.stop();
+        time = t.read_ms();
+        printf("--------------------------------------------------\n");
+        printf("TEST CYCLE %d\n", iteration);
+        printf("%d polls => %dms, %d switches \n", nPolls, time, nSwitches);
+        pollFreq = nPolls*1000/time;
+        printf("Poll Frequency: %.2fHz\n", pollFreq);
+        switchFreq = nSwitches*1000/time;
+        printf("Switch Frequency: %.2fHz\n", switchFreq);
+        printf("Periods per SFP channels     - Active Time %%\n", nPolls);
+        for (int i = 0; i < 7; i++){
+            if (periods[i]==0){
+                continue;//skip ones not being used
+            }
+            percent = 100*periods[i]/nPolls;
+            printf("SFP %d: %d periods            -             %.2f%%\n", i+1, periods[i], percent);
+            //clear for next run
+            periods[i]=0;
+        }
+        printf("\n");
+        pollCounter = 0;
+        nSwitches = 0;
+        iteration++;
+        t.reset();
+        t.start();
+
+    }    
 #endif
 #ifdef DISABLE_FAST_POWER_POLL
         ThisThread::sleep_for(POWER_POLL_SLEEP);
@@ -81,10 +115,11 @@ void FSOcontroller::pollForPower(){
         SFPpowers[sfp-1] = sfps[sfp]->getRXPower();
     }
 
+    float powerdBm;
+
 #ifdef DEBUG_OUTPUT_POWERS
 #ifdef DEBUG_OUTPUT_POWERS_DBM
     printf("POWERS (dBm): ");
-    float powerdBm;
     for (int sfp=1; sfp<8; sfp++){
         powerdBm = 10*log10(SFPpowers[sfp-1]*POWER_READING_CONV_DBM);
         printf("%.2f  ", powerdBm);
@@ -100,7 +135,6 @@ void FSOcontroller::pollForPower(){
 #endif
 
 #ifdef PRINT_ACTIVE_CHANNEL
-    float powerdBm;
     if (SFPpowers[highestPowerSFP-1]==0){
         printf("No received signal. <-40dBm on all channels\n");
     }else{
@@ -126,9 +160,19 @@ void FSOcontroller::pollForPower(){
     return; //if routing test skip routing based on highest power and use buttons
 #endif     
     
+#ifdef SWITCH_RATE_TEST    
+    if (xpoints->routeRX(highestPowerSFP)==1){
+        nSwitches++;
+    }
+
+#else
     xpoints->routeRX(highestPowerSFP);
 
-
+#endif
+////--------------------------SWITCH RATE TEST
+#ifdef SWITCH_RATE_TEST
+    periods[highestPowerSFP-1]++;
+#endif 
 ////--------------------------POWER_POLL TEST
 //forced switching for polling test
 #ifdef POWER_POLL_TEST_FORCE_SWITCH

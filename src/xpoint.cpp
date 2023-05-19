@@ -20,11 +20,17 @@ void XPoints::reset(){
 
 }
 
-void XPoints::routeRX(int inputSFP){
-    I2CB.write(XPOINT_RX_I2C_ADDRESS, &XPOINT_ROUTE_RX[inputSFP-1][0], 2);
-    #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
-        printf("Routing SFP %d RX into Output/Master SFP\n", inputSFP);
-    #endif
+int XPoints::routeRX(int inputSFP){
+    if (inputSFP != currentRoutedRx){
+        I2CB.write(XPOINT_RX_I2C_ADDRESS, &XPOINT_ROUTE_RX[inputSFP-1][0], 2);
+        #ifdef VERBOSE_XPOINT_SWITCH_DEBUG
+            printf("Routing SFP %d RX into Output/Master SFP\n", inputSFP);
+        #endif
+        currentRoutedRx = inputSFP;
+        return 1;//1 for switch
+    }else{
+        return 0; //0 for no switch
+    }
 }
 
 void XPoints::routeTX(int outputSFP){

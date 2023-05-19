@@ -57,6 +57,20 @@ class FSOcontroller{
         int pollCounter = 0;
         int currentToggle=1;
 #endif
+#ifdef SWITCH_RATE_TEST
+        Timer t;
+        int time;
+        float pollFreq;
+        float switchFreq;
+        int pollCounter = 0;
+        int periods[7]={0,0,0,0,0,0,0};
+        float percent; 
+        
+        int nSwitches = 0;
+        int iteration = 1;
+
+#endif  
+
 };
 
 
