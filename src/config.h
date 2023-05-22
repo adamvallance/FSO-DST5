@@ -20,7 +20,7 @@
 //#define PRINT_ACTIVE_CHANNEL
 
 #define SWITCH_RATE_TEST
-#define nPolls 1000
+#define nPolls 2000
 // #define POLL_SPEED_TEST
 // #define POWER_POLL_SLEEP_FORCE_SWITCH
 // #define POWER_POLL_TEST_FORCE_SWITCH

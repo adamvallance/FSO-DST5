@@ -72,14 +72,14 @@ void FSOcontroller::exec(){
         printf("%d polls => %dms, %d switches \n", nPolls, time, nSwitches);
         pollFreq = nPolls*1000/time;
         printf("Poll Frequency: %.2fHz\n", pollFreq);
-        switchFreq = nSwitches*1000/time;
+        switchFreq = (float) nSwitches*1000/time;
         printf("Switch Frequency: %.2fHz\n", switchFreq);
         printf("Periods per SFP channels     - Active Time %%\n", nPolls);
         for (int i = 0; i < 7; i++){
             if (periods[i]==0){
                 continue;//skip ones not being used
             }
-            percent = 100*periods[i]/nPolls;
+            percent = (float) 100*periods[i]/nPolls;
             printf("SFP %d: %d periods            -             %.2f%%\n", i+1, periods[i], percent);
             //clear for next run
             periods[i]=0;
@@ -203,7 +203,6 @@ if (currentToggle==1){
 
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE
 
-//----------------------BUGGED ------------------
 #ifdef ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH
     isHighestPowerAboveThreshold = (SFPpowers[highestPowerSFP-1] > SFP_LOW_POWER_THRESHOLD);
 
@@ -255,7 +254,7 @@ if (currentToggle==1){
         return;
     }
 
-#else //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH --------------------bugged END --------------------
+#else //ROUTE_TX_ONLY_ONE_FIBRE_ENABLE_ALL_ON_FLASH 
 
     if (isHighestPowerAboveThreshold && (highestPowerSFP == prevHighestPowerSFP)){
         return;
